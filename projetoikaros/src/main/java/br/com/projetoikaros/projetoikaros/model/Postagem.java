@@ -2,7 +2,11 @@ package br.com.projetoikaros.projetoikaros.model;
 
 import java.time.Clock;
 import java.time.LocalDateTime;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import lombok.Data;
 
@@ -10,11 +14,25 @@ import lombok.Data;
 @Entity
 @Table(name = "Postagem")
 public class Postagem {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
+
+    @Id
+    @Column(name = "ID_usuarioQuePubliocu", nullable = false)
     private Usuario usuarioPublicador;
+
+    @Column(name = "conteudoPost", nullable = false, length = 100)
     private String conteudoPost;
+
+    @Column(name = "URL_Imagem", nullable = false)
     private String imagem;
-    private Integer curtidas;
+
+    @Column(name = "curtidas", nullable = false)
+    private Integer curtidas = 0;
+
+    @Column(name = "Data_da_Publicacao", nullable = false)
     private LocalDateTime dataHoraPublicacao;
 
     public Integer getId() {
