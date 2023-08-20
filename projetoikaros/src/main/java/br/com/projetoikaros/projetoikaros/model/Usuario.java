@@ -2,10 +2,12 @@ package br.com.projetoikaros.projetoikaros.model;
 
 import java.time.LocalDate;
 import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
 import lombok.Data;
 
 @Data
 @Entity
+@Table(name = "Usuario")
 public class Usuario {
     private Integer id;
     private String nome;
