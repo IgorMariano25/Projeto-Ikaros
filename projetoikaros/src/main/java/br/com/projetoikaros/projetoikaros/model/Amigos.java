@@ -1,5 +1,10 @@
 package br.com.projetoikaros.projetoikaros.model;
 
+import jakarta.persistence.Entity;
+import lombok.Data;
+
+@Data
+@Entity
 public class Amigos {
     private Integer amizadeId;
     private Usuario relacionamentoAmizade1;
