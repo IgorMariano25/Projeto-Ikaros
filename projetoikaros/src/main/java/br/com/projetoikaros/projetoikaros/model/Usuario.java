@@ -30,7 +30,7 @@ public class Usuario {
     @Column(name = "email", nullable = false, length = 100)
     private String email;
 
-    @Column(name = "senha", nullable = false, length = 100)
+    @Column(name = "senha", nullable = false, length = 45)
     private String senha;
 
     public Integer getId() {
