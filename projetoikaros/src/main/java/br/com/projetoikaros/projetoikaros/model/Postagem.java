@@ -3,10 +3,12 @@ package br.com.projetoikaros.projetoikaros.model;
 import java.time.Clock;
 import java.time.LocalDateTime;
 import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
 import lombok.Data;
 
 @Data
 @Entity
+@Table(name = "Postagem")
 public class Postagem {
     private Integer id;
     private Usuario usuarioPublicador;
