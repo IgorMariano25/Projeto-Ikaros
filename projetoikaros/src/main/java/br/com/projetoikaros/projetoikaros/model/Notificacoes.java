@@ -2,7 +2,11 @@ package br.com.projetoikaros.projetoikaros.model;
 
 import java.time.Clock;
 import java.time.LocalDateTime;
+import jakarta.persistence.Entity;
+import lombok.Data;
 
+@Data
+@Entity
 public class Notificacoes {
     private Integer id;
     private String tipo;
