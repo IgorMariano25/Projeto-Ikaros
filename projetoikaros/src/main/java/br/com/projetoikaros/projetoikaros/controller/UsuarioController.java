@@ -22,6 +22,8 @@ import br.com.projetoikaros.projetoikaros.model.Usuario;
 @RequestMapping("/usuario")
 public class UsuarioController {
 
+    private static ArrayList<Usuario> Usuarios = new ArrayList<>();
+
     @GetMapping
     public ResponseEntity<List<Usuario>> getAll() {
         try {
@@ -30,7 +32,7 @@ public class UsuarioController {
             usuario1.setId(1);
             usuario1.setNome("Igor");
             usuario1.setSobrenome("Mariano");
-            usuario1.setData_aniversario(1965,1,25);
+            usuario1.setData_aniversario(1965, 1, 25);
             usuario1.setEmail("test@email.com");
             usuario1.setSenha("123456789");
 
@@ -38,6 +40,82 @@ public class UsuarioController {
             return new ResponseEntity<>(items, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping("{id}")
+    public ResponseEntity<Usuario> getById(@PathVariable("id") Integer id) {
+
+        Usuario result = null;
+
+        for (Usuario item : Usuarios) {
+            if (item.getId() == id) {
+                result = item;
+                break;
+            }
+        }
+
+        if (result != null) {
+            return new ResponseEntity<>(result, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @PostMapping
+    public ResponseEntity<Usuario> create(@RequestBody Usuario item) {
+        try {
+            Usuarios.add(item);
+            return new ResponseEntity<>(item, HttpStatus.CREATED);
+        } catch (Exception e) {
+            return new ResponseEntity<>(null, HttpStatus.EXPECTATION_FAILED);
+        }
+    }
+
+    @PutMapping("{id}")
+    public ResponseEntity<Usuario> update(@PathVariable("id") Integer id, @RequestBody Usuario usuarioNovosDados) {
+        
+        Usuario usuarioASerAtualizado = null;
+
+        for (Usuario item : Usuarios) {
+            if (item.getId() == id) {
+                usuarioASerAtualizado = item;
+                break;
+            }
+        }
+
+        if (usuarioASerAtualizado != null ) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        } 
+        usuarioASerAtualizado.setNome(usuarioNovosDados.getNome());
+        usuarioASerAtualizado.setSobrenome(usuarioNovosDados.getSobrenome());
+
+        return new ResponseEntity<>(usuarioASerAtualizado, HttpStatus.OK);
+    }
+
+    @DeleteMapping("{id}")
+    public ResponseEntity<HttpStatus> delete(@PathVariable("id") Integer id) {
+        try {
+
+            Usuario usuarioASerExcluido = null;
+
+            for (Usuario item : Usuarios) {
+                if (item.getId() == id) {
+                    usuarioASerExcluido = item;
+                    break;
+                }
+            }
+
+            // Não achei a pessoa a ser excluida
+            if (usuarioASerExcluido == null) {
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }
+
+            Usuarios.remove(usuarioASerExcluido);
+
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.EXPECTATION_FAILED);
         }
     }
 }
