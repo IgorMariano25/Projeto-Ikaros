@@ -1,10 +1,12 @@
 package br.com.projetoikaros.projetoikaros.model;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
 import lombok.Data;
 
 @Data
 @Entity
+@Table(name = "Amigos")
 public class Amigos {
     private Integer amizadeId;
     private Usuario relacionamentoAmizade1;
