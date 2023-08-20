@@ -16,25 +16,22 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.com.projetoikaros.projetoikaros.model.Comentario;
-import br.com.projetoikaros.projetoikaros.model.Usuario;
+import br.com.projetoikaros.projetoikaros.model.Amigos;
 
 @RestController
-@RequestMapping("/comentario")
+@RequestMapping("/amigos")
 class resourceNameController {
 
     @GetMapping
-    public ResponseEntity<List<Comentario>> getAll() {
+    public ResponseEntity<List<Amigos>> getAll() {
         try {
-            List<Comentario> items = new ArrayList<Comentario>();
-            Comentario comentario1 = new Comentario();
-            comentario1.setId(1);
-            comentario1.setConteudo("Muit legal !");
-            comentario1.setPostId(postagem1.getId());
-            comentario1.setUsuarioQueComento(usuario1.getNome());
-            comentario1.setData_publicacao_comentario(1965,1,25);
+            List<Amigos> items = new ArrayList<Amigos>();
+            Amigos amigo = new Amigos();
+            amigo.setAmizadeId(1);
+            amigo.setRelacionamentoAmizade1(usuario1.getId());
+            amigo.setRelacionamentoAmizade2(usuario2.getId());
 
-            items.add(comentario1);
+            items.add(amigo);
             return new ResponseEntity<>(items, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);

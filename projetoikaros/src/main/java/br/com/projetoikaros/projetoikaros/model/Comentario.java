@@ -21,7 +21,7 @@ public class Comentario {
         return data_publicacao_comentario;
     }
 
-    public void setData_publicacao_comentario(LocalDate data_publicacao_comentario) {
+    public void setData_publicacao_comentario(int ano, int mes, int dia) {
         this.data_publicacao_comentario = data_publicacao_comentario;
     }
 
