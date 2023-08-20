@@ -5,6 +5,7 @@ import java.time.LocalDate;
 public class Comentario {
     private Integer id;
     private LocalDate data_publicacao_comentario;
+    private String conteudo;
 
     public Integer getId() {
         return id;
@@ -20,5 +21,13 @@ public class Comentario {
 
     public void setData_publicacao_comentario(LocalDate data_publicacao_comentario) {
         this.data_publicacao_comentario = data_publicacao_comentario;
+    }
+
+    public String getConteudo() {
+        return conteudo;
+    }
+
+    public void setConteudo(String conteudo) {
+        this.conteudo = conteudo;
     }
 }
