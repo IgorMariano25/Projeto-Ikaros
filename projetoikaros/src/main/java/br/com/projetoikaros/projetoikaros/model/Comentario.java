@@ -7,6 +7,7 @@ public class Comentario {
     private LocalDate data_publicacao_comentario;
     private String conteudo;
     private Usuario usuarioQueComento;
+    private Postagem postId;
 
     public Integer getId() {
         return id;
@@ -38,5 +39,13 @@ public class Comentario {
 
     public void setUsuarioQueComento(Usuario usuarioQueComento) {
         this.usuarioQueComento = usuarioQueComento;
+    }
+
+    public Postagem getPostId() {
+        return postId;
+    }
+
+    public void setPostId(Postagem postId) {
+        this.postId = postId;
     }
 }
