@@ -6,6 +6,7 @@ public class Comentario {
     private Integer id;
     private LocalDate data_publicacao_comentario;
     private String conteudo;
+    private Usuario usuarioQueComento;
 
     public Integer getId() {
         return id;
@@ -29,5 +30,13 @@ public class Comentario {
 
     public void setConteudo(String conteudo) {
         this.conteudo = conteudo;
+    }
+
+    public Usuario getUsuarioQueComento() {
+        return usuarioQueComento;
+    }
+
+    public void setUsuarioQueComento(Usuario usuarioQueComento) {
+        this.usuarioQueComento = usuarioQueComento;
     }
 }
