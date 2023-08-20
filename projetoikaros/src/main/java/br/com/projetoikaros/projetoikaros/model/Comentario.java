@@ -1,7 +1,12 @@
 package br.com.projetoikaros.projetoikaros.model;
 
 import java.time.LocalDate;
+
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import lombok.Data;
 
@@ -9,10 +14,21 @@ import lombok.Data;
 @Entity
 @Table(name = "Comentario")
 public class Comentario {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
-    private LocalDate data_publicacao_comentario;
-    private String conteudo;
+
+    @Column(name = "ID_usuarioQueComento", nullable = false)
     private Usuario usuarioQueComento;
+
+    @Column(name = "Data_de_Publicacao", nullable = false)
+    private LocalDate data_publicacao_comentario;
+
+    @Column(name = "conteudo_comentario", length = 100, nullable = false)
+    private String conteudo;
+
+    @Column(name = "ID_Post", nullable = false)
     private Postagem postId;
 
     public Integer getId() {
