@@ -1,7 +1,6 @@
 package br.com.projetoikaros.projetoikaros.model;
 
 import java.time.LocalDate;
-
 import jakarta.persistence.Entity;
 import lombok.Data;
 
