@@ -1,6 +1,8 @@
 package br.com.projetoikaros.projetoikaros.model;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import lombok.Data;
 
@@ -8,8 +10,17 @@ import lombok.Data;
 @Entity
 @Table(name = "Amigos")
 public class Amigos {
+
+    @Id
+    @Column(name = "ID_Amizade", nullable = false)
     private Integer amizadeId;
+
+    @Id
+    @Column(name = "ID_Amigo1", nullable = false)
     private Usuario relacionamentoAmizade1;
+
+    @Id
+    @Column(name = "ID_Amigo2", nullable = false)
     private Usuario relacionamentoAmizade2;
 
     public Integer getAmizadeId() {
