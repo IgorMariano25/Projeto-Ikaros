@@ -7,6 +7,7 @@ public class Usuario {
     private String nome;
     private String sobrenome;
     private LocalDate data_aniversario;
+    private String email;
 
     public Integer getId() {
         return id;
@@ -37,5 +38,13 @@ public class Usuario {
 
     public void setData_aniversario(LocalDate data_aniversario) {
         this.data_aniversario = data_aniversario;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 }
