@@ -2,10 +2,12 @@ package br.com.projetoikaros.projetoikaros.model;
 
 import java.time.LocalDate;
 import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
 import lombok.Data;
 
 @Data
 @Entity
+@Table(name = "Comentario")
 public class Comentario {
     private Integer id;
     private LocalDate data_publicacao_comentario;
