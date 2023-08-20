@@ -1,7 +1,11 @@
 package br.com.projetoikaros.projetoikaros.model;
 
 import java.time.LocalDate;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import lombok.Data;
 
@@ -9,11 +13,24 @@ import lombok.Data;
 @Entity
 @Table(name = "Usuario")
 public class Usuario {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
+
+    @Column(name = "nome", nullable = false, length = 100)
     private String nome;
+
+    @Column(name = "sobrenome", nullable = false, length = 100)
     private String sobrenome;
+
+    @Column(name = "data_aniversairo", nullable = false)
     private LocalDate data_aniversario;
+
+    @Column(name = "email", nullable = false, length = 100)
     private String email;
+
+    @Column(name = "senha", nullable = false, length = 100)
     private String senha;
 
     public Integer getId() {
