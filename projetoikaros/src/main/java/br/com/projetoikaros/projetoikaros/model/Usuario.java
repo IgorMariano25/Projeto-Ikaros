@@ -37,8 +37,8 @@ public class Usuario {
         return data_aniversario;
     }
 
-    public void setData_aniversario(LocalDate data_aniversario) {
-        this.data_aniversario = data_aniversario;
+    public void setData_aniversario(int ano, int mes, int dia) {
+        this.data_aniversario = LocalDate.of(ano, mes, dia);
     }
 
     public String getEmail() {
