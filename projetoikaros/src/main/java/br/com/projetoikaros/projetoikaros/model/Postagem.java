@@ -1,44 +1,42 @@
 package br.com.projetoikaros.projetoikaros.model;
 
 import java.time.Clock;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 public class Postagem {
     private Integer id;
-    private String usuarioPublicador;
+    private Usuario usuarioPublicador;
     private String conteudoPost;
     private String imagem;
     private Integer curtidas;
-    private LocalDate dataPublicacao;
-    private LocalDate horaPublicacao;
+    private LocalDateTime dataHoraPublicacao;
 
-    public Integer getId(){
+    public Integer getId() {
         return id;
     }
 
     public void setId(Integer id) {
         this.id = id;
     }
-    
-    public String getUsuario() {
+
+    public Usuario getUsuarioPublicador() {
         return usuarioPublicador;
     }
 
-    public void setUsuario(String usuarioPublicador) {
+    public void setUsuarioPublicador(Usuario usuarioPublicador) {
         this.usuarioPublicador = usuarioPublicador;
     }
 
-    public String getPost() {
-        return this.conteudoPost;
+    public String getConteudoPost() {
+        return conteudoPost;
     }
 
-    public void setPost(String conteudoPost) {
+    public void setConteudoPost(String conteudoPost) {
         this.conteudoPost = conteudoPost;
     }
 
     public String getImagem() {
-        return this.imagem;
+        return imagem;
     }
 
     public void setImagem(String imagem) {
@@ -46,23 +44,19 @@ public class Postagem {
     }
 
     public Integer getCurtidas() {
-        return this.curtidas;
+        return curtidas;
     }
 
     public void setCurtidas(Integer curtidas) {
         this.curtidas = curtidas;
     }
 
-    public LocalDate getDataPublicacao() {
-        return dataPublicacao;
+    public LocalDateTime getDataHoraPublicacao() {
+        return dataHoraPublicacao;
     }
 
-    public void setDataPublicacao(int ano, int mes, int dia) {
-        this.dataPublicacao = LocalDate.of(ano, mes, dia);
-    }
-
-    public LocalDate getHoraPublicacao() {
-        return horaPublicacao;
+    public void setDataHoraPublicacao(LocalDateTime dataHoraPublicacao) {
+        this.dataHoraPublicacao = dataHoraPublicacao;
     }
 
     public LocalDateTime setHoraPublicacao() {
@@ -72,7 +66,4 @@ public class Postagem {
     private LocalDateTime now(Clock clock) {
         return LocalDateTime.now(clock);
     }
-    
-    }
-
-
+}
