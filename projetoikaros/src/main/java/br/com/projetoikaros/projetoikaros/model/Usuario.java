@@ -8,6 +8,7 @@ public class Usuario {
     private String sobrenome;
     private LocalDate data_aniversario;
     private String email;
+    private String senha;
 
     public Integer getId() {
         return id;
@@ -46,5 +47,13 @@ public class Usuario {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getSenha() {
+        return senha;
+    }
+
+    public void setSenha(String senha) {
+        this.senha = senha;
     }
 }
