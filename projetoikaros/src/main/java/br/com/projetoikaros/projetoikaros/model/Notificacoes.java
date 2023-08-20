@@ -2,7 +2,12 @@ package br.com.projetoikaros.projetoikaros.model;
 
 import java.time.Clock;
 import java.time.LocalDateTime;
+
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import lombok.Data;
 
@@ -10,11 +15,24 @@ import lombok.Data;
 @Entity
 @Table(name = "Notificacoes")
 public class Notificacoes {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
+
+    @Column(name = "tipo_da_notificacao", nullable = false, length = 45)
     private String tipo;
+
+    @Column(name = "notificacao_foi_visualizada", nullable = false)
     private Boolean visualizado = false;
+
+    @Column(name = "data", nullable = false)
     private LocalDateTime dataHora;
+
+    @Column(name = "ID_usuarioOrigem", nullable = false)
     private Usuario usuarioOrigem;
+
+    @Column(name = "ID_usuarioDestino", nullable = false)
     private Usuario usuarioDestino;
 
     public Integer getId() {
