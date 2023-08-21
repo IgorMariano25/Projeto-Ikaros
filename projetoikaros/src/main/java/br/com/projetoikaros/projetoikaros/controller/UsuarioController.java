@@ -74,9 +74,9 @@ public class UsuarioController {
             }
         }
 
-        if (usuarioASerAtualizado != null ) {
+        if (usuarioASerAtualizado == null ) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        } 
+        }
         usuarioASerAtualizado.setNome(usuarioNovosDados.getNome());
         usuarioASerAtualizado.setSobrenome(usuarioNovosDados.getSobrenome());
 
