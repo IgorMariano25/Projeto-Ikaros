@@ -92,4 +92,13 @@ public class Postagem {
     private LocalDateTime now(Clock clock) {
         return LocalDateTime.now(clock);
     }
+
+    public static Postagem buscarPostagemPorId(Integer id) {
+        if (id != null) {
+            Postagem postagem = new Postagem();
+            return postagem;
+        } else {
+            return null;
+        }
+    }
 }
