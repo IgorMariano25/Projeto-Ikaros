@@ -27,17 +27,7 @@ public class UsuarioController {
     @GetMapping
     public ResponseEntity<List<Usuario>> getAll() {
         try {
-            List<Usuario> items = new ArrayList<Usuario>();
-            Usuario usuario1 = new Usuario();
-            usuario1.setId(1);
-            usuario1.setNome("Igor");
-            usuario1.setSobrenome("Mariano");
-            usuario1.setData_aniversario(1965, 1, 25);
-            usuario1.setEmail("test@email.com");
-            usuario1.setSenha("123456789");
-
-            items.add(usuario1);
-            return new ResponseEntity<>(items, HttpStatus.OK);
+            return new ResponseEntity<>(Usuarios, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
