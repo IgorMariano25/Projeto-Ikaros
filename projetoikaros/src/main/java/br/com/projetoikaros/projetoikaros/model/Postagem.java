@@ -18,10 +18,9 @@ import lombok.Data;
 public class Postagem {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Id
     @ManyToOne
     @JoinColumn(name = "ID_usuarioQuePubliocu", referencedColumnName = "id", nullable = false)
     private Usuario usuarioPublicador;
