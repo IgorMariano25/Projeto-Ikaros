@@ -7,6 +7,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.Data;
 
@@ -20,7 +22,8 @@ public class Postagem {
     private Integer id;
 
     @Id
-    @Column(name = "ID_usuarioQuePubliocu", nullable = false)
+    @ManyToOne
+    @JoinColumn(name = "ID_usuarioQuePubliocu", referencedColumnName = "id", nullable = false)
     private Usuario usuarioPublicador;
 
     @Column(name = "conteudoPost", nullable = false, length = 100)

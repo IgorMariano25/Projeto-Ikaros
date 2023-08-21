@@ -29,7 +29,6 @@ public class UsuarioController {
         try {
             List<Usuario> items = new ArrayList<Usuario>();
             Usuario usuario1 = new Usuario();
-            usuario1.setId(1);
             usuario1.setNome("Igor");
             usuario1.setSobrenome("Mariano");
             usuario1.setData_aniversario(1965, 1, 25);

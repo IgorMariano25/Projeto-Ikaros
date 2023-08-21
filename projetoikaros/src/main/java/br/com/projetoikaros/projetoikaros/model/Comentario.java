@@ -7,6 +7,9 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.Data;
 
@@ -19,7 +22,9 @@ public class Comentario {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
 
-    @Column(name = "ID_usuarioQueComento", nullable = false)
+    @Id
+    @ManyToOne
+    @JoinColumn(name = "ID_usuarioQueComentou", referencedColumnName = "id", nullable = false)
     private Usuario usuarioQueComento;
 
     @Column(name = "Data_de_Publicacao", nullable = false)
@@ -28,7 +33,8 @@ public class Comentario {
     @Column(name = "conteudo_comentario", length = 100, nullable = false)
     private String conteudo;
 
-    @Column(name = "ID_Post", nullable = false)
+    @ManyToOne
+    @JoinColumn(name = "ID_Post", referencedColumnName = "id", nullable = false)
     private Postagem postId;
 
     public Integer getId() {

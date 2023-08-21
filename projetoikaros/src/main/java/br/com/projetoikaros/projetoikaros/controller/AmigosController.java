@@ -20,16 +20,15 @@ import br.com.projetoikaros.projetoikaros.model.Amigos;
 
 @RestController
 @RequestMapping("/amigos")
-class resourceNameController {
-
+public class AmigosController {
     @GetMapping
     public ResponseEntity<List<Amigos>> getAll() {
         try {
             List<Amigos> items = new ArrayList<Amigos>();
             Amigos amigo = new Amigos();
-            amigo.setAmizadeId(1);
-            amigo.setRelacionamentoAmizade1(usuario1.getId());
-            amigo.setRelacionamentoAmizade2(usuario2.getId());
+            // amigo.setAmizadeId(1);
+            // amigo.setRelacionamentoAmizade1(usuario1.getId());
+            // amigo.setRelacionamentoAmizade2(usuario2.getId());
 
             items.add(amigo);
             return new ResponseEntity<>(items, HttpStatus.OK);

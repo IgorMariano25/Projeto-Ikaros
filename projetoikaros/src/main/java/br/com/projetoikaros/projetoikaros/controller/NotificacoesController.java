@@ -28,7 +28,7 @@ public class NotificacoesController {
         try {
             List<Notificacoes> items = new ArrayList<Notificacoes>();
             Notificacoes notificacao1 = new Notificacoes();
-            notificacao1.setId(1);
+            // notificacao1.setId(1);
             notificacao1.setTipo("Comentário");
             notificacao1.setVisualizado(false);
             notificacao1.setDataHora(null);

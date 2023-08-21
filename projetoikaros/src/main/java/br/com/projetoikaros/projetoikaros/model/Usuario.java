@@ -7,9 +7,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
-import lombok.Data;
 
-@Data
 @Entity
 @Table(name = "Usuario")
 public class Usuario {
@@ -62,6 +60,10 @@ public class Usuario {
 
     public void setData_aniversario(int ano, int mes, int dia) {
         this.data_aniversario = LocalDate.of(ano, mes, dia);
+    }
+
+        public void setData_aniversario(LocalDate data_aniversario) {
+            this.data_aniversario = data_aniversario;
     }
 
     public String getEmail() {

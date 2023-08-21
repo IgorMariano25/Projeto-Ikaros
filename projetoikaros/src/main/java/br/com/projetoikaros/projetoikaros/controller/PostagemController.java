@@ -28,7 +28,7 @@ public class PostagemController {
         try {
             List<Postagem> items = new ArrayList<Postagem>();
             Postagem postagem1 = new Postagem();
-            postagem1.setId(1);
+            // postagem1.setId(1);
             postagem1.setUsuarioPublicador(null);
             postagem1.setConteudoPost("Texto do post 1");
             postagem1.setImagem("Url/aaaaaaaa");

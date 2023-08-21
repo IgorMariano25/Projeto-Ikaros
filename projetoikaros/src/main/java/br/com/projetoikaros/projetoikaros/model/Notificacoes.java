@@ -8,6 +8,9 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.Data;
 
@@ -29,10 +32,12 @@ public class Notificacoes {
     @Column(name = "data", nullable = false)
     private LocalDateTime dataHora;
 
-    @Column(name = "ID_usuarioOrigem", nullable = false)
+    @ManyToOne
+    @JoinColumn(name = "ID_usuarioOrigem", referencedColumnName = "id", nullable = false)
     private Usuario usuarioOrigem;
 
-    @Column(name = "ID_usuarioDestino", nullable = false)
+    @ManyToOne
+    @JoinColumn(name = "ID_usuarioDestino", referencedColumnName = "id", nullable = false)
     private Usuario usuarioDestino;
 
     public Integer getId() {

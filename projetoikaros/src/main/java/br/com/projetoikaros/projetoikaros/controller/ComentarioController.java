@@ -21,18 +21,18 @@ import br.com.projetoikaros.projetoikaros.model.Usuario;
 
 @RestController
 @RequestMapping("/comentario")
-class resourceNameController {
+class ComentarioController {
 
     @GetMapping
     public ResponseEntity<List<Comentario>> getAll() {
         try {
             List<Comentario> items = new ArrayList<Comentario>();
             Comentario comentario1 = new Comentario();
-            comentario1.setId(1);
+            // comentario1.setId(1);
             comentario1.setConteudo("Muit legal !");
-            comentario1.setPostId(postagem1.getId());
-            comentario1.setUsuarioQueComento(usuario1.getNome());
-            comentario1.setData_publicacao_comentario(1965,1,25);
+            // comentario1.setPostId(postagem1.getId());
+            // comentario1.setUsuarioQueComento(usuario1.getNome());
+            comentario1.setData_publicacao_comentario();
 
             items.add(comentario1);
             return new ResponseEntity<>(items, HttpStatus.OK);
