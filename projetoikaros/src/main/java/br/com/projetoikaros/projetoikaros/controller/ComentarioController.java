@@ -23,21 +23,94 @@ import br.com.projetoikaros.projetoikaros.model.Usuario;
 @RequestMapping("/comentario")
 class ComentarioController {
 
+    private static ArrayList<Comentario> Comentarios = new ArrayList<>();
+
     @GetMapping
     public ResponseEntity<List<Comentario>> getAll() {
         try {
-            List<Comentario> items = new ArrayList<Comentario>();
-            Comentario comentario1 = new Comentario();
-            // comentario1.setId(1);
-            comentario1.setConteudo("Muit legal !");
-            // comentario1.setPostId(postagem1.getId());
-            // comentario1.setUsuarioQueComento(usuario1.getNome());
-            comentario1.setData_publicacao_comentario();
-
-            items.add(comentario1);
-            return new ResponseEntity<>(items, HttpStatus.OK);
+            return new ResponseEntity<>(Comentarios, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
+    @GetMapping("{id}")
+    public ResponseEntity<Comentario> getById(@PathVariable("id") Integer id) {
+
+        Comentario result = null;
+
+        for (Comentario item : Comentarios) {
+            if (item.getId() == id) {
+                result = item;
+                break;
+            }
+        }
+
+        if (result != null) {
+            return new ResponseEntity<>(result, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+    }
+
+     @PostMapping
+        public ResponseEntity<Comentario> create(@RequestBody Comentario item) {
+        try {
+            Comentarios.add(item);
+            return new ResponseEntity<>(item, HttpStatus.CREATED);
+        } catch (Exception e) {
+            return new ResponseEntity<>(null, HttpStatus.EXPECTATION_FAILED);
+        }
+    }
+
+    @PutMapping("{id}")
+    public ResponseEntity<Comentario> update(@PathVariable("id") Integer id, @RequestBody Comentario comentarioNovosDados) {
+        
+        Comentario comentarioASerAtualizado = null;
+
+        for (Comentario item : Comentarios) {
+            if (item.getId() == id) {
+                comentarioASerAtualizado = item;
+                break;
+            }
+        }
+
+        if (comentarioASerAtualizado == null ) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        comentarioASerAtualizado.setConteudo(comentarioNovosDados.getConteudo());
+        
+        return new ResponseEntity<>(comentarioASerAtualizado, HttpStatus.OK);
+    }
+
+    @DeleteMapping("{id}")
+    public ResponseEntity<HttpStatus> delete(@PathVariable("id") Integer id) {
+        try {
+
+            Comentario comentarioASerExcluido = null;
+
+            for (Comentario item : Comentarios) {
+                if (item.getId() == id) {
+                    comentarioASerExcluido = item;
+                    break;
+                }
+            }
+
+            // Não achei a pessoa a ser excluida
+            if (comentarioASerExcluido == null) {
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }
+
+            Comentarios.remove(comentarioASerExcluido);
+
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.EXPECTATION_FAILED);
+        }
+    }
+
+    
+
+
 }
