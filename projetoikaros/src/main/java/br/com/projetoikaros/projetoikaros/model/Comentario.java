@@ -21,7 +21,6 @@ public class Comentario {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
 
-    @Id
     @ManyToOne
     @JoinColumn(name = "ID_usuarioQueComentou", referencedColumnName = "id", nullable = false)
     private Usuario usuarioQueComento;
