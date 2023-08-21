@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.projetoikaros.projetoikaros.model.Comentario;
+import br.com.projetoikaros.projetoikaros.model.Postagem;
 import br.com.projetoikaros.projetoikaros.model.Usuario;
 
 @RestController
@@ -57,7 +58,15 @@ class ComentarioController {
      @PostMapping
         public ResponseEntity<Comentario> create(@RequestBody Comentario item) {
         try {
-            Comentarios.add(item);
+
+        Usuario usuario = Usuario.buscarUsuarioPorId(item.getUsuarioQueComento().getId());
+        Postagem postagem = Postagem.buscarPostagemPorId(item.getPostId().getId());
+        
+        // Definindo as instâncias válidas nos campos do Comentario
+        item.setUsuarioQueComento(usuario);
+        item.setPostId(postagem);
+
+        Comentarios.add(item);
             return new ResponseEntity<>(item, HttpStatus.CREATED);
         } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.EXPECTATION_FAILED);
