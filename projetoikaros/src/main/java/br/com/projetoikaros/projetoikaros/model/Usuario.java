@@ -16,7 +16,7 @@ public class Usuario {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer id;
+    private Long id;
 
     @Column(name = "nome", nullable = false, length = 100)
     private String nome;
@@ -33,11 +33,11 @@ public class Usuario {
     @Column(name = "senha", nullable = false, length = 45)
     private String senha;
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
     
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
     
