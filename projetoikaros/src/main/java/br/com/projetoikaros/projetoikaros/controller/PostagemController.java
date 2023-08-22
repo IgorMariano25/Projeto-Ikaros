@@ -18,36 +18,31 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.com.projetoikaros.projetoikaros.model.Postagem;
 import br.com.projetoikaros.projetoikaros.model.Usuario;
+import br.com.projetoikaros.projetoikaros.repository.PostagemRepository;
 
 @RestController
 @RequestMapping("/postagem")
 public class PostagemController {
 
-    private static ArrayList<Postagem> Postagens = new ArrayList<>();
+    @Autowired
+    private PostagemRepository _postagemRepository;
 
     @GetMapping
     public ResponseEntity<List<Postagem>> getAll() {
         try {
-            return new ResponseEntity<>(Postagens, HttpStatus.OK);
+            return new ResponseEntity<>(this._postagemRepository.findAll(), HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
     @GetMapping("{id}")
-    public ResponseEntity<Postagem> getById(@PathVariable("id") Integer id) {
+    public ResponseEntity<Postagem> getById(@PathVariable("id") Long id) {
 
-        Postagem result = null;
+        Optional<Postagem> result = this._postagemRepository.findById(id);
 
-        for (Postagem item : Postagens) {
-            if (item.getId() == id) {
-                result = item;
-                break;
-            }
-        }
-
-        if (result != null) {
-            return new ResponseEntity<>(result, HttpStatus.OK);
+        if (result.isPresent()) {
+            return new ResponseEntity<>(result.get(), HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
@@ -56,10 +51,10 @@ public class PostagemController {
     @PostMapping
     public ResponseEntity<Postagem> create(@RequestBody Postagem item) {
         try {
-            Usuario usuario = Usuario.buscarUsuarioPorId(item.getId());
-            item.setId(usuario.getId());
+            //Usuario usuario = Usuario.buscarUsuarioPorId(item.getId());
+            //item.setId(usuario.getId());
 
-            Postagens.add(item);
+            Postagem result = this._postagemRepository.save(item);
             return new ResponseEntity<>(item, HttpStatus.CREATED);
         } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.EXPECTATION_FAILED);
@@ -67,46 +62,36 @@ public class PostagemController {
     }
 
     @PutMapping("{id}")
-    public ResponseEntity<Postagem> update(@PathVariable("id") Integer id, @RequestBody Postagem PostagemNovosDados) {
+    public ResponseEntity<Postagem> update(@PathVariable("id") Long id, @RequestBody Postagem PostagemNovosDados) {
         
-        Postagem PostagemASerAtualizado = null;
+        Optional<Postagem> result = this._postagemRepository.findById(id);
 
-        for (Postagem item : Postagens) {
-            if (item.getId() == id) {
-                PostagemASerAtualizado = item;
-                break;
-            }
-        }
-
-        if (PostagemASerAtualizado == null ) {
+        if (result.isPresent() == false) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
+
+        Postagem PostagemASerAtualizado = result.get();
         PostagemASerAtualizado.setConteudoPost(PostagemNovosDados.getConteudoPost());
         PostagemASerAtualizado.setImagem(PostagemNovosDados.getImagem());
+
+        this ._postagemRepository.save(PostagemASerAtualizado);
 
         return new ResponseEntity<>(PostagemASerAtualizado, HttpStatus.OK);
     }
 
     @DeleteMapping("{id}")
-    public ResponseEntity<HttpStatus> delete(@PathVariable("id") Integer id) {
+    public ResponseEntity<HttpStatus> delete(@PathVariable("id") Long id) {
         try {
 
-            Postagem PostagemASerExcluido = null;
-
-            for (Postagem item : Postagens) {
-                if (item.getId() == id) {
-                    PostagemASerExcluido = item;
-                    break;
-                }
-            }
+            Optional<Postagem> postagemASerExcluida = this._postagemRepository.findById(id);
+            
 
             // Não achei a pessoa a ser excluida
-            if (PostagemASerExcluido == null) {
+            if (postagemASerExcluida.isPresent() == false) {
                 return new ResponseEntity<>(HttpStatus.NOT_FOUND);
             }
 
-            Postagens.remove(PostagemASerExcluido);
-
+            this._postagemRepository.delete(postagemASerExcluida.get());
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.EXPECTATION_FAILED);
