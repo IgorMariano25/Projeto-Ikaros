@@ -17,23 +17,78 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.projetoikaros.projetoikaros.model.Amigos;
+import br.com.projetoikaros.projetoikaros.repository.AmigosRepository;
 
 @RestController
 @RequestMapping("/amigos")
 public class AmigosController {
+
+    @Autowired
+    private AmigosRepository _amigosRepository;
+
     @GetMapping
     public ResponseEntity<List<Amigos>> getAll() {
         try {
-            List<Amigos> items = new ArrayList<Amigos>();
-            Amigos amigo = new Amigos();
-            // amigo.setAmizadeId(1);
-            // amigo.setRelacionamentoAmizade1(usuario1.getId());
-            // amigo.setRelacionamentoAmizade2(usuario2.getId());
-
-            items.add(amigo);
-            return new ResponseEntity<>(items, HttpStatus.OK);
+            return new ResponseEntity<>(this._amigosRepository.findAll(), HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping("{id}")
+    public ResponseEntity<Amigos> getById(@PathVariable("id") Long id) {
+
+        Optional<Amigos> result = this._amigosRepository.findById(id);
+
+        if (result.isPresent()) {
+            return new ResponseEntity<>(result.get(), HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @PostMapping
+    public ResponseEntity<Amigos> create(@RequestBody Amigos item) {
+        try {
+            Amigos result = this._amigosRepository.save(item);
+            return new ResponseEntity<>(result, HttpStatus.CREATED);
+        } catch (Exception e) {
+            return new ResponseEntity<>(null, HttpStatus.EXPECTATION_FAILED);
+        }
+    }
+
+    @PutMapping("{id}")
+    public ResponseEntity<Amigos> update(@PathVariable("id") Long id, @RequestBody Amigos amigosNovosDados) {
+        
+        Optional<Amigos> result = this._amigosRepository.findById(id);
+
+        if (result.isPresent() == false ) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        Amigos amigosASerAtualizado = result.get();
+        amigosASerAtualizado.setRelacionamentoAmizade1(amigosNovosDados.getRelacionamentoAmizade1());
+        amigosASerAtualizado.setRelacionamentoAmizade2(amigosNovosDados.getRelacionamentoAmizade2());
+
+        this._amigosRepository.save(amigosASerAtualizado);
+
+        return new ResponseEntity<>(amigosASerAtualizado, HttpStatus.OK);
+    }
+
+    @DeleteMapping("{id}")
+    public ResponseEntity<HttpStatus> delete(@PathVariable("id") Long id) {
+        try {
+
+            Optional<Amigos> amigosASerExcluido = this._amigosRepository.findById(id);
+
+            // Não achei a pessoa a ser excluida
+            if (amigosASerExcluido.isPresent() == false) {
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }
+
+           this._amigosRepository.delete(amigosASerExcluido.get());
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.EXPECTATION_FAILED);
         }
     }
 }
