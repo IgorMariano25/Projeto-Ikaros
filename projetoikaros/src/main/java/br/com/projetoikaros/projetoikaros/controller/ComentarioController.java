@@ -19,17 +19,19 @@ import org.springframework.web.bind.annotation.RestController;
 import br.com.projetoikaros.projetoikaros.model.Comentario;
 import br.com.projetoikaros.projetoikaros.model.Postagem;
 import br.com.projetoikaros.projetoikaros.model.Usuario;
+import br.com.projetoikaros.projetoikaros.repository.ComentarioRepository;
 
 @RestController
 @RequestMapping("/comentario")
 class ComentarioController {
 
-    private static ArrayList<Comentario> Comentarios = new ArrayList<>();
+    @Autowired
+    private ComentarioRepository _comentarioRepository;
 
     @GetMapping
     public ResponseEntity<List<Comentario>> getAll() {
         try {
-            return new ResponseEntity<>(Comentarios, HttpStatus.OK);
+            return new ResponseEntity<>(this._comentarioRepository.findAll(), HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
