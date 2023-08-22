@@ -70,6 +70,9 @@ public class UsuarioController {
         Usuario usuarioASerAtualizado = result.get();
         usuarioASerAtualizado.setNome(usuarioNovosDados.getNome());
         usuarioASerAtualizado.setSobrenome(usuarioNovosDados.getSobrenome());
+        usuarioASerAtualizado.setData_aniversario(usuarioNovosDados.getData_aniversario());
+        usuarioASerAtualizado.setEmail(usuarioNovosDados.getEmail());
+        usuarioASerAtualizado.setSenha(usuarioNovosDados.getEmail());
 
         this._usuarioRepository.save(usuarioASerAtualizado);
 
