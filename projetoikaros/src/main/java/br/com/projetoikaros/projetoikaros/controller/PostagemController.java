@@ -70,6 +70,7 @@ public class PostagemController {
         Postagem PostagemASerAtualizado = result.get();
         PostagemASerAtualizado.setConteudoPost(PostagemNovosDados.getConteudoPost());
         PostagemASerAtualizado.setImagem(PostagemNovosDados.getImagem());
+        PostagemASerAtualizado.setCurtidas(PostagemASerAtualizado.getCurtidas());
 
         this ._postagemRepository.save(PostagemASerAtualizado);
 
