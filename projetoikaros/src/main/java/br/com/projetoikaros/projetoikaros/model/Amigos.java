@@ -15,7 +15,7 @@ public class Amigos {
 
     @Id
     @Column(name = "ID_Amizade", nullable = false)
-    private Integer amizadeId;
+    private Long amizadeId;
 
     @ManyToOne
     @JoinColumn(name = "ID_Amigo1", referencedColumnName = "id", nullable = false)
@@ -25,11 +25,11 @@ public class Amigos {
     @JoinColumn(name = "ID_Amigo2", referencedColumnName = "id", nullable = false)
     private Usuario relacionamentoAmizade2;
 
-    public Integer getAmizadeId() {
+    public Long getAmizadeId() {
         return this.amizadeId;
     }
 
-    public void setAmizadeId(Integer amizadeId) {
+    public void setAmizadeId(Long amizadeId) {
         this.amizadeId = amizadeId;
     }
 
