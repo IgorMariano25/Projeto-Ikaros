@@ -1,6 +1,5 @@
 package br.com.projetoikaros.projetoikaros.controller;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -17,18 +16,20 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.projetoikaros.projetoikaros.model.Notificacoes;
-
+import br.com.projetoikaros.projetoikaros.model.Usuario;
+import br.com.projetoikaros.projetoikaros.repository.NotificacacoesRepository;
 
 @RestController
 @RequestMapping("/notificacoes")
 public class NotificacoesController {
 
-    private static ArrayList<Notificacoes> Notificacoes = new ArrayList<>();
-    
+    @Autowired
+    private NotificacacoesRepository _notificacoesRepository;
+
     @GetMapping
     public ResponseEntity<List<Notificacoes>> getAll() {
         try {
-            return new ResponseEntity<>(Notificacoes, HttpStatus.OK);
+            return new ResponseEntity<>(this._notificacoesRepository.findAll(), HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
