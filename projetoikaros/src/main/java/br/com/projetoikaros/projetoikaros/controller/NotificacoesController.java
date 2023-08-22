@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.com.projetoikaros.projetoikaros.model.Notificacoes;
 import br.com.projetoikaros.projetoikaros.model.Notificacoes;
+import br.com.projetoikaros.projetoikaros.model.Notificacoes;
 import br.com.projetoikaros.projetoikaros.repository.NotificacacoesRepository;
 
 @RestController
@@ -50,8 +51,8 @@ public class NotificacoesController {
     @PostMapping
     public ResponseEntity<Notificacoes> create(@RequestBody Notificacoes item) {
         try {
-            Notificacoes.add(item);
-            return new ResponseEntity<>(item, HttpStatus.CREATED);
+            Notificacoes result = this._notificacoesRepository.save(item);
+            return new ResponseEntity<>(result, HttpStatus.CREATED);
         } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.EXPECTATION_FAILED);
         }
