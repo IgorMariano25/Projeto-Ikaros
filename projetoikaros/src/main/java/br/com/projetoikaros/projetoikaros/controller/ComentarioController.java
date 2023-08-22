@@ -59,11 +59,11 @@ class ComentarioController {
         public ResponseEntity<Comentario> create(@RequestBody Comentario item) {
         try {
 
-        Usuario usuario = Usuario.buscarUsuarioPorId(item.getUsuarioQueComento().getId());
+        //Usuario usuario = Usuario.buscarUsuarioPorId(item.getUsuarioQueComento().getId());
         //Postagem postagem = Postagem.buscarPostagemPorId(item.getPostId().getId());
         
         // Definindo as instâncias válidas nos campos do Comentario
-        item.setUsuarioQueComento(usuario);
+        //item.setUsuarioQueComento(usuario);
         //item.setPostId(postagem);
 
         Comentarios.add(item);
