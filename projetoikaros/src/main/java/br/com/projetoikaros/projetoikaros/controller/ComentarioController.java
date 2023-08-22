@@ -60,11 +60,11 @@ class ComentarioController {
         try {
 
         Usuario usuario = Usuario.buscarUsuarioPorId(item.getUsuarioQueComento().getId());
-        Postagem postagem = Postagem.buscarPostagemPorId(item.getPostId().getId());
+        //Postagem postagem = Postagem.buscarPostagemPorId(item.getPostId().getId());
         
         // Definindo as instâncias válidas nos campos do Comentario
         item.setUsuarioQueComento(usuario);
-        item.setPostId(postagem);
+        //item.setPostId(postagem);
 
         Comentarios.add(item);
             return new ResponseEntity<>(item, HttpStatus.CREATED);
