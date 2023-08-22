@@ -16,8 +16,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.projetoikaros.projetoikaros.model.Notificacoes;
-import br.com.projetoikaros.projetoikaros.model.Notificacoes;
-import br.com.projetoikaros.projetoikaros.model.Notificacoes;
 import br.com.projetoikaros.projetoikaros.repository.NotificacacoesRepository;
 
 @RestController
@@ -59,27 +57,22 @@ public class NotificacoesController {
     }
 
     @PutMapping("{id}")
-    public ResponseEntity<Notificacoes> update(@PathVariable("id") Integer id, @RequestBody Notificacoes NotificacoesNovosDados) {
-        
-        Notificacoes NotificacaoASerAtualizada = null;
+    public ResponseEntity<Notificacoes> update(@PathVariable("id") Long id, @RequestBody Notificacoes notificacoesNovosDados) {
 
-        for (Notificacoes item : Notificacoes) {
-            if (item.getId() == id) {
-                NotificacaoASerAtualizada = item;
-                break;
-            }
-        }
+        Optional<Notificacoes> result = this._notificacoesRepository.findById(id);
 
-        if (NotificacaoASerAtualizada == null ) {
+        if (result.isPresent() == false ) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-        NotificacaoASerAtualizada.setTipo(NotificacoesNovosDados.getTipo());
-        NotificacaoASerAtualizada.setUsuarioDestino(NotificacoesNovosDados.getUsuarioDestino());
-        NotificacaoASerAtualizada.setUsuarioOrigem(NotificacoesNovosDados.getUsuarioOrigem());
-        NotificacaoASerAtualizada.setVisualizado(NotificacoesNovosDados.getVisualizado());
-        NotificacaoASerAtualizada.setDataHora(NotificacoesNovosDados.getDataHora());
+        Notificacoes notificacaoASerAtualizada = result.get();
+        notificacaoASerAtualizada.setTipo(notificacoesNovosDados.getTipo());
+        notificacaoASerAtualizada.setUsuarioDestino(notificacoesNovosDados.getUsuarioDestino());
+        notificacaoASerAtualizada.setUsuarioOrigem(notificacoesNovosDados.getUsuarioOrigem());
+        notificacaoASerAtualizada.setVisualizado(notificacoesNovosDados.getVisualizado());
+        notificacaoASerAtualizada.setDataHora(notificacoesNovosDados.getDataHora());
 
-        return new ResponseEntity<>(NotificacaoASerAtualizada, HttpStatus.OK);
+        this._notificacoesRepository.save(notificacaoASerAtualizada);
+        return new ResponseEntity<>(notificacaoASerAtualizada, HttpStatus.OK);
     }
 
     @DeleteMapping("{id}")
