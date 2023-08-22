@@ -52,16 +52,8 @@ class ComentarioController {
      @PostMapping
         public ResponseEntity<Comentario> create(@RequestBody Comentario item) {
         try {
-
-        //Usuario usuario = Usuario.buscarUsuarioPorId(item.getUsuarioQueComento().getId());
-        //Postagem postagem = Postagem.buscarPostagemPorId(item.getPostId().getId());
-        
-        // Definindo as instâncias válidas nos campos do Comentario
-        //item.setUsuarioQueComento(usuario);
-        //item.setPostId(postagem);
-
-        Comentarios.add(item);
-            return new ResponseEntity<>(item, HttpStatus.CREATED);
+            Comentario result = this._comentarioRepository.save(item);
+            return new ResponseEntity<>(result, HttpStatus.CREATED);
         } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.EXPECTATION_FAILED);
         }
