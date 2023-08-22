@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.projetoikaros.projetoikaros.model.Notificacoes;
-import br.com.projetoikaros.projetoikaros.model.Notificacoes;
 import br.com.projetoikaros.projetoikaros.repository.NotificacacoesRepository;
 
 @RestController
