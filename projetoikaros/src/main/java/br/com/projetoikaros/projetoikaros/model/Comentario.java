@@ -19,7 +19,7 @@ public class Comentario {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer id;
+    private Long id;
 
     @ManyToOne
     @JoinColumn(name = "ID_usuarioQueComentou", referencedColumnName = "id", nullable = false)
