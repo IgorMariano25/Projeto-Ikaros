@@ -16,8 +16,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.projetoikaros.projetoikaros.model.Comentario;
-import br.com.projetoikaros.projetoikaros.model.Postagem;
-import br.com.projetoikaros.projetoikaros.model.Usuario;
+// import br.com.projetoikaros.projetoikaros.model.Postagem;
+// import br.com.projetoikaros.projetoikaros.model.Usuario;
 import br.com.projetoikaros.projetoikaros.repository.ComentarioRepository;
 
 @RestController
