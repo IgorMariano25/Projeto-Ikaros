@@ -69,37 +69,23 @@ class ComentarioController {
         Comentario comentarioASerAtualizado = result.get();
         comentarioASerAtualizado.setConteudo(comentarioNovosDados.getConteudo());
         comentarioASerAtualizado.setData_publicacao_comentario(comentarioNovosDados.getData_publicacao_comentario());
-        
+
         return new ResponseEntity<>(comentarioASerAtualizado, HttpStatus.OK);
     }
 
     @DeleteMapping("{id}")
-    public ResponseEntity<HttpStatus> delete(@PathVariable("id") Integer id) {
+    public ResponseEntity<HttpStatus> delete(@PathVariable("id") Long id) {
         try {
 
-            Comentario comentarioASerExcluido = null;
-
-            for (Comentario item : Comentarios) {
-                if (item.getId() == id) {
-                    comentarioASerExcluido = item;
-                    break;
-                }
-            }
-
-            // Não achei a pessoa a ser excluida
-            if (comentarioASerExcluido == null) {
+            Optional<Comentario> comentarioASerExcluido = this._comentarioRepository.findById(id);
+            if (comentarioASerExcluido.isPresent() == false) {
                 return new ResponseEntity<>(HttpStatus.NOT_FOUND);
             }
 
-            Comentarios.remove(comentarioASerExcluido);
-
+            this._comentarioRepository.delete(comentarioASerExcluido.get());
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.EXPECTATION_FAILED);
         }
     }
-
-    
-
-
 }
