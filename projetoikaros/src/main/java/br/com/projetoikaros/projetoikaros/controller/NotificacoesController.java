@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.projetoikaros.projetoikaros.model.Notificacoes;
+import br.com.projetoikaros.projetoikaros.model.Notificacoes;
 import br.com.projetoikaros.projetoikaros.repository.NotificacacoesRepository;
 
 @RestController
@@ -76,25 +77,17 @@ public class NotificacoesController {
     }
 
     @DeleteMapping("{id}")
-    public ResponseEntity<HttpStatus> delete(@PathVariable("id") Integer id) {
+    public ResponseEntity<HttpStatus> delete(@PathVariable("id") Long id) {
         try {
 
-            Notificacoes NotificacaoASerExcluida = null;
-
-            for (Notificacoes item : Notificacoes) {
-                if (item.getId() == id) {
-                    NotificacaoASerExcluida = item;
-                    break;
-                }
-            }
+            Optional<Notificacoes> notificacaoASerExcluida = this._notificacoesRepository.findById(id);
 
             // Não achei a pessoa a ser excluida
-            if (NotificacaoASerExcluida == null) {
+            if (notificacaoASerExcluida.isPresent() == false) {
                 return new ResponseEntity<>(HttpStatus.NOT_FOUND);
             }
 
-            Notificacoes.remove(NotificacaoASerExcluida);
-
+           this._notificacoesRepository.delete(notificacaoASerExcluida.get());
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.EXPECTATION_FAILED);
