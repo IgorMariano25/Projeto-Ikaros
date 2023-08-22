@@ -60,21 +60,15 @@ class ComentarioController {
     }
 
     @PutMapping("{id}")
-    public ResponseEntity<Comentario> update(@PathVariable("id") Integer id, @RequestBody Comentario comentarioNovosDados) {
-        
-        Comentario comentarioASerAtualizado = null;
+    public ResponseEntity<Comentario> update(@PathVariable("id") Long id, @RequestBody Comentario comentarioNovosDados) {
 
-        for (Comentario item : Comentarios) {
-            if (item.getId() == id) {
-                comentarioASerAtualizado = item;
-                break;
-            }
-        }
-
-        if (comentarioASerAtualizado == null ) {
+        Optional<Comentario> result = this._comentarioRepository.findById(id);
+        if (result.isPresent() == false ) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
+        Comentario comentarioASerAtualizado = result.get();
         comentarioASerAtualizado.setConteudo(comentarioNovosDados.getConteudo());
+        comentarioASerAtualizado.setData_publicacao_comentario(comentarioNovosDados.getData_publicacao_comentario());
         
         return new ResponseEntity<>(comentarioASerAtualizado, HttpStatus.OK);
     }
