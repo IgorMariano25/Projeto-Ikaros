@@ -83,4 +83,13 @@ public class Usuario {
     public void setSenha(String senha) {
         this.senha = senha;
     }
+
+    public static Usuario buscarUsuarioPorId(Integer id) {
+        if (id != null) {
+            Usuario usuario = new Usuario();
+            return usuario;
+        } else {
+            return null;
+        }
+    }
 }

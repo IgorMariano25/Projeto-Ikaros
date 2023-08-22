@@ -22,24 +22,94 @@ import br.com.projetoikaros.projetoikaros.model.Notificacoes;
 @RestController
 @RequestMapping("/notificacoes")
 public class NotificacoesController {
+
+    private static ArrayList<Notificacoes> Notificacoes = new ArrayList<>();
     
     @GetMapping
     public ResponseEntity<List<Notificacoes>> getAll() {
         try {
-            List<Notificacoes> items = new ArrayList<Notificacoes>();
-            Notificacoes notificacao1 = new Notificacoes();
-            // notificacao1.setId(1);
-            notificacao1.setTipo("Comentário");
-            notificacao1.setVisualizado(false);
-            notificacao1.setDataHora(null);
-            notificacao1.setUsuarioOrigem(null);
-            notificacao1.setUsuarioDestino(null);
-            
-
-            items.add(notificacao1);
-            return new ResponseEntity<>(items, HttpStatus.OK);
+            return new ResponseEntity<>(Notificacoes, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping("{id}")
+    public ResponseEntity<Notificacoes> getById(@PathVariable("id") Integer id) {
+
+        Notificacoes result = null;
+
+        for (Notificacoes item : Notificacoes) {
+            if (item.getId() == id) {
+                result = item;
+                break;
+            }
+        }
+
+        if (result != null) {
+            return new ResponseEntity<>(result, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @PostMapping
+    public ResponseEntity<Notificacoes> create(@RequestBody Notificacoes item) {
+        try {
+            Notificacoes.add(item);
+            return new ResponseEntity<>(item, HttpStatus.CREATED);
+        } catch (Exception e) {
+            return new ResponseEntity<>(null, HttpStatus.EXPECTATION_FAILED);
+        }
+    }
+
+    @PutMapping("{id}")
+    public ResponseEntity<Notificacoes> update(@PathVariable("id") Integer id, @RequestBody Notificacoes NotificacoesNovosDados) {
+        
+        Notificacoes NotificacaoASerAtualizada = null;
+
+        for (Notificacoes item : Notificacoes) {
+            if (item.getId() == id) {
+                NotificacaoASerAtualizada = item;
+                break;
+            }
+        }
+
+        if (NotificacaoASerAtualizada == null ) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        NotificacaoASerAtualizada.setTipo(NotificacoesNovosDados.getTipo());
+        NotificacaoASerAtualizada.setUsuarioDestino(NotificacoesNovosDados.getUsuarioDestino());
+        NotificacaoASerAtualizada.setUsuarioOrigem(NotificacoesNovosDados.getUsuarioOrigem());
+        NotificacaoASerAtualizada.setVisualizado(NotificacoesNovosDados.getVisualizado());
+        NotificacaoASerAtualizada.setDataHora(NotificacoesNovosDados.getDataHora());
+
+        return new ResponseEntity<>(NotificacaoASerAtualizada, HttpStatus.OK);
+    }
+
+    @DeleteMapping("{id}")
+    public ResponseEntity<HttpStatus> delete(@PathVariable("id") Integer id) {
+        try {
+
+            Notificacoes NotificacaoASerExcluida = null;
+
+            for (Notificacoes item : Notificacoes) {
+                if (item.getId() == id) {
+                    NotificacaoASerExcluida = item;
+                    break;
+                }
+            }
+
+            // Não achei a pessoa a ser excluida
+            if (NotificacaoASerExcluida == null) {
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }
+
+            Notificacoes.remove(NotificacaoASerExcluida);
+
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.EXPECTATION_FAILED);
         }
     }
 }
