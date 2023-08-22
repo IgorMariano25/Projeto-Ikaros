@@ -35,11 +35,11 @@ public class Comentario {
     @JoinColumn(name = "ID_Post", referencedColumnName = "id", nullable = false)
     private Postagem postId;
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
