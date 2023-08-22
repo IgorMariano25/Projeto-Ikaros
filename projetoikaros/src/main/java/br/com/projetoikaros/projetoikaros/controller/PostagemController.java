@@ -23,23 +23,26 @@ import br.com.projetoikaros.projetoikaros.model.Usuario;
 @RequestMapping("/postagem")
 public class PostagemController {
 
+    private static ArrayList<Postagem> Postagens = new ArrayList<>();
+
     @GetMapping
     public ResponseEntity<List<Postagem>> getAll() {
         try {
-            List<Postagem> items = new ArrayList<Postagem>();
-            Postagem postagem1 = new Postagem();
-            // postagem1.setId(1);
-            postagem1.setUsuarioPublicador(null);
-            postagem1.setConteudoPost("Texto do post 1");
-            postagem1.setImagem("Url/aaaaaaaa");
-            postagem1.setCurtidas(112);
-            postagem1.setHoraPublicacao();
-
-            items.add(postagem1);
-            return new ResponseEntity<>(items, HttpStatus.OK);
+            return new ResponseEntity<>(Postagens, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-    
+
+    @PostMapping
+    public ResponseEntity<Postagem> create(@RequestBody Postagem item) {
+        try {
+            Usuario usuario = Usuario.buscarUsuarioPorId(item.getId());
+            item.setId(usuario.getId());
+            Postagens.add(item);
+            return new ResponseEntity<>(item, HttpStatus.CREATED);
+        } catch (Exception e) {
+            return new ResponseEntity<>(null, HttpStatus.EXPECTATION_FAILED);
+        }
+    }
 }
