@@ -61,9 +61,6 @@ public class UsuarioController {
         
         Optional<Usuario> result = this._usuarioRepository.findById(id);
 
-
-       
-
         if (result.isPresent() == false ) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
@@ -84,7 +81,6 @@ public class UsuarioController {
         try {
 
             Optional<Usuario> usuarioASerExcluido = this._usuarioRepository.findById(id);
-
 
             // Não achei a pessoa a ser excluida
             if (usuarioASerExcluido.isPresent() == false) {
