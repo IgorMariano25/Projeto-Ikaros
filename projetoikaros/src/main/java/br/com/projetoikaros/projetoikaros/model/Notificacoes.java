@@ -20,7 +20,7 @@ public class Notificacoes {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer id;
+    private Long id;
 
     @Column(name = "tipo_da_notificacao", nullable = false, length = 45)
     private String tipo;
@@ -39,11 +39,11 @@ public class Notificacoes {
     @JoinColumn(name = "ID_usuarioDestino", referencedColumnName = "id", nullable = false)
     private Usuario usuarioDestino;
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
