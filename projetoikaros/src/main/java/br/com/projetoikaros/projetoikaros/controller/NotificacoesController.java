@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.projetoikaros.projetoikaros.model.Notificacoes;
-import br.com.projetoikaros.projetoikaros.model.Usuario;
+import br.com.projetoikaros.projetoikaros.model.Notificacoes;
 import br.com.projetoikaros.projetoikaros.repository.NotificacacoesRepository;
 
 @RestController
@@ -36,19 +36,12 @@ public class NotificacoesController {
     }
 
     @GetMapping("{id}")
-    public ResponseEntity<Notificacoes> getById(@PathVariable("id") Integer id) {
+    public ResponseEntity<Notificacoes> getById(@PathVariable("id") Long id) {
 
-        Notificacoes result = null;
+        Optional<Notificacoes> result = this._notificacoesRepository.findById(id);
 
-        for (Notificacoes item : Notificacoes) {
-            if (item.getId() == id) {
-                result = item;
-                break;
-            }
-        }
-
-        if (result != null) {
-            return new ResponseEntity<>(result, HttpStatus.OK);
+        if (result.isPresent()) {
+            return new ResponseEntity<>(result.get(), HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
