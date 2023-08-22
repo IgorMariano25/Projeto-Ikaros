@@ -51,11 +51,8 @@ public class PostagemController {
     @PostMapping
     public ResponseEntity<Postagem> create(@RequestBody Postagem item) {
         try {
-            //Usuario usuario = Usuario.buscarUsuarioPorId(item.getId());
-            //item.setId(usuario.getId());
-
             Postagem result = this._postagemRepository.save(item);
-            return new ResponseEntity<>(item, HttpStatus.CREATED);
+            return new ResponseEntity<>(result, HttpStatus.CREATED);
         } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.EXPECTATION_FAILED);
         }
