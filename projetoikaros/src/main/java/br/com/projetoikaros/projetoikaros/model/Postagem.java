@@ -19,7 +19,7 @@ public class Postagem {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Long id;
 
     @ManyToOne
     @JoinColumn(name = "ID_usuarioQuePubliocu", referencedColumnName = "id", nullable = false)
@@ -37,11 +37,11 @@ public class Postagem {
     @Column(name = "Data_da_Publicacao", nullable = false)
     private LocalDateTime dataHoraPublicacao;
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
