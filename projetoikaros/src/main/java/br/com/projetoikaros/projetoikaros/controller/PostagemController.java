@@ -81,9 +81,7 @@ public class PostagemController {
         try {
 
             Optional<Postagem> postagemASerExcluida = this._postagemRepository.findById(id);
-            
 
-            // Não achei a pessoa a ser excluida
             if (postagemASerExcluida.isPresent() == false) {
                 return new ResponseEntity<>(HttpStatus.NOT_FOUND);
             }
