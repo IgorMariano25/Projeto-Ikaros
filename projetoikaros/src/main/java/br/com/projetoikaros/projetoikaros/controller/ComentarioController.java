@@ -38,23 +38,15 @@ class ComentarioController {
     }
 
     @GetMapping("{id}")
-    public ResponseEntity<Comentario> getById(@PathVariable("id") Integer id) {
+    public ResponseEntity<Comentario> getById(@PathVariable("id") Long id) {
 
-        Comentario result = null;
+        Optional<Comentario> result = this._comentarioRepository.findById(id);
 
-        for (Comentario item : Comentarios) {
-            if (item.getId() == id) {
-                result = item;
-                break;
-            }
-        }
-
-        if (result != null) {
-            return new ResponseEntity<>(result, HttpStatus.OK);
+        if (result.isPresent()) {
+            return new ResponseEntity<>(result.get(), HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-
     }
 
      @PostMapping
