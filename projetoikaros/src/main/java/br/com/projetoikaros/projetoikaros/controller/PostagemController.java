@@ -16,7 +16,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.projetoikaros.projetoikaros.model.Postagem;
+import br.com.projetoikaros.projetoikaros.model.Usuario;
 import br.com.projetoikaros.projetoikaros.repository.PostagemRepository;
+import br.com.projetoikaros.projetoikaros.repository.UsuarioRepository;
 
 @RestController
 @RequestMapping("/postagem")
@@ -24,6 +26,9 @@ public class PostagemController {
 
     @Autowired
     private PostagemRepository _postagemRepository;
+
+    @Autowired
+    private UsuarioRepository usuarioRepository;
 
     @GetMapping
     public ResponseEntity<List<Postagem>> getAll() {
@@ -46,11 +51,19 @@ public class PostagemController {
         }
     }
 
-    @PostMapping
-    public ResponseEntity<Postagem> create(@RequestBody Postagem item) {
+    @PostMapping("{idUsuario}")
+    public ResponseEntity<Postagem> create(@PathVariable("idUsuario") long idUsuario, @RequestBody Postagem postagem) {
         try {
-            Postagem result = this._postagemRepository.save(item);
-            return new ResponseEntity<>(result, HttpStatus.CREATED);
+
+            Optional<Usuario> usuario = usuarioRepository.findById(idUsuario);
+
+            if (usuario.isPresent() == false)
+                return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+
+            usuario.get().addPostagem(postagem);
+            this.usuarioRepository.save(usuario.get());
+
+            return new ResponseEntity<>(postagem, HttpStatus.CREATED);
         } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.EXPECTATION_FAILED);
         }
@@ -58,7 +71,7 @@ public class PostagemController {
 
     @PutMapping("{id}")
     public ResponseEntity<Postagem> update(@PathVariable("id") Long id, @RequestBody Postagem PostagemNovosDados) {
-        
+
         Optional<Postagem> result = this._postagemRepository.findById(id);
 
         if (result.isPresent() == false) {
@@ -70,7 +83,7 @@ public class PostagemController {
         PostagemASerAtualizado.setImagem(PostagemNovosDados.getImagem());
         PostagemASerAtualizado.setCurtidas(PostagemASerAtualizado.getCurtidas());
 
-        this ._postagemRepository.save(PostagemASerAtualizado);
+        this._postagemRepository.save(PostagemASerAtualizado);
 
         return new ResponseEntity<>(PostagemASerAtualizado, HttpStatus.OK);
     }
