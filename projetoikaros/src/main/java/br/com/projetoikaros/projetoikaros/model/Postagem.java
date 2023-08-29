@@ -22,7 +22,7 @@ public class Postagem {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "ID_usuarioQuePubliocu", referencedColumnName = "id", nullable = false)
+    @JoinColumn(name = "ID_usuarioQuePublicou", referencedColumnName = "id", nullable = false)
     private Usuario usuarioPublicador;
 
     @Column(name = "conteudoPost", nullable = false, length = 100)
