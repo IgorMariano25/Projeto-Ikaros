@@ -22,7 +22,7 @@ import br.com.projetoikaros.projetoikaros.repository.UsuarioRepository;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
 @RestController
-@RequestMapping("/postagem")
+@RequestMapping("/usuario/{idUsuario}/postagem") 
 @Tag (name = "postagem")
 public class PostagemController {
 
@@ -33,7 +33,7 @@ public class PostagemController {
     private UsuarioRepository usuarioRepository;
 
     @GetMapping
-    public ResponseEntity<List<Postagem>> getAll() {
+    public ResponseEntity<List<Postagem>> getAll(@PathVariable("idUsuario") long idUsuario) {
         try {
             return new ResponseEntity<>(this.postagemRepository.findAll(), HttpStatus.OK);
         } catch (Exception e) {
@@ -53,7 +53,7 @@ public class PostagemController {
         }
     }
 
-    @PostMapping("{idUsuario}")
+    @PostMapping()
     public ResponseEntity<Postagem> create(@PathVariable("idUsuario") long idUsuario, @RequestBody Postagem postagem) {
         try {
 

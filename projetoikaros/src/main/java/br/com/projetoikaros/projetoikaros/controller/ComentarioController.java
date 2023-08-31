@@ -21,7 +21,7 @@ import br.com.projetoikaros.projetoikaros.model.Comentario;
 import br.com.projetoikaros.projetoikaros.repository.ComentarioRepository;
 
 @RestController
-@RequestMapping("/comentario")
+@RequestMapping("/postagem/{idPostagem}/comentario")
 class ComentarioController {
 
     @Autowired
