@@ -21,10 +21,6 @@ public class Postagem {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
-    @JoinColumn(name = "ID_usuarioQuePublicou", referencedColumnName = "id", nullable = false)
-    private Usuario usuarioPublicador;
-
     @Column(name = "conteudoPost", nullable = false, length = 100)
     private String conteudoPost;
 
@@ -43,14 +39,6 @@ public class Postagem {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public Usuario getUsuarioPublicador() {
-        return usuarioPublicador;
-    }
-
-    public void setUsuarioPublicador(Usuario usuarioPublicador) {
-        this.usuarioPublicador = usuarioPublicador;
     }
 
     public String getConteudoPost() {

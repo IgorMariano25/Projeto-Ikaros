@@ -19,13 +19,15 @@ import br.com.projetoikaros.projetoikaros.model.Postagem;
 import br.com.projetoikaros.projetoikaros.model.Usuario;
 import br.com.projetoikaros.projetoikaros.repository.PostagemRepository;
 import br.com.projetoikaros.projetoikaros.repository.UsuarioRepository;
+import io.swagger.v3.oas.annotations.tags.Tag;
 
 @RestController
 @RequestMapping("/postagem")
+@Tag (name = "postagem")
 public class PostagemController {
 
     @Autowired
-    private PostagemRepository _postagemRepository;
+    private PostagemRepository postagemRepository;
 
     @Autowired
     private UsuarioRepository usuarioRepository;
@@ -33,7 +35,7 @@ public class PostagemController {
     @GetMapping
     public ResponseEntity<List<Postagem>> getAll() {
         try {
-            return new ResponseEntity<>(this._postagemRepository.findAll(), HttpStatus.OK);
+            return new ResponseEntity<>(this.postagemRepository.findAll(), HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
@@ -42,7 +44,7 @@ public class PostagemController {
     @GetMapping("{id}")
     public ResponseEntity<Postagem> getById(@PathVariable("id") Long id) {
 
-        Optional<Postagem> result = this._postagemRepository.findById(id);
+        Optional<Postagem> result = this.postagemRepository.findById(id);
 
         if (result.isPresent()) {
             return new ResponseEntity<>(result.get(), HttpStatus.OK);
@@ -72,7 +74,7 @@ public class PostagemController {
     @PutMapping("{id}")
     public ResponseEntity<Postagem> update(@PathVariable("id") Long id, @RequestBody Postagem PostagemNovosDados) {
 
-        Optional<Postagem> result = this._postagemRepository.findById(id);
+        Optional<Postagem> result = this.postagemRepository.findById(id);
 
         if (result.isPresent() == false) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -83,7 +85,7 @@ public class PostagemController {
         PostagemASerAtualizado.setImagem(PostagemNovosDados.getImagem());
         PostagemASerAtualizado.setCurtidas(PostagemASerAtualizado.getCurtidas());
 
-        this._postagemRepository.save(PostagemASerAtualizado);
+        this.postagemRepository.save(PostagemASerAtualizado);
 
         return new ResponseEntity<>(PostagemASerAtualizado, HttpStatus.OK);
     }
@@ -92,13 +94,13 @@ public class PostagemController {
     public ResponseEntity<HttpStatus> delete(@PathVariable("id") Long id) {
         try {
 
-            Optional<Postagem> postagemASerExcluida = this._postagemRepository.findById(id);
+            Optional<Postagem> postagemASerExcluida = this.postagemRepository.findById(id);
 
             if (postagemASerExcluida.isPresent() == false) {
                 return new ResponseEntity<>(HttpStatus.NOT_FOUND);
             }
 
-            this._postagemRepository.delete(postagemASerExcluida.get());
+            this.postagemRepository.delete(postagemASerExcluida.get());
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.EXPECTATION_FAILED);
