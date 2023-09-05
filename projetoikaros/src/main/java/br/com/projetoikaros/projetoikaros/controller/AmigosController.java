@@ -17,9 +17,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.com.projetoikaros.projetoikaros.model.Amigos;
 import br.com.projetoikaros.projetoikaros.repository.AmigosRepository;
+import io.swagger.v3.oas.annotations.tags.Tag;
 
 @RestController
 @RequestMapping("/amigos")
+@Tag (name = "amigos")
 public class AmigosController {
 
     @Autowired

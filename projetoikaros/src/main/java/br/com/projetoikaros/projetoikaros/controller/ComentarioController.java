@@ -19,9 +19,11 @@ import br.com.projetoikaros.projetoikaros.model.Comentario;
 // import br.com.projetoikaros.projetoikaros.model.Postagem;
 // import br.com.projetoikaros.projetoikaros.model.Usuario;
 import br.com.projetoikaros.projetoikaros.repository.ComentarioRepository;
+import io.swagger.v3.oas.annotations.tags.Tag;
 
 @RestController
 @RequestMapping("/postagem/{idPostagem}/comentario")
+@Tag (name = "comentario")
 class ComentarioController {
 
     @Autowired
