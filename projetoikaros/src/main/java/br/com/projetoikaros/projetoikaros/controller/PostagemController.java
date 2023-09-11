@@ -19,11 +19,12 @@ import br.com.projetoikaros.projetoikaros.model.Postagem;
 import br.com.projetoikaros.projetoikaros.model.Usuario;
 import br.com.projetoikaros.projetoikaros.repository.PostagemRepository;
 import br.com.projetoikaros.projetoikaros.repository.UsuarioRepository;
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
 @RestController
 @RequestMapping("/usuario/{idUsuario}/postagem") 
-@Tag (name = "postagem")
+@Tag (name = "Postagem", description = "API DE POSTAGEM IKAROS")
 public class PostagemController {
 
     @Autowired
@@ -33,6 +34,7 @@ public class PostagemController {
     private UsuarioRepository usuarioRepository;
 
     @GetMapping
+    @Operation(summary = "Buscando postagens de um usuário pelo ID da postagem", method = "GET")
     public ResponseEntity<List<Postagem>> getAll(@PathVariable("idUsuario") long idUsuario) {
         try {
             return new ResponseEntity<>(this.postagemRepository.findAll(), HttpStatus.OK);
@@ -42,6 +44,7 @@ public class PostagemController {
     }
 
     @GetMapping("{id}")
+    @Operation(summary = "Buscando todas as postagens de um usuário", method = "GET")
     public ResponseEntity<Postagem> getById(@PathVariable("id") Long id) {
 
         Optional<Postagem> result = this.postagemRepository.findById(id);
@@ -54,6 +57,7 @@ public class PostagemController {
     }
 
     @PostMapping()
+    @Operation(summary = "Adicionando postagem", method = "POST")
     public ResponseEntity<Postagem> create(@PathVariable("idUsuario") long idUsuario, @RequestBody Postagem postagem) {
         try {
 
@@ -72,6 +76,7 @@ public class PostagemController {
     }
 
     @PutMapping("{id}")
+    @Operation(summary = "Atualizando postagem", method = "PUT")
     public ResponseEntity<Postagem> update(@PathVariable("id") Long id, @RequestBody Postagem PostagemNovosDados) {
 
         Optional<Postagem> result = this.postagemRepository.findById(id);
@@ -91,6 +96,7 @@ public class PostagemController {
     }
 
     @DeleteMapping("{id}")
+    @Operation(summary = "Deletando postagem", method = "DELETE")
     public ResponseEntity<HttpStatus> delete(@PathVariable("id") Long id) {
         try {
 

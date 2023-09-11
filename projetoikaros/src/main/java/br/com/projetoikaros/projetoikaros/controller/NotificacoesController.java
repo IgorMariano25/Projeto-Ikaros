@@ -17,17 +17,19 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.com.projetoikaros.projetoikaros.model.Notificacoes;
 import br.com.projetoikaros.projetoikaros.repository.NotificacacoesRepository;
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
 @RestController
 @RequestMapping("/notificacoes")
-@Tag (name = "notificacoes")
+@Tag (name = "Notificações", description = "API DE NOTIFICAÇÕES IKAROS")
 public class NotificacoesController {
 
     @Autowired
     private NotificacacoesRepository _notificacoesRepository;
 
     @GetMapping
+    @Operation(summary = "Buscando todas as notificações de um usuário", method = "GET")
     public ResponseEntity<List<Notificacoes>> getAll() {
         try {
             return new ResponseEntity<>(this._notificacoesRepository.findAll(), HttpStatus.OK);
@@ -37,6 +39,7 @@ public class NotificacoesController {
     }
 
     @GetMapping("{id}")
+    @Operation(summary = "Buscando notificação pelo id", method = "GET")
     public ResponseEntity<Notificacoes> getById(@PathVariable("id") Long id) {
 
         Optional<Notificacoes> result = this._notificacoesRepository.findById(id);
@@ -49,6 +52,7 @@ public class NotificacoesController {
     }
 
     @PostMapping
+    @Operation(summary = "Adicionando uma notificação", method = "POST")
     public ResponseEntity<Notificacoes> create(@RequestBody Notificacoes item) {
         try {
             Notificacoes result = this._notificacoesRepository.save(item);
@@ -59,6 +63,7 @@ public class NotificacoesController {
     }
 
     @PutMapping("{id}")
+    @Operation(summary = "Atualizando uma notificação", method = "PUT")
     public ResponseEntity<Notificacoes> update(@PathVariable("id") Long id, @RequestBody Notificacoes notificacoesNovosDados) {
 
         Optional<Notificacoes> result = this._notificacoesRepository.findById(id);
@@ -78,6 +83,7 @@ public class NotificacoesController {
     }
 
     @DeleteMapping("{id}")
+    @Operation(summary = "Deletando uma notificação", method = "DELETE")
     public ResponseEntity<HttpStatus> delete(@PathVariable("id") Long id) {
         try {
 

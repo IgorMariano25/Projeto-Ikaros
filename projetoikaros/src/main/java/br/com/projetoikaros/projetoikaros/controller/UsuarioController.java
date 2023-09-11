@@ -18,18 +18,20 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.com.projetoikaros.projetoikaros.model.Usuario;
 import br.com.projetoikaros.projetoikaros.repository.UsuarioRepository;
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
 @RestController
 @RequestMapping("/usuario")
 @CrossOrigin(origins="*")
-@Tag (name = "usuario")
+@Tag (name = "Usuário", description = "API DE USUÁRIOS IKAROS")
 public class UsuarioController {
 
     @Autowired
     private UsuarioRepository _usuarioRepository;
 
     @GetMapping
+    @Operation(summary = "Buscando todos os usuários", method = "GET") 
     public ResponseEntity<List<Usuario>> getAll() {
         try {
             return new ResponseEntity<>(this._usuarioRepository.findAll(), HttpStatus.OK);
@@ -39,6 +41,7 @@ public class UsuarioController {
     }
 
     @GetMapping("{id}")
+    @Operation(summary = "Buscando todos os usuários pelo ID", method = "GET") 
     public ResponseEntity<Usuario> getById(@PathVariable("id") Long id) {
 
         Optional<Usuario> result = this._usuarioRepository.findById(id);
@@ -51,6 +54,7 @@ public class UsuarioController {
     }
 
     @PostMapping
+    @Operation(summary = "Criando um usuário", method = "POST") 
     public ResponseEntity<Usuario> create(@RequestBody Usuario item) {
         try {
             Usuario result = this._usuarioRepository.save(item);
@@ -61,6 +65,7 @@ public class UsuarioController {
     }
 
     @PutMapping("{id}")
+    @Operation(summary = "Atualizando um usuário", method = "PUT") 
     public ResponseEntity<Usuario> update(@PathVariable("id") Long id, @RequestBody Usuario usuarioNovosDados) {
         
         Optional<Usuario> result = this._usuarioRepository.findById(id);
@@ -81,6 +86,7 @@ public class UsuarioController {
     }
 
     @DeleteMapping("{id}")
+    @Operation(summary = "Deletando um usuário", method = "DELETE") 
     public ResponseEntity<HttpStatus> delete(@PathVariable("id") Long id) {
         try {
 
