@@ -1,0 +1,41 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: Projeto Cloud IBMEC 2023
+
+# More info about Globals: https://github.com/awslabs/serverless-application-model/blob/master/docs/globals.rst
+Globals:
+  Function:
+    Timeout: 20
+    MemorySize: 128
+    Runtime: java17
+
+Resources:
+  ProjetoCloudAPIRest:
+    Type: AWS::Serverless::Api
+    Properties:
+      StageName: api
+
+  ProjetoCloud:
+    Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
+    Properties:
+      CodeUri: .
+      Handler: br.com.ibmec.projetocloud.ikaros.StreamLambdaHandler::handleRequest
+      AutoPublishAlias: live
+      SnapStart:
+        ApplyOn: PublishedVersions
+      Events:
+        ApiEvents:
+          Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
+          Properties:
+            Path: /{proxy+}
+            Method: ANY
+            RestApiId: !Ref ProjetoCloudAPIRest
+
+Outputs:
+  # ServerlessRestApi is an implicit API created out of Events key under Serverless::Function
+  # Find out more about other implicit resources you can reference within SAM
+  # https://github.com/awslabs/serverless-application-model/blob/master/docs/internals/generated_resources.rst#api
+  ProjetoCloudApi:
+    Description: "API Gateway endpoint URL para o projeto de cloud AWS"
+    Value: !Sub "https://${ProjetoCloudAPIRest}.execute-api.${AWS::Region}.amazonaws.com/api"
+    
