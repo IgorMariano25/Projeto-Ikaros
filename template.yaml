@@ -10,12 +10,12 @@ Globals:
     Runtime: java17
 
 Resources:
-  ProjetoCloudAPIRest:
+  ikarosAPIRest:
     Type: AWS::Serverless::Api
     Properties:
       StageName: api
 
-  ProjetoCloud:
+  ikarosLambda:
     Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
     Properties:
       CodeUri: .
@@ -29,7 +29,7 @@ Resources:
           Properties:
             Path: /{proxy+}
             Method: ANY
-            RestApiId: !Ref ProjetoCloudAPIRest
+            RestApiId: !Ref ikarosAPIRest
 
 Outputs:
   # ServerlessRestApi is an implicit API created out of Events key under Serverless::Function
@@ -37,5 +37,5 @@ Outputs:
   # https://github.com/awslabs/serverless-application-model/blob/master/docs/internals/generated_resources.rst#api
   ProjetoCloudApi:
     Description: "API Gateway endpoint URL para o projeto de cloud AWS"
-    Value: !Sub "https://${ProjetoCloudAPIRest}.execute-api.${AWS::Region}.amazonaws.com/api"
+    Value: !Sub "https://${ikarosAPIRest}.execute-api.${AWS::Region}.amazonaws.com/api"
     
