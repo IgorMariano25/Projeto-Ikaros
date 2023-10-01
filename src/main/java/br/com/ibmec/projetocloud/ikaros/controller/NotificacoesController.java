@@ -34,7 +34,7 @@ public class NotificacoesController {
         try {
             return new ResponseEntity<>(this._notificacoesService.findAll(), HttpStatus.OK);
         } catch (Exception e) {
-            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -58,7 +58,7 @@ public class NotificacoesController {
             Notificacoes result = this._notificacoesService.create(item);
             return new ResponseEntity<>(result, HttpStatus.CREATED);
         } catch (Exception e) {
-            return new ResponseEntity<>(null, HttpStatus.EXPECTATION_FAILED);
+            return new ResponseEntity<>(HttpStatus.EXPECTATION_FAILED);
         }
     }
 

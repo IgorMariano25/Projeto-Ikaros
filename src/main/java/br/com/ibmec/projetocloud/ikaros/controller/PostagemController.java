@@ -23,7 +23,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 
 @RestController
 @RequestMapping("/usuario/{idUsuario}/postagem") 
-@Tag (name = "Postagem", description = "API DE POSTAGEM IKAROS")
+@Tag (name = "Postagem", description = "Resquições para a tabela Postagem")
 public class PostagemController {
 
     @Autowired
@@ -38,7 +38,7 @@ public class PostagemController {
         try {
             return new ResponseEntity<>(this._postagemService.findAll(), HttpStatus.OK);
         } catch (Exception e) {
-            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -63,14 +63,14 @@ public class PostagemController {
             Optional<Usuario> usuario = _usuarioService.getById(idUsuario);
 
             if (usuario.isPresent() == false)
-                return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 
             usuario.get().addPostagem(postagem);
             this._usuarioService.save(usuario.get());
 
             return new ResponseEntity<>(postagem, HttpStatus.CREATED);
         } catch (Exception e) {
-            return new ResponseEntity<>(null, HttpStatus.EXPECTATION_FAILED);
+            return new ResponseEntity<>(HttpStatus.EXPECTATION_FAILED);
         }
     }
 
