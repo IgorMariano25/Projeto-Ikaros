@@ -18,16 +18,20 @@ public class UsuarioService {
     public Usuario create(Usuario usuario) {
         return this._usuarioRepository.save(usuario);
     }
-    
+
     public List<Usuario> findAll() {
         return this._usuarioRepository.findAll();
     }
 
-    public Optional<Usuario> getById(long id) {
+    public Optional<Usuario> getById(Long id) {
         return this._usuarioRepository.findById(id);
     }
 
     public void saveOrUpdate(Usuario usuario) {
+        this._usuarioRepository.save(usuario);
+    }
+
+    public void savePostagem(Usuario usuario) {
         this._usuarioRepository.save(usuario);
     }
 
