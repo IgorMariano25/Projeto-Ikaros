@@ -42,7 +42,7 @@ public class NotificacoesController {
     @Operation(summary = "Buscando notificação pelo id", method = "GET")
     public ResponseEntity<Notificacoes> getById(@PathVariable("id") Long id) {
 
-        Optional<Notificacoes> result = this._notificacoesService.findById(id);
+        Optional<Notificacoes> result = this._notificacoesService.getById(id);
 
         if (result.isPresent()) {
             return new ResponseEntity<>(result.get(), HttpStatus.OK);
@@ -55,7 +55,7 @@ public class NotificacoesController {
     @Operation(summary = "Adicionando uma notificação", method = "POST")
     public ResponseEntity<Notificacoes> create(@RequestBody Notificacoes item) {
         try {
-            Notificacoes result = this._notificacoesService.save(item);
+            Notificacoes result = this._notificacoesService.create(item);
             return new ResponseEntity<>(result, HttpStatus.CREATED);
         } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.EXPECTATION_FAILED);
@@ -66,7 +66,7 @@ public class NotificacoesController {
     @Operation(summary = "Atualizando informações de uma notificação", method = "PUT")
     public ResponseEntity<Notificacoes> update(@PathVariable("id") Long id, @RequestBody Notificacoes notificacoesNovosDados) {
 
-        Optional<Notificacoes> result = this._notificacoesService.findById(id);
+        Optional<Notificacoes> result = this._notificacoesService.getById(id);
 
         if (result.isPresent() == false ) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -78,7 +78,7 @@ public class NotificacoesController {
         notificacaoASerAtualizada.setVisualizado(notificacoesNovosDados.getVisualizado());
         // notificacaoASerAtualizada.setDataHora(notificacoesNovosDados.getDataHora());
 
-        this._notificacoesService.save(notificacaoASerAtualizada);
+        this._notificacoesService.saveOrUpdate(notificacoesNovosDados);
         return new ResponseEntity<>(notificacaoASerAtualizada, HttpStatus.OK);
     }
 
@@ -87,14 +87,14 @@ public class NotificacoesController {
     public ResponseEntity<HttpStatus> delete(@PathVariable("id") Long id) {
         try {
 
-            Optional<Notificacoes> notificacaoASerExcluida = this._notificacoesService.findById(id);
+            Optional<Notificacoes> notificacaoASerExcluida = this._notificacoesService.getById(id);
 
             // Não achei a pessoa a ser excluida
             if (notificacaoASerExcluida.isPresent() == false) {
                 return new ResponseEntity<>(HttpStatus.NOT_FOUND);
             }
 
-           this._notificacoesService.delete(notificacaoASerExcluida.get());
+           this._notificacoesService.delete(notificacaoASerExcluida.get().getId());
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.EXPECTATION_FAILED);

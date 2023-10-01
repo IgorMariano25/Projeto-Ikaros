@@ -55,7 +55,7 @@ public class AmigosController {
     @Operation(summary = "Adicionando amigos", method = "POST")
     public ResponseEntity<Amigos> create(@RequestBody Amigos item) {
         try {
-            Amigos result = this._amigosService.save(item);
+            Amigos result = this._amigosService.create(item);
             return new ResponseEntity<>(result, HttpStatus.CREATED);
         } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.EXPECTATION_FAILED);
@@ -75,7 +75,7 @@ public class AmigosController {
         amigosASerAtualizado.setRelacionamentoAmizade1(amigosNovosDados.getRelacionamentoAmizade1());
         amigosASerAtualizado.setRelacionamentoAmizade2(amigosNovosDados.getRelacionamentoAmizade2());
 
-        this._amigosService.save(amigosASerAtualizado);
+        this._amigosService.saveOrUpdate(amigosASerAtualizado);
 
         return new ResponseEntity<>(amigosASerAtualizado, HttpStatus.OK);
     }
@@ -92,7 +92,7 @@ public class AmigosController {
                 return new ResponseEntity<>(HttpStatus.NOT_FOUND);
             }
 
-           this._amigosService.delete(amigosASerExcluido.get());
+           this._amigosService.delete(amigosASerExcluido.get().getAmizadeId());
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.EXPECTATION_FAILED);

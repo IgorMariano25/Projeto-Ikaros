@@ -44,7 +44,7 @@ public class UsuarioController {
     @Operation(summary = "Buscando um usuário pelo ID", method = "GET") 
     public ResponseEntity<Usuario> getById(@PathVariable("id") Long id) {
 
-        Optional<Usuario> result = this._usuarioService.findById(id);
+        Optional<Usuario> result = this._usuarioService.getById(id);
 
         if (result.isPresent()) {
             return new ResponseEntity<>(result.get(), HttpStatus.OK);
@@ -68,21 +68,11 @@ public class UsuarioController {
     @Operation(summary = "Atualizando informações de um usuário", method = "PUT") 
     public ResponseEntity<Usuario> update(@PathVariable("id") Long id, @RequestBody Usuario usuarioNovosDados) {
         
-        Optional<Usuario> result = this._usuarioService.findById(id);
-
-        if (result.isPresent() == false ) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        try {
+            return new ResponseEntity<>(_usuarioService.update(id, usuarioNovosDados), HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.EXPECTATION_FAILED);
         }
-        Usuario usuarioASerAtualizado = result.get();
-        usuarioASerAtualizado.setNome(usuarioNovosDados.getNome());
-        usuarioASerAtualizado.setSobrenome(usuarioNovosDados.getSobrenome());
-        usuarioASerAtualizado.setData_aniversario(usuarioNovosDados.getData_aniversario());
-        usuarioASerAtualizado.setEmail(usuarioNovosDados.getEmail());
-        usuarioASerAtualizado.setSenha(usuarioNovosDados.getEmail());
-
-        this._usuarioService.save(usuarioASerAtualizado);
-
-        return new ResponseEntity<>(usuarioASerAtualizado, HttpStatus.OK);
     }
 
     @DeleteMapping("{id}")
@@ -90,14 +80,14 @@ public class UsuarioController {
     public ResponseEntity<HttpStatus> delete(@PathVariable("id") Long id) {
         try {
 
-            Optional<Usuario> usuarioASerExcluido = this._usuarioService.findById(id);
+            Optional<Usuario> usuarioASerExcluido = this._usuarioService.getById(id);
 
             // Não achei a pessoa a ser excluida
             if (usuarioASerExcluido.isPresent() == false) {
                 return new ResponseEntity<>(HttpStatus.NOT_FOUND);
             }
 
-           this._usuarioService.delete(usuarioASerExcluido.get());
+           this._usuarioService.delete(usuarioASerExcluido.get().getId());
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.EXPECTATION_FAILED);

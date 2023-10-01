@@ -57,7 +57,7 @@ class ComentarioController {
      @Operation(summary = "Adiciona um comentário a postagem", method = "POST")
         public ResponseEntity<Comentario> create(@RequestBody Comentario item) {
         try {
-            Comentario result = this._comentarioService.save(item);
+            Comentario result = this._comentarioService.create(item);
             return new ResponseEntity<>(result, HttpStatus.CREATED);
         } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.EXPECTATION_FAILED);
@@ -89,7 +89,7 @@ class ComentarioController {
                 return new ResponseEntity<>(HttpStatus.NOT_FOUND);
             }
 
-            this._comentarioService.delete(comentarioASerExcluido.get());
+            this._comentarioService.delete(comentarioASerExcluido.get().getId());
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.EXPECTATION_FAILED);

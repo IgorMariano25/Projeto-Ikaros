@@ -60,7 +60,7 @@ public class PostagemController {
     public ResponseEntity<Postagem> create(@PathVariable("idUsuario") long idUsuario, @RequestBody Postagem postagem) {
         try {
 
-            Optional<Usuario> usuario = _usuarioService.findById(idUsuario);
+            Optional<Usuario> usuario = _usuarioService.getById(idUsuario);
 
             if (usuario.isPresent() == false)
                 return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
@@ -89,7 +89,7 @@ public class PostagemController {
         PostagemASerAtualizado.setImagem(PostagemNovosDados.getImagem());
         PostagemASerAtualizado.setCurtidas(PostagemASerAtualizado.getCurtidas());
 
-        this._postagemService.save(PostagemASerAtualizado);
+        this._postagemService.saveOrUpdate(PostagemASerAtualizado);
 
         return new ResponseEntity<>(PostagemASerAtualizado, HttpStatus.OK);
     }
@@ -105,7 +105,7 @@ public class PostagemController {
                 return new ResponseEntity<>(HttpStatus.NOT_FOUND);
             }
 
-            this._postagemService.delete(postagemASerExcluida.get());
+            this._postagemService.delete(postagemASerExcluida.get().getId());
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.EXPECTATION_FAILED);

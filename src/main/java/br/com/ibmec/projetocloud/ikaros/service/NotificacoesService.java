@@ -15,11 +15,48 @@ public class NotificacoesService {
     @Autowired
     private NotificacoesRepository _notificacoesRepository;
 
+    public Notificacoes create( Notificacoes notificacoes) {
+        return this._notificacoesRepository.save(notificacoes);
+    }
+
+    public Optional<Notificacoes> getById(long id) {
+        return this._notificacoesRepository.findById(id);
+    }
+    
     public List<Notificacoes> findAll() {
         return this._notificacoesRepository.findAll();
     }
 
-    public Optional<Notificacoes> findById(Long id) {
-        return this._notificacoesRepository.findById(id);
+    public void saveOrUpdate(Notificacoes notificacoes) {
+        this._notificacoesRepository.save(notificacoes);
     }
+
+    public Notificacoes update(long id, Notificacoes newData) throws Exception {
+        Optional<Notificacoes> opNotificacoes = this._notificacoesRepository.findById(id);
+
+        if (opNotificacoes.isPresent() == false) {
+            throw new Exception("Não encontrei a notificacao a ser atualizada");
+        }
+
+        Notificacoes notificacoes = opNotificacoes.get();
+        notificacoes.setTipo(newData.getTipo());
+        notificacoes.setUsuarioOrigem(newData.getUsuarioOrigem());
+        notificacoes.setUsuarioDestino(newData.getUsuarioDestino());
+        notificacoes.setVisualizado(newData.getVisualizado());
+
+        this._notificacoesRepository.save(notificacoes);
+
+        return notificacoes;
+    }
+
+    public void delete(long id) throws Exception {
+        Optional<Notificacoes> opNotificacoes = this._notificacoesRepository.findById(id);
+
+        if (opNotificacoes.isPresent() == false) {
+            throw new Exception("Não encontrei a notificacao a ser deletada");
+        }
+
+        this._notificacoesRepository.delete(opNotificacoes.get());
+    }
+
 }

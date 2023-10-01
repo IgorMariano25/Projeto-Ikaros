@@ -22,4 +22,39 @@ public class ComentarioService {
     public Optional<Comentario> findById(Long id) {
         return this._comentarioRepository.findById(id);
     }
+
+    public Comentario create(Comentario comentario) {
+        return this._comentarioRepository.save(comentario);
+    }
+
+    public void saveOrUpdate(Comentario comentario) {
+        this._comentarioRepository.save(comentario);
+    }
+
+    public Comentario update(long id, Comentario newData) throws Exception {
+        Optional<Comentario> opComentario = this._comentarioRepository.findById(id);
+
+        if (opComentario.isPresent() == false) {
+            throw new Exception("Não encontrei o comentario a ser atualizado");
+        }
+
+        Comentario comentario = opComentario.get();
+        comentario.setConteudo(newData.getConteudo());
+
+        this._comentarioRepository.save(comentario);
+
+        return comentario;
+    }
+
+     public void delete(long id) throws Exception {
+        Optional<Comentario> opComentario = this._comentarioRepository.findById(id);
+
+        if (opComentario.isPresent() == false) {
+            throw new Exception("Não encontrei o comentario a ser deletado");
+        }
+
+        this._comentarioRepository.delete(opComentario.get());
+    }
+
+
 }
