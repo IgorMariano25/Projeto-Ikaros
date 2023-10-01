@@ -12,5 +12,14 @@ import br.com.ibmec.projetocloud.ikaros.model.Comentario;
 import br.com.ibmec.projetocloud.ikaros.repository.ComentarioRepository;
 
 public class ComentarioService {
-    
+    @Autowired
+    private ComentarioRepository _comentarioRepository;
+
+    public List<Comentario> findAll() {
+        return this._comentarioRepository.findAll();
+    }
+
+    public Optional<Comentario> findById(Long id) {
+        return this._comentarioRepository.findById(id);
+    }
 }
