@@ -16,8 +16,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.ibmec.projetocloud.ikaros.model.Comentario;
-// import br.com.projetoikaros.projetoikaros.model.Postagem;
-// import br.com.projetoikaros.projetoikaros.model.Usuario;
 import br.com.ibmec.projetocloud.ikaros.service.ComentarioService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -36,7 +34,7 @@ class ComentarioController {
         try {
             return new ResponseEntity<>(this._comentarioService.findAll(), HttpStatus.OK);
         } catch (Exception e) {
-            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -60,7 +58,7 @@ class ComentarioController {
             Comentario result = this._comentarioService.create(item);
             return new ResponseEntity<>(result, HttpStatus.CREATED);
         } catch (Exception e) {
-            return new ResponseEntity<>(null, HttpStatus.EXPECTATION_FAILED);
+            return new ResponseEntity<>(HttpStatus.EXPECTATION_FAILED);
         }
     }
 
