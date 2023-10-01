@@ -80,9 +80,9 @@ public class AmigosController {
         return new ResponseEntity<>(amigosASerAtualizado, HttpStatus.OK);
     }
 
-    @DeleteMapping("{idUsuario}")
+    @DeleteMapping("{idAmizade}")
     @Operation(summary = "Deletanto amizade/Deletando Id da amizade", method = "DELETE")
-    public ResponseEntity<HttpStatus> delete(@PathVariable("id") Long id) {
+    public ResponseEntity<HttpStatus> delete(@PathVariable("idAmizade") Long id) {
         try {
 
             Optional<Amigos> amigosASerExcluido = this._amigosService.findById(id);
