@@ -15,24 +15,24 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.com.projetoikaros.projetoikaros.model.Notificacoes;
-import br.com.projetoikaros.projetoikaros.repository.NotificacacoesRepository;
+import br.com.ibmec.projetocloud.ikaros.model.Notificacoes;
+import br.com.ibmec.projetocloud.ikaros.service.NotificacoesService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
 @RestController
 @RequestMapping("/notificacoes")
-@Tag (name = "Notificações", description = "API DE NOTIFICAÇÕES IKAROS")
+@Tag (name = "Notificações", description = "Resquições para a tabela Notificações")
 public class NotificacoesController {
 
     @Autowired
-    private NotificacacoesRepository _notificacoesRepository;
+    private NotificacoesService _notificacoesService;
 
     @GetMapping
     @Operation(summary = "Buscando todas as notificações de um usuário", method = "GET")
     public ResponseEntity<List<Notificacoes>> getAll() {
         try {
-            return new ResponseEntity<>(this._notificacoesRepository.findAll(), HttpStatus.OK);
+            return new ResponseEntity<>(this._notificacoesService.findAll(), HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
@@ -42,7 +42,7 @@ public class NotificacoesController {
     @Operation(summary = "Buscando notificação pelo id", method = "GET")
     public ResponseEntity<Notificacoes> getById(@PathVariable("id") Long id) {
 
-        Optional<Notificacoes> result = this._notificacoesRepository.findById(id);
+        Optional<Notificacoes> result = this._notificacoesService.findById(id);
 
         if (result.isPresent()) {
             return new ResponseEntity<>(result.get(), HttpStatus.OK);
@@ -55,7 +55,7 @@ public class NotificacoesController {
     @Operation(summary = "Adicionando uma notificação", method = "POST")
     public ResponseEntity<Notificacoes> create(@RequestBody Notificacoes item) {
         try {
-            Notificacoes result = this._notificacoesRepository.save(item);
+            Notificacoes result = this._notificacoesService.save(item);
             return new ResponseEntity<>(result, HttpStatus.CREATED);
         } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.EXPECTATION_FAILED);
@@ -63,10 +63,10 @@ public class NotificacoesController {
     }
 
     @PutMapping("{id}")
-    @Operation(summary = "Atualizando uma notificação", method = "PUT")
+    @Operation(summary = "Atualizando informações de uma notificação", method = "PUT")
     public ResponseEntity<Notificacoes> update(@PathVariable("id") Long id, @RequestBody Notificacoes notificacoesNovosDados) {
 
-        Optional<Notificacoes> result = this._notificacoesRepository.findById(id);
+        Optional<Notificacoes> result = this._notificacoesService.findById(id);
 
         if (result.isPresent() == false ) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -78,7 +78,7 @@ public class NotificacoesController {
         notificacaoASerAtualizada.setVisualizado(notificacoesNovosDados.getVisualizado());
         // notificacaoASerAtualizada.setDataHora(notificacoesNovosDados.getDataHora());
 
-        this._notificacoesRepository.save(notificacaoASerAtualizada);
+        this._notificacoesService.save(notificacaoASerAtualizada);
         return new ResponseEntity<>(notificacaoASerAtualizada, HttpStatus.OK);
     }
 
@@ -87,14 +87,14 @@ public class NotificacoesController {
     public ResponseEntity<HttpStatus> delete(@PathVariable("id") Long id) {
         try {
 
-            Optional<Notificacoes> notificacaoASerExcluida = this._notificacoesRepository.findById(id);
+            Optional<Notificacoes> notificacaoASerExcluida = this._notificacoesService.findById(id);
 
             // Não achei a pessoa a ser excluida
             if (notificacaoASerExcluida.isPresent() == false) {
                 return new ResponseEntity<>(HttpStatus.NOT_FOUND);
             }
 
-           this._notificacoesRepository.delete(notificacaoASerExcluida.get());
+           this._notificacoesService.delete(notificacaoASerExcluida.get());
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.EXPECTATION_FAILED);
