@@ -1,4 +1,5 @@
 package br.com.ibmec.projetocloud.ikaros.controller;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -22,8 +23,8 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
 @RestController
-@RequestMapping("/usuario/{idUsuario}/postagem") 
-@Tag (name = "Postagem", description = "Resquições para a tabela Postagem")
+@RequestMapping("/usuario/{idUsuario}/postagem")
+@Tag(name = "Postagem", description = "Resquições para a tabela Postagem")
 public class PostagemController {
 
     @Autowired
@@ -34,7 +35,7 @@ public class PostagemController {
 
     @GetMapping
     @Operation(summary = "Buscando postagens de um usuário pelo ID do usuário", method = "GET")
-    public ResponseEntity<List<Postagem>> getAll(@PathVariable("idUsuario") long idUsuario) {
+    public ResponseEntity<List<Postagem>> getAll(@PathVariable("idUsuario") Long idUsuario) {
         try {
             return new ResponseEntity<>(this._postagemService.findAll(), HttpStatus.OK);
         } catch (Exception e) {
@@ -42,31 +43,31 @@ public class PostagemController {
         }
     }
 
-    @GetMapping("{idPosatagem}")
+    @GetMapping("{idPostagem}")
     @Operation(summary = "Buscando todas as postagens de um usuário através do ID da postagem", method = "GET")
-    public ResponseEntity<Postagem> getById(@PathVariable("id") Long id) {
+    public ResponseEntity<Postagem> findById(@PathVariable("idPostagem") Long id) {
 
         Optional<Postagem> result = this._postagemService.findById(id);
 
-        if (result.isPresent()) {
-            return new ResponseEntity<>(result.get(), HttpStatus.OK);
-        } else {
+        if (result.isPresent() == false) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
+        return new ResponseEntity<>(result.get(), HttpStatus.OK);
     }
 
     @PostMapping
     @Operation(summary = "Adicionando postagem de um usuário", method = "POST")
-    public ResponseEntity<Postagem> create(@PathVariable("idUsuario") long idUsuario, @RequestBody Postagem postagem) {
+    public ResponseEntity<Postagem> create(@PathVariable("idUsuario") Long idUsuario, @RequestBody Postagem postagem) {
         try {
 
             Optional<Usuario> usuario = _usuarioService.getById(idUsuario);
 
-            if (usuario.isPresent() == false)
+            if (usuario.isPresent() == false) {
                 return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }
 
             usuario.get().addPostagem(postagem);
-            this._usuarioService.save(usuario.get());
+            this._usuarioService.savePostagem(usuario.get());
 
             return new ResponseEntity<>(postagem, HttpStatus.CREATED);
         } catch (Exception e) {
@@ -74,9 +75,10 @@ public class PostagemController {
         }
     }
 
-    @PutMapping("{idPosatagem}")
+    @PutMapping("{idPostagem}")
     @Operation(summary = "Atualizando informações de uma postagem pelo ID", method = "PUT")
-    public ResponseEntity<Postagem> update(@PathVariable("id") Long id, @RequestBody Postagem PostagemNovosDados) {
+    public ResponseEntity<Postagem> update(@PathVariable("idPostagem") Long id,
+            @RequestBody Postagem PostagemNovosDados) {
 
         Optional<Postagem> result = this._postagemService.findById(id);
 
@@ -96,7 +98,7 @@ public class PostagemController {
 
     @DeleteMapping("{idPosatagem}")
     @Operation(summary = "Deletando uma postagem pelo ID", method = "DELETE")
-    public ResponseEntity<HttpStatus> delete(@PathVariable("id") Long id) {
+    public ResponseEntity<HttpStatus> delete(@PathVariable("idPosatagem") Long id) {
         try {
 
             Optional<Postagem> postagemASerExcluida = this._postagemService.findById(id);
