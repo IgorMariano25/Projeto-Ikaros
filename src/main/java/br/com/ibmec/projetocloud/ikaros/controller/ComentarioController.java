@@ -53,9 +53,9 @@ class ComentarioController {
 
      @PostMapping
      @Operation(summary = "Adiciona um comentário a postagem", method = "POST")
-        public ResponseEntity<Comentario> create(@RequestBody Comentario item) {
+        public ResponseEntity<Comentario> create(@RequestBody Comentario comentario) {
         try {
-            Comentario result = this._comentarioService.create(item);
+            Comentario result = this._comentarioService.create(comentario);
             return new ResponseEntity<>(result, HttpStatus.CREATED);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.EXPECTATION_FAILED);
