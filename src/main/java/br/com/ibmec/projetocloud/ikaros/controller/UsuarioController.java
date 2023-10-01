@@ -16,35 +16,35 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.com.projetoikaros.projetoikaros.model.Usuario;
-import br.com.projetoikaros.projetoikaros.repository.UsuarioRepository;
+import br.com.ibmec.projetocloud.ikaros.model.Usuario;
+import br.com.ibmec.projetocloud.ikaros.service.UsuarioService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
 @RestController
 @RequestMapping("/usuario")
 @CrossOrigin(origins="*")
-@Tag (name = "Usuário", description = "API DE USUÁRIOS IKAROS")
+@Tag (name = "Usuário", description = "Resquições para a tabela Usuário")
 public class UsuarioController {
 
     @Autowired
-    private UsuarioRepository _usuarioRepository;
+    private UsuarioService _usuarioService;
 
     @GetMapping
     @Operation(summary = "Buscando todos os usuários", method = "GET") 
     public ResponseEntity<List<Usuario>> getAll() {
         try {
-            return new ResponseEntity<>(this._usuarioRepository.findAll(), HttpStatus.OK);
+            return new ResponseEntity<>(this._usuarioService.findAll(), HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
     @GetMapping("{id}")
-    @Operation(summary = "Buscando todos os usuários pelo ID", method = "GET") 
+    @Operation(summary = "Buscando um usuário pelo ID", method = "GET") 
     public ResponseEntity<Usuario> getById(@PathVariable("id") Long id) {
 
-        Optional<Usuario> result = this._usuarioRepository.findById(id);
+        Optional<Usuario> result = this._usuarioService.findById(id);
 
         if (result.isPresent()) {
             return new ResponseEntity<>(result.get(), HttpStatus.OK);
@@ -57,7 +57,7 @@ public class UsuarioController {
     @Operation(summary = "Criando um usuário", method = "POST") 
     public ResponseEntity<Usuario> create(@RequestBody Usuario item) {
         try {
-            Usuario result = this._usuarioRepository.save(item);
+            Usuario result = this._usuarioService.save(item);
             return new ResponseEntity<>(result, HttpStatus.CREATED);
         } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.EXPECTATION_FAILED);
@@ -65,10 +65,10 @@ public class UsuarioController {
     }
 
     @PutMapping("{id}")
-    @Operation(summary = "Atualizando um usuário", method = "PUT") 
+    @Operation(summary = "Atualizando informações de um usuário", method = "PUT") 
     public ResponseEntity<Usuario> update(@PathVariable("id") Long id, @RequestBody Usuario usuarioNovosDados) {
         
-        Optional<Usuario> result = this._usuarioRepository.findById(id);
+        Optional<Usuario> result = this._usuarioService.findById(id);
 
         if (result.isPresent() == false ) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -80,7 +80,7 @@ public class UsuarioController {
         usuarioASerAtualizado.setEmail(usuarioNovosDados.getEmail());
         usuarioASerAtualizado.setSenha(usuarioNovosDados.getEmail());
 
-        this._usuarioRepository.save(usuarioASerAtualizado);
+        this._usuarioService.save(usuarioASerAtualizado);
 
         return new ResponseEntity<>(usuarioASerAtualizado, HttpStatus.OK);
     }
@@ -90,14 +90,14 @@ public class UsuarioController {
     public ResponseEntity<HttpStatus> delete(@PathVariable("id") Long id) {
         try {
 
-            Optional<Usuario> usuarioASerExcluido = this._usuarioRepository.findById(id);
+            Optional<Usuario> usuarioASerExcluido = this._usuarioService.findById(id);
 
             // Não achei a pessoa a ser excluida
             if (usuarioASerExcluido.isPresent() == false) {
                 return new ResponseEntity<>(HttpStatus.NOT_FOUND);
             }
 
-           this._usuarioRepository.delete(usuarioASerExcluido.get());
+           this._usuarioService.delete(usuarioASerExcluido.get());
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.EXPECTATION_FAILED);
