@@ -76,7 +76,6 @@ public class NotificacoesController {
         notificacaoASerAtualizada.setUsuarioDestino(notificacoesNovosDados.getUsuarioDestino());
         notificacaoASerAtualizada.setUsuarioOrigem(notificacoesNovosDados.getUsuarioOrigem());
         notificacaoASerAtualizada.setVisualizado(notificacoesNovosDados.getVisualizado());
-        // notificacaoASerAtualizada.setDataHora(notificacoesNovosDados.getDataHora());
 
         this._notificacoesService.saveOrUpdate(notificacoesNovosDados);
         return new ResponseEntity<>(notificacaoASerAtualizada, HttpStatus.OK);
