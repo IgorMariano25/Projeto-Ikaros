@@ -14,10 +14,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.com.projetoikaros.projetoikaros.model.Postagem;
-import br.com.projetoikaros.projetoikaros.model.Usuario;
-import br.com.projetoikaros.projetoikaros.repository.PostagemRepository;
-import br.com.projetoikaros.projetoikaros.repository.UsuarioRepository;
+import br.com.ibmec.projetocloud.ikaros.model.Postagem;
+import br.com.ibmec.projetocloud.ikaros.model.Usuario;
+import br.com.ibmec.projetocloud.ikaros.service.PostagemService;
+import br.com.ibmec.projetocloud.ikaros.service.UsuarioService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
@@ -27,26 +27,26 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 public class PostagemController {
 
     @Autowired
-    private PostagemRepository postagemRepository;
+    private PostagemService _postagemService;
 
     @Autowired
-    private UsuarioRepository usuarioRepository;
+    private UsuarioService _usuarioService;
 
     @GetMapping
-    @Operation(summary = "Buscando postagens de um usuário pelo ID da postagem", method = "GET")
+    @Operation(summary = "Buscando postagens de um usuário pelo ID do usuário", method = "GET")
     public ResponseEntity<List<Postagem>> getAll(@PathVariable("idUsuario") long idUsuario) {
         try {
-            return new ResponseEntity<>(this.postagemRepository.findAll(), HttpStatus.OK);
+            return new ResponseEntity<>(this._postagemService.findAll(), HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
-    @GetMapping("{id}")
-    @Operation(summary = "Buscando todas as postagens de um usuário", method = "GET")
+    @GetMapping("{idPosatagem}")
+    @Operation(summary = "Buscando todas as postagens de um usuário através do ID da postagem", method = "GET")
     public ResponseEntity<Postagem> getById(@PathVariable("id") Long id) {
 
-        Optional<Postagem> result = this.postagemRepository.findById(id);
+        Optional<Postagem> result = this._postagemService.findById(id);
 
         if (result.isPresent()) {
             return new ResponseEntity<>(result.get(), HttpStatus.OK);
@@ -55,18 +55,18 @@ public class PostagemController {
         }
     }
 
-    @PostMapping()
-    @Operation(summary = "Adicionando postagem", method = "POST")
+    @PostMapping
+    @Operation(summary = "Adicionando postagem de um usuário", method = "POST")
     public ResponseEntity<Postagem> create(@PathVariable("idUsuario") long idUsuario, @RequestBody Postagem postagem) {
         try {
 
-            Optional<Usuario> usuario = usuarioRepository.findById(idUsuario);
+            Optional<Usuario> usuario = _usuarioService.findById(idUsuario);
 
             if (usuario.isPresent() == false)
                 return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
 
             usuario.get().addPostagem(postagem);
-            this.usuarioRepository.save(usuario.get());
+            this._usuarioService.save(usuario.get());
 
             return new ResponseEntity<>(postagem, HttpStatus.CREATED);
         } catch (Exception e) {
@@ -74,11 +74,11 @@ public class PostagemController {
         }
     }
 
-    @PutMapping("{id}")
-    @Operation(summary = "Atualizando postagem", method = "PUT")
+    @PutMapping("{idPosatagem}")
+    @Operation(summary = "Atualizando informações de uma postagem pelo ID", method = "PUT")
     public ResponseEntity<Postagem> update(@PathVariable("id") Long id, @RequestBody Postagem PostagemNovosDados) {
 
-        Optional<Postagem> result = this.postagemRepository.findById(id);
+        Optional<Postagem> result = this._postagemService.findById(id);
 
         if (result.isPresent() == false) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -89,23 +89,23 @@ public class PostagemController {
         PostagemASerAtualizado.setImagem(PostagemNovosDados.getImagem());
         PostagemASerAtualizado.setCurtidas(PostagemASerAtualizado.getCurtidas());
 
-        this.postagemRepository.save(PostagemASerAtualizado);
+        this._postagemService.save(PostagemASerAtualizado);
 
         return new ResponseEntity<>(PostagemASerAtualizado, HttpStatus.OK);
     }
 
-    @DeleteMapping("{id}")
-    @Operation(summary = "Deletando postagem", method = "DELETE")
+    @DeleteMapping("{idPosatagem}")
+    @Operation(summary = "Deletando uma postagem pelo ID", method = "DELETE")
     public ResponseEntity<HttpStatus> delete(@PathVariable("id") Long id) {
         try {
 
-            Optional<Postagem> postagemASerExcluida = this.postagemRepository.findById(id);
+            Optional<Postagem> postagemASerExcluida = this._postagemService.findById(id);
 
             if (postagemASerExcluida.isPresent() == false) {
                 return new ResponseEntity<>(HttpStatus.NOT_FOUND);
             }
 
-            this.postagemRepository.delete(postagemASerExcluida.get());
+            this._postagemService.delete(postagemASerExcluida.get());
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.EXPECTATION_FAILED);
