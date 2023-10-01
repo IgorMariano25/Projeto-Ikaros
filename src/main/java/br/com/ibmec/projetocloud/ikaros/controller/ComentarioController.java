@@ -15,36 +15,36 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.com.projetoikaros.projetoikaros.model.Comentario;
+import br.com.ibmec.projetocloud.ikaros.model.Comentario;
 // import br.com.projetoikaros.projetoikaros.model.Postagem;
 // import br.com.projetoikaros.projetoikaros.model.Usuario;
-import br.com.projetoikaros.projetoikaros.repository.ComentarioRepository;
+import br.com.ibmec.projetocloud.ikaros.service.ComentarioService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
 @RestController
 @RequestMapping("/postagem/{idPostagem}/comentario")
-@Tag (name = "Comentário", description = "API DE COMENTÁRIO IKAROS")
+@Tag (name = "Comentário", description = "Resquições para a tabela Comentário")
 class ComentarioController {
 
     @Autowired
-    private ComentarioRepository _comentarioRepository;
+    private ComentarioService _comentarioService;
 
     @GetMapping
     @Operation(summary = "Buscando comentários de uma postagem", method = "GET")
     public ResponseEntity<List<Comentario>> getAll() {
         try {
-            return new ResponseEntity<>(this._comentarioRepository.findAll(), HttpStatus.OK);
+            return new ResponseEntity<>(this._comentarioService.findAll(), HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
-    @GetMapping("{id}")
+    @GetMapping("{idComentario}")
     @Operation(summary = "Buscando comentários de uma postagem ID do comentário", method = "GET")
     public ResponseEntity<Comentario> getById(@PathVariable("id") Long id) {
 
-        Optional<Comentario> result = this._comentarioRepository.findById(id);
+        Optional<Comentario> result = this._comentarioService.findById(id);
 
         if (result.isPresent()) {
             return new ResponseEntity<>(result.get(), HttpStatus.OK);
@@ -54,10 +54,10 @@ class ComentarioController {
     }
 
      @PostMapping
-     @Operation(summary = "Adiciona um comentário", method = "POST")
+     @Operation(summary = "Adiciona um comentário a postagem", method = "POST")
         public ResponseEntity<Comentario> create(@RequestBody Comentario item) {
         try {
-            Comentario result = this._comentarioRepository.save(item);
+            Comentario result = this._comentarioService.save(item);
             return new ResponseEntity<>(result, HttpStatus.CREATED);
         } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.EXPECTATION_FAILED);
@@ -65,10 +65,10 @@ class ComentarioController {
     }
 
     @PutMapping("{id}")
-    @Operation(summary = "Atualiza um comentário", method = "PUT")
+    @Operation(summary = "Atualizano informações de um comentário", method = "PUT")
     public ResponseEntity<Comentario> update(@PathVariable("id") Long id, @RequestBody Comentario comentarioNovosDados) {
 
-        Optional<Comentario> result = this._comentarioRepository.findById(id);
+        Optional<Comentario> result = this._comentarioService.findById(id);
         if (result.isPresent() == false ) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
@@ -80,16 +80,16 @@ class ComentarioController {
     }
 
     @DeleteMapping("{id}")
-    @Operation(summary = "Deleta um comentário", method = "DELETE")
+    @Operation(summary = "Deletando o comentário de uma postagem", method = "DELETE")
     public ResponseEntity<HttpStatus> delete(@PathVariable("id") Long id) {
         try {
 
-            Optional<Comentario> comentarioASerExcluido = this._comentarioRepository.findById(id);
+            Optional<Comentario> comentarioASerExcluido = this._comentarioService.findById(id);
             if (comentarioASerExcluido.isPresent() == false) {
                 return new ResponseEntity<>(HttpStatus.NOT_FOUND);
             }
 
-            this._comentarioRepository.delete(comentarioASerExcluido.get());
+            this._comentarioService.delete(comentarioASerExcluido.get());
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.EXPECTATION_FAILED);
