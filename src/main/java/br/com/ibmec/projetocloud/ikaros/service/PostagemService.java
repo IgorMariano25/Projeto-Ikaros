@@ -4,14 +4,12 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import br.com.ibmec.projetocloud.ikaros.model.Postagem;
 import br.com.ibmec.projetocloud.ikaros.repository.PostagemRepository;
-import jakarta.ws.rs.POST;
 
+@Service
 public class PostagemService {
     @Autowired
     private PostagemRepository _postagemRepository;
@@ -23,7 +21,7 @@ public class PostagemService {
     public Optional<Postagem> getById(long id) {
         return this._postagemRepository.findById(id);
     }
-    
+
     public List<Postagem> findAll() {
         return this._postagemRepository.findAll();
     }
@@ -35,7 +33,6 @@ public class PostagemService {
     public Optional<Postagem> findById(Long id) {
         return this._postagemRepository.findById(id);
     }
-
 
     public Postagem update(long id, Postagem newData) throws Exception {
         Optional<Postagem> opPostagem = this._postagemRepository.findById(id);

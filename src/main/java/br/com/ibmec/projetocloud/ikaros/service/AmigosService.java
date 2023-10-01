@@ -4,13 +4,12 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import br.com.ibmec.projetocloud.ikaros.model.Amigos;
 import br.com.ibmec.projetocloud.ikaros.repository.AmigosRepository;
 
+@Service
 public class AmigosService {
 
     @Autowired
@@ -27,10 +26,6 @@ public class AmigosService {
         return this._amigosRepository.save(amigos);
     }
 
-    public List<Amigos> getAll() {
-        return this._amigosRepository.findAll();
-    }
-
     public void saveOrUpdate(Amigos amigos) {
         this._amigosRepository.save(amigos);
     }
@@ -44,7 +39,4 @@ public class AmigosService {
 
         this._amigosRepository.delete(opPost.get());
     }
-
-
-
 }

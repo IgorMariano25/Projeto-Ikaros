@@ -4,13 +4,12 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import br.com.ibmec.projetocloud.ikaros.model.Comentario;
 import br.com.ibmec.projetocloud.ikaros.repository.ComentarioRepository;
 
+@Service
 public class ComentarioService {
     @Autowired
     private ComentarioRepository _comentarioRepository;
@@ -46,7 +45,7 @@ public class ComentarioService {
         return comentario;
     }
 
-     public void delete(long id) throws Exception {
+    public void delete(long id) throws Exception {
         Optional<Comentario> opComentario = this._comentarioRepository.findById(id);
 
         if (opComentario.isPresent() == false) {
@@ -55,6 +54,4 @@ public class ComentarioService {
 
         this._comentarioRepository.delete(opComentario.get());
     }
-
-
 }
