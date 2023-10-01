@@ -12,5 +12,14 @@ import br.com.ibmec.projetocloud.ikaros.model.Postagem;
 import br.com.ibmec.projetocloud.ikaros.repository.PostagemRepository;
 
 public class PostagemService {
-    
+    @Autowired
+    private PostagemRepository _postagemRepository;
+
+    public List<Postagem> findAll() {
+        return this._postagemRepository.findAll();
+    }
+
+    public Optional<Postagem> findById(Long id) {
+        return this._postagemRepository.findById(id);
+    }
 }
