@@ -16,33 +16,33 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.ibmec.projetocloud.ikaros.model.Amigos;
-import br.com.ibmec.projetocloud.ikaros.repository.AmigosRepository;
+import br.com.ibmec.projetocloud.ikaros.service.AmigosService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
 @RestController
 @RequestMapping("/amigos")
-@Tag (name = "Amigos", description = "API DE AMIGOS IKAROS")
+@Tag (name = "Amigos", description = "Resquições para a tabela Amigos")
 public class AmigosController {
 
     @Autowired
-    private AmigosRepository _amigosRepository;
+    private AmigosService _amigosService;
 
     @GetMapping
     @Operation(summary = "Buscando todos os amigos de um usuário", method = "GET")
     public ResponseEntity<List<Amigos>> getAll() {
         try {
-            return new ResponseEntity<>(this._amigosRepository.findAll(), HttpStatus.OK);
+            return new ResponseEntity<>(this._amigosService.findAll(), HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
-    @GetMapping("{id}")
-    @Operation(summary = "Buscando amigos pelo id", method = "GET")
+    @GetMapping("{idUsuario}")
+    @Operation(summary = "Buscando amigos de um usuário pelo id", method = "GET")
     public ResponseEntity<Amigos> getById(@PathVariable("id") Long id) {
 
-        Optional<Amigos> result = this._amigosRepository.findById(id);
+        Optional<Amigos> result = this._amigosService.findById(id);
 
         if (result.isPresent()) {
             return new ResponseEntity<>(result.get(), HttpStatus.OK);
@@ -55,18 +55,18 @@ public class AmigosController {
     @Operation(summary = "Adicionando amigos", method = "POST")
     public ResponseEntity<Amigos> create(@RequestBody Amigos item) {
         try {
-            Amigos result = this._amigosRepository.save(item);
+            Amigos result = this._amigosService.save(item);
             return new ResponseEntity<>(result, HttpStatus.CREATED);
         } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.EXPECTATION_FAILED);
         }
     }
 
-    @PutMapping("{id}")
+    @PutMapping("{idUsuario}")
     @Operation(summary = "Atualizando amigos", method = "PUT")
     public ResponseEntity<Amigos> update(@PathVariable("id") Long id, @RequestBody Amigos amigosNovosDados) {
         
-        Optional<Amigos> result = this._amigosRepository.findById(id);
+        Optional<Amigos> result = this._amigosService.findById(id);
 
         if (result.isPresent() == false ) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -75,24 +75,24 @@ public class AmigosController {
         amigosASerAtualizado.setRelacionamentoAmizade1(amigosNovosDados.getRelacionamentoAmizade1());
         amigosASerAtualizado.setRelacionamentoAmizade2(amigosNovosDados.getRelacionamentoAmizade2());
 
-        this._amigosRepository.save(amigosASerAtualizado);
+        this._amigosService.save(amigosASerAtualizado);
 
         return new ResponseEntity<>(amigosASerAtualizado, HttpStatus.OK);
     }
 
-    @DeleteMapping("{id}")
-    @Operation(summary = "Deletando amigos", method = "DELETE")
+    @DeleteMapping("{idUsuario}")
+    @Operation(summary = "Deletanto amizade/Deletando Id da amizade", method = "DELETE")
     public ResponseEntity<HttpStatus> delete(@PathVariable("id") Long id) {
         try {
 
-            Optional<Amigos> amigosASerExcluido = this._amigosRepository.findById(id);
+            Optional<Amigos> amigosASerExcluido = this._amigosService.findById(id);
 
             // Não achei a pessoa a ser excluida
             if (amigosASerExcluido.isPresent() == false) {
                 return new ResponseEntity<>(HttpStatus.NOT_FOUND);
             }
 
-           this._amigosRepository.delete(amigosASerExcluido.get());
+           this._amigosService.delete(amigosASerExcluido.get());
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.EXPECTATION_FAILED);
