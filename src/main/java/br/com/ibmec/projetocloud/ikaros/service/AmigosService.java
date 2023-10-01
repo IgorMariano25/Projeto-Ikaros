@@ -12,5 +12,14 @@ import br.com.ibmec.projetocloud.ikaros.model.Amigos;
 import br.com.ibmec.projetocloud.ikaros.repository.AmigosRepository;
 
 public class AmigosService {
-    
+
+    @Autowired
+    private AmigosRepository _amigosRepository;
+    public List<Amigos> findAll() {
+        return this._amigosRepository.findAll();
+    }
+
+    public Optional<Amigos> findById(Long id) {
+        return this._amigosRepository.findById(id);
+    }
 }
