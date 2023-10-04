@@ -40,9 +40,9 @@ public class AmigosController {
 
     @GetMapping("{idUsuario}")
     @Operation(summary = "Buscando amigos de um usuário pelo id", method = "GET")
-    public ResponseEntity<Amigos> getById(@PathVariable("id") Long id) {
+    public ResponseEntity<Amigos> getById(@PathVariable("idUsuario") Long idUsuario) {
 
-        Optional<Amigos> result = this._amigosService.findById(id);
+        Optional<Amigos> result = this._amigosService.findById(idUsuario);
 
         if (result.isPresent()) {
             return new ResponseEntity<>(result.get(), HttpStatus.OK);
@@ -62,11 +62,11 @@ public class AmigosController {
         }
     }
 
-    @PutMapping("{idUsuario}")
+    @PutMapping("{idAmizade}")
     @Operation(summary = "Atualizando amigos", method = "PUT")
-    public ResponseEntity<Amigos> update(@PathVariable("id") Long id, @RequestBody Amigos amigosNovosDados) {
+    public ResponseEntity<Amigos> update(@PathVariable("idAmizade") Long idAmizade, @RequestBody Amigos amigosNovosDados) {
         
-        Optional<Amigos> result = this._amigosService.findById(id);
+        Optional<Amigos> result = this._amigosService.findById(idAmizade);
 
         if (result.isPresent() == false ) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -82,12 +82,11 @@ public class AmigosController {
 
     @DeleteMapping("{idAmizade}")
     @Operation(summary = "Deletanto amizade/Deletando Id da amizade", method = "DELETE")
-    public ResponseEntity<HttpStatus> delete(@PathVariable("idAmizade") Long id) {
+    public ResponseEntity<HttpStatus> delete(@PathVariable("idAmizade") Long idAmizade) {
         try {
 
-            Optional<Amigos> amigosASerExcluido = this._amigosService.findById(id);
+            Optional<Amigos> amigosASerExcluido = this._amigosService.findById(idAmizade);
 
-            // Não achei a pessoa a ser excluida
             if (amigosASerExcluido.isPresent() == false) {
                 return new ResponseEntity<>(HttpStatus.NOT_FOUND);
             }
