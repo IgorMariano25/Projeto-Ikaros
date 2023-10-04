@@ -41,30 +41,14 @@ public class Usuario {
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
     @JoinColumn(name = "usuario_id")
-    private List<Comentario> comentarios;
-    
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
-    @JoinColumn(name = "usuario_id")
-    private List<Postagem> postagens; 
-
-    public List<Comentario> getComentarios(){
-        return comentarios;
-    }
+    private List<Postagem> postagens;
 
     public List<Postagem> getPostagens(){
         return postagens;
     }
 
-    public void setComentarios(List<Comentario> comentarios) {
-        this.comentarios = comentarios;
-    }
-
     public void setPostagens(List<Postagem> postagens) {
         this.postagens = postagens;
-    }
-
-    public void addComentario(Comentario comentario) {
-        this.comentarios.add(comentario);
     }
 
     public void addPostagem(Postagem postagem) {
@@ -120,14 +104,5 @@ public class Usuario {
 
     public void setSenha(String senha) {
         this.senha = senha;
-    }
-
-    public static Usuario buscarUsuarioPorId(Integer id) {
-        if (id != null) {
-            Usuario usuario = new Usuario();
-            return usuario;
-        } else {
-            return null;
-        }
     }
 }
