@@ -2,6 +2,8 @@ package br.com.ibmec.projetocloud.ikaros.model;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
@@ -14,7 +16,7 @@ import lombok.Data;
 public class Amigos {
 
     @Id
-    @Column(name = "ID_Amizade", nullable = false)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long amizadeId;
 
     @ManyToOne
