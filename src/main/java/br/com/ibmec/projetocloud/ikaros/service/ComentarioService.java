@@ -7,7 +7,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import br.com.ibmec.projetocloud.ikaros.model.Comentario;
+import br.com.ibmec.projetocloud.ikaros.model.Postagem;
 import br.com.ibmec.projetocloud.ikaros.repository.ComentarioRepository;
+import br.com.ibmec.projetocloud.ikaros.service.ComentarioService;
+import br.com.ibmec.projetocloud.ikaros.service.UsuarioService;
 
 @Service
 public class ComentarioService {
