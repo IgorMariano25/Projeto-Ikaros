@@ -68,18 +68,18 @@ public class Comentario {
     }
 
     public Usuario getUsuarioQueComento() {
-        return usuarioQueComentou;
+        return comentador;
     }
 
-    public void setUsuarioQueComento(Usuario usuarioQueComentou) {
-        this.usuarioQueComentou = usuarioQueComentou;
+    public void setUsuarioQueComento(Usuario comentador) {
+        this.comentador = comentador;
     }
 
     public Postagem getPostId() {
-        return postId;
+        return postagem;
     }
 
-    public void setPostId(Postagem postId) {
-        this.postId = postId;
+    public void setPostId(Postagem postagem) {
+        this.postagem = postagem;
     }
 }
