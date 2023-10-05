@@ -35,6 +35,19 @@ public class ComentarioService {
         return this._comentarioRepository.save(comentario);
     }
 
+    public Comentario save(Long idPostagem, Comentario comentario) throws Exception {
+        Optional<Postagem> opPostagem = this._postagemService.getById(idPostagem);
+
+        if (opPostagem.isPresent() == false) {
+            throw new Exception("Postagem não encontrada no banco de dados");
+        }
+
+        Postagem postagem = opPostagem.get();
+        postagem.addComentario(comentario);
+        this._comentarioRepository.save(comentario);
+        return comentario;
+    }
+
     public void saveOrUpdate(Comentario comentario) {
         this._comentarioRepository.save(comentario);
     }
