@@ -22,18 +22,18 @@ public class Comentario {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "ID_usuarioQueComentou", referencedColumnName = "id", nullable = false)
-    private Usuario usuarioQueComento;
+    @JoinColumn(name = "IDusuarioQueComentou", referencedColumnName = "id", nullable = false)
+    private Usuario comentador;
 
-    @Column(name = "Data_de_Publicacao", nullable = false)
-    private LocalDateTime data_publicacao_comentario;
+    @Column(name = "DatadePublicacao", nullable = false)
+    private LocalDateTime dataPublicacaoComentario;
 
-    @Column(name = "conteudo_comentario", length = 100, nullable = false)
+    @Column(name = "conteudoComentario", length = 100, nullable = false)
     private String conteudo;
 
     @ManyToOne
-    @JoinColumn(name = "ID_Post", referencedColumnName = "id", nullable = false)
-    private Postagem postId;
+    @JoinColumn(name = "IDPost", referencedColumnName = "id", nullable = false)
+    private Postagem postagem;
 
     public Long getId() {
         return id;
@@ -44,11 +44,11 @@ public class Comentario {
     }
 
     public LocalDateTime getData_publicacao_comentario() {
-        return data_publicacao_comentario;
+        return dataPublicacaoComentario;
     }
 
-    public void setData_publicacao_comentario(LocalDateTime data_publicacao_comentario) {
-        this.data_publicacao_comentario = data_publicacao_comentario;
+    public void setData_publicacao_comentario(LocalDateTime dataPublicacaoComentario) {
+        this.dataPublicacaoComentario = dataPublicacaoComentario;
     }
 
     public LocalDateTime setData_publicacao_comentario() {
@@ -68,11 +68,11 @@ public class Comentario {
     }
 
     public Usuario getUsuarioQueComento() {
-        return usuarioQueComento;
+        return usuarioQueComentou;
     }
 
-    public void setUsuarioQueComento(Usuario usuarioQueComento) {
-        this.usuarioQueComento = usuarioQueComento;
+    public void setUsuarioQueComento(Usuario usuarioQueComentou) {
+        this.usuarioQueComentou = usuarioQueComentou;
     }
 
     public Postagem getPostId() {

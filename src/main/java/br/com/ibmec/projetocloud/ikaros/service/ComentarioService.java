@@ -7,12 +7,21 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import br.com.ibmec.projetocloud.ikaros.model.Comentario;
+import br.com.ibmec.projetocloud.ikaros.model.Postagem;
 import br.com.ibmec.projetocloud.ikaros.repository.ComentarioRepository;
+import br.com.ibmec.projetocloud.ikaros.service.ComentarioService;
+import br.com.ibmec.projetocloud.ikaros.service.UsuarioService;
 
 @Service
 public class ComentarioService {
     @Autowired
     private ComentarioRepository _comentarioRepository;
+
+    @Autowired
+    private PostagemService _postagemService;
+
+    @Autowired
+    private UsuarioService _usuarioServiceService;
 
     public List<Comentario> findAll() {
         return this._comentarioRepository.findAll();
@@ -24,6 +33,19 @@ public class ComentarioService {
 
     public Comentario create(Comentario comentario) {
         return this._comentarioRepository.save(comentario);
+    }
+
+    public Comentario save(Long idPostagem, Comentario comentario) throws Exception {
+        Optional<Postagem> opPostagem = this._postagemService.getById(idPostagem);
+
+        if (opPostagem.isPresent() == false) {
+            throw new Exception("Postagem não encontrada no banco de dados");
+        }
+
+        Postagem postagem = opPostagem.get();
+        postagem.addComentario(comentario);
+        this._comentarioRepository.save(comentario);
+        return comentario;
     }
 
     public void saveOrUpdate(Comentario comentario) {

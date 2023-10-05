@@ -2,13 +2,20 @@ package br.com.ibmec.projetocloud.ikaros.model;
 
 import java.time.Clock;
 import java.time.LocalDateTime;
+import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.Data;
 
@@ -32,6 +39,10 @@ public class Postagem {
 
     @Column(name = "Data_da_Publicacao", nullable = false)
     private LocalDateTime dataHoraPublicacao;
+
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
+    @JoinColumn(name = "comentario_id")
+    private List<Comentario> comentarios;
 
     public Long getId() {
         return id;
@@ -81,12 +92,16 @@ public class Postagem {
         return LocalDateTime.now(clock);
     }
 
-    public static Postagem buscarPostagemPorId(Integer id) {
-        if (id != null) {
-            Postagem postagem = new Postagem();
-            return postagem;
-        } else {
-            return null;
-        }
+    public List<Comentario> getComentarios() {
+        return this.comentarios;
     }
+
+    public void addComentario(Comentario comentario) {
+        this.comentarios.add(comentario);
+    }
+
+    public void setComentarios(List<Comentario> comentarios) {
+        this.comentarios = comentarios;
+    }
+
 }

@@ -15,14 +15,15 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import br.com.ibmec.projetocloud.ikaros.controller.requests.CreateComentarioRequest;
 import br.com.ibmec.projetocloud.ikaros.model.Comentario;
 import br.com.ibmec.projetocloud.ikaros.service.ComentarioService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
 @RestController
-@RequestMapping("/postagem/{idPostagem}/comentario")
-@Tag (name = "Comentário", description = "Resquições para a tabela Comentário")
+@RequestMapping("/postagem")
+@Tag(name = "Comentário", description = "Resquições para a tabela Comentário")
 class ComentarioController {
 
     @Autowired
@@ -38,9 +39,9 @@ class ComentarioController {
         }
     }
 
-    @GetMapping("{idComentario}")
+    @GetMapping("/{idPostagem}/comentario/{idComentario}")
     @Operation(summary = "Buscando comentários de uma postagem ID do comentário", method = "GET")
-    public ResponseEntity<Comentario> getById(@PathVariable("id") Long id) {
+    public ResponseEntity<Comentario> getById(@PathVariable("idComentario") Long id) {
 
         Optional<Comentario> result = this._comentarioService.findById(id);
 
@@ -51,23 +52,25 @@ class ComentarioController {
         }
     }
 
-     @PostMapping
-     @Operation(summary = "Adiciona um comentário a postagem", method = "POST")
-        public ResponseEntity<Comentario> create(@RequestBody Comentario comentario) {
+    @PostMapping("/{idPostagem}/comentario")
+    @Operation(summary = "Adiciona um comentário a postagem", method = "POST")
+    public ResponseEntity<Comentario> create(@PathVariable("idPostagem") Long idPostagem,
+            @RequestBody CreateComentarioRequest comentario) {
         try {
-            Comentario result = this._comentarioService.create(comentario);
-            return new ResponseEntity<>(result, HttpStatus.CREATED);
+            comentario = _comentarioService.save(idPostagem, comentario);
+            return new ResponseEntity<>(comentario, HttpStatus.CREATED);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.EXPECTATION_FAILED);
         }
     }
 
-    @PutMapping("{id}")
+    @PutMapping("/{idPostagem}/comentario/{idComentario}")
     @Operation(summary = "Atualizano informações de um comentário", method = "PUT")
-    public ResponseEntity<Comentario> update(@PathVariable("id") Long id, @RequestBody Comentario comentarioNovosDados) {
+    public ResponseEntity<Comentario> update(@PathVariable("idComentario") Long id,
+            @RequestBody Comentario comentarioNovosDados) {
 
         Optional<Comentario> result = this._comentarioService.findById(id);
-        if (result.isPresent() == false ) {
+        if (result.isPresent() == false) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
         Comentario comentarioASerAtualizado = result.get();
