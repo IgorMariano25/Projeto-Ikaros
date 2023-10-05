@@ -14,6 +14,12 @@ public class ComentarioService {
     @Autowired
     private ComentarioRepository _comentarioRepository;
 
+    @Autowired
+    private PostagemService _postagemService;
+
+    @Autowired
+    private UsuarioService _usuarioServiceService;
+
     public List<Comentario> findAll() {
         return this._comentarioRepository.findAll();
     }
