@@ -26,6 +26,10 @@ public class PostagemService {
         return this._postagemRepository.findAll();
     }
 
+    public List<Postagem> findAllByUsuario(Long idUser){
+        return this._postagemRepository.findAllByUsuarioId(idUser);
+    }
+
     public void saveOrUpdate(Postagem postagem) {
         this._postagemRepository.save(postagem);
     }
@@ -59,5 +63,9 @@ public class PostagemService {
         }
 
         this._postagemRepository.delete(opPostagem.get());
+    }
+
+    public Postagem save(Postagem postagem) {
+        return _postagemRepository.save(postagem);
     }
 }
