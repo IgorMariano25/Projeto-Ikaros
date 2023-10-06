@@ -4,6 +4,8 @@ import java.time.Clock;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import org.hibernate.annotations.ManyToAny;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.CascadeType;
@@ -40,9 +42,21 @@ public class Postagem {
     @Column(name = "Data_da_Publicacao", nullable = false)
     private LocalDateTime dataHoraPublicacao;
 
+    @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
     @JoinColumn(name = "comentario_id")
     private List<Comentario> comentarios;
+
+    @Column(name = "usuario_id")
+    private Long usuarioId;
+
+    public Long getUsuarioId() {
+        return this.usuarioId;
+    }
+
+    public void setUsuarioId(Long usuarioId) {
+        this.usuarioId = usuarioId;
+    }
 
     public Long getId() {
         return id;
