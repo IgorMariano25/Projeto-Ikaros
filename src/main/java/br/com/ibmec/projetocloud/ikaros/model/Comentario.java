@@ -2,6 +2,9 @@ package br.com.ibmec.projetocloud.ikaros.model;
 
 import java.time.Clock;
 import java.time.LocalDateTime;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -31,6 +34,7 @@ public class Comentario {
     @Column(name = "conteudoComentario", length = 100, nullable = false)
     private String conteudo;
 
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "IDPost", referencedColumnName = "id", nullable = false)
     private Postagem postagem;
