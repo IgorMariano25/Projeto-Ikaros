@@ -3,6 +3,8 @@ package br.com.ibmec.projetocloud.ikaros.model;
 import java.time.LocalDate;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -39,11 +41,12 @@ public class Usuario {
     @Column(name = "senha", nullable = false, length = 45)
     private String senha;
 
+    @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
     @JoinColumn(name = "usuario_id")
     private List<Postagem> postagens;
 
-    public List<Postagem> getPostagens(){
+    public List<Postagem> getPostagens() {
         return postagens;
     }
 
@@ -58,11 +61,11 @@ public class Usuario {
     public Long getId() {
         return id;
     }
-    
+
     public void setId(Long id) {
         this.id = id;
     }
-    
+
     public String getNome() {
         return nome;
     }
@@ -70,6 +73,7 @@ public class Usuario {
     public void setNome(String nome) {
         this.nome = nome;
     }
+
     public String getSobrenome() {
         return this.sobrenome;
     }
@@ -86,8 +90,8 @@ public class Usuario {
         this.data_aniversario = LocalDate.of(ano, mes, dia);
     }
 
-        public void setData_aniversario(LocalDate data_aniversario) {
-            this.data_aniversario = data_aniversario;
+    public void setData_aniversario(LocalDate data_aniversario) {
+        this.data_aniversario = data_aniversario;
     }
 
     public String getEmail() {
