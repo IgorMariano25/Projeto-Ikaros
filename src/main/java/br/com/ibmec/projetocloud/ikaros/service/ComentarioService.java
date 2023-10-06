@@ -6,6 +6,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import br.com.ibmec.projetocloud.ikaros.controller.requests.CreateComentarioRequest;
 import br.com.ibmec.projetocloud.ikaros.model.Comentario;
 import br.com.ibmec.projetocloud.ikaros.model.Postagem;
 import br.com.ibmec.projetocloud.ikaros.repository.ComentarioRepository;
@@ -35,21 +36,30 @@ public class ComentarioService {
         return this._comentarioRepository.save(comentario);
     }
 
-    public Comentario save(Long idPostagem, Comentario comentario) throws Exception {
+    public Comentario save(Long idPostagem, CreateComentarioRequest comentarioRequest) throws Exception {
         Optional<Postagem> opPostagem = this._postagemService.getById(idPostagem);
 
-        if (opPostagem.isPresent() == false) {
+        if (!opPostagem.isPresent()) {
             throw new Exception("Postagem não encontrada no banco de dados");
         }
 
         Postagem postagem = opPostagem.get();
+
+        Comentario comentario = new Comentario();
+        comentario.setConteudo(comentarioRequest.getConteudo());
+
         postagem.addComentario(comentario);
         this._comentarioRepository.save(comentario);
+
         return comentario;
     }
 
     public void saveOrUpdate(Comentario comentario) {
         this._comentarioRepository.save(comentario);
+    }
+
+    public Comentario save(Comentario comentario) {
+        return this._comentarioRepository.save(comentario);
     }
 
     public Comentario update(long id, Comentario newData) throws Exception {
