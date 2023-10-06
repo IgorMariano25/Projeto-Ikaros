@@ -37,7 +37,7 @@ public class PostagemController {
     @Operation(summary = "Buscando postagens de um usuário pelo ID do usuário", method = "GET")
     public ResponseEntity<List<Postagem>> getAll(@PathVariable("idUsuario") Long idUsuario) {
         try {
-            return new ResponseEntity<>(this._postagemService.findAll(), HttpStatus.OK);
+            return new ResponseEntity<>(this._postagemService.findAllByUsuario(idUsuario), HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
