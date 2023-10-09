@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import br.com.ibmec.projetocloud.ikaros.controller.requests.CreateUsuarioRequest;
+import br.com.ibmec.projetocloud.ikaros.controller.responses.CreateUsuarioResponse;
 import br.com.ibmec.projetocloud.ikaros.model.Usuario;
 import br.com.ibmec.projetocloud.ikaros.service.UsuarioService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -23,15 +25,15 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 
 @RestController
 @RequestMapping("/usuario")
-@CrossOrigin(origins="*")
-@Tag (name = "Usuário", description = "Resquições para a tabela Usuário")
+@CrossOrigin(origins = "*")
+@Tag(name = "Usuário", description = "Resquições para a tabela Usuário")
 public class UsuarioController {
 
     @Autowired
     private UsuarioService _usuarioService;
 
     @GetMapping
-    @Operation(summary = "Buscando todos os usuários", method = "GET") 
+    @Operation(summary = "Buscando todos os usuários", method = "GET")
     public ResponseEntity<List<Usuario>> getAll() {
         try {
             return new ResponseEntity<>(this._usuarioService.findAll(), HttpStatus.OK);
@@ -40,11 +42,11 @@ public class UsuarioController {
         }
     }
 
-    @GetMapping("{id}")
-    @Operation(summary = "Buscando um usuário pelo ID", method = "GET") 
-    public ResponseEntity<Usuario> getById(@PathVariable("id") Long id) {
+    @GetMapping("{usuarioId}")
+    @Operation(summary = "Buscando um usuário pelo ID", method = "GET")
+    public ResponseEntity<Usuario> getById(@PathVariable("usuarioId") Long usuarioId) {
 
-        Optional<Usuario> result = this._usuarioService.getById(id);
+        Optional<Usuario> result = this._usuarioService.getById(usuarioId);
 
         if (result.isPresent()) {
             return new ResponseEntity<>(result.get(), HttpStatus.OK);
@@ -54,40 +56,49 @@ public class UsuarioController {
     }
 
     @PostMapping
-    @Operation(summary = "Criando um usuário", method = "POST") 
-    public ResponseEntity<Usuario> create(@RequestBody Usuario item) {
+    @Operation(summary = "Criando um usuário", method = "POST")
+    public ResponseEntity<CreateUsuarioResponse> create(@RequestBody CreateUsuarioRequest createUsuarioRequest) {
         try {
-            Usuario result = this._usuarioService.save(item);
-            return new ResponseEntity<>(result, HttpStatus.CREATED);
+            Usuario usuario = new Usuario();
+            usuario.setNome(createUsuarioRequest.getNome());
+            usuario.setSobrenome(createUsuarioRequest.getSobrenome());
+            usuario.setDataAniversario(createUsuarioRequest.getDataAniversario());
+            usuario.setEmail(createUsuarioRequest.getEmail());
+            usuario.setSenha(createUsuarioRequest.getSenha());
+
+            _usuarioService.save(usuario);
+
+            CreateUsuarioResponse response = new CreateUsuarioResponse(usuario.getNome(), usuario.getSobrenome());
+            return new ResponseEntity<>(response, HttpStatus.CREATED);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.EXPECTATION_FAILED);
         }
     }
 
-    @PutMapping("{id}")
-    @Operation(summary = "Atualizando informações de um usuário", method = "PUT") 
-    public ResponseEntity<Usuario> update(@PathVariable("id") Long id, @RequestBody Usuario usuarioNovosDados) {
-        
+    @PutMapping("{usuarioId}")
+    @Operation(summary = "Atualizando informações de um usuário", method = "PUT")
+    public ResponseEntity<Usuario> update(@PathVariable("usuarioId") Long usuarioId, @RequestBody Usuario usuarioNovosDados) {
+
         try {
-            return new ResponseEntity<>(_usuarioService.update(id, usuarioNovosDados), HttpStatus.OK);
+            return new ResponseEntity<>(_usuarioService.update(usuarioId, usuarioNovosDados), HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.EXPECTATION_FAILED);
         }
     }
 
-    @DeleteMapping("{id}")
-    @Operation(summary = "Deletando um usuário", method = "DELETE") 
-    public ResponseEntity<HttpStatus> delete(@PathVariable("id") Long id) {
+    @DeleteMapping("{usuarioId}")
+    @Operation(summary = "Deletando um usuário", method = "DELETE")
+    public ResponseEntity<HttpStatus> delete(@PathVariable("usuarioId") Long usuarioId) {
         try {
 
-            Optional<Usuario> usuarioASerExcluido = this._usuarioService.getById(id);
+            Optional<Usuario> usuarioASerExcluido = this._usuarioService.getById(usuarioId);
 
             // Não achei a pessoa a ser excluida
             if (usuarioASerExcluido.isPresent() == false) {
                 return new ResponseEntity<>(HttpStatus.NOT_FOUND);
             }
 
-           this._usuarioService.delete(usuarioASerExcluido.get().getId());
+            this._usuarioService.delete(usuarioASerExcluido.get().getId());
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.EXPECTATION_FAILED);
