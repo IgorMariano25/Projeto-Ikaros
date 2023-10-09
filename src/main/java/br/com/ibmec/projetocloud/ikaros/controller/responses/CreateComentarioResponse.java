@@ -5,6 +5,11 @@ public class CreateComentarioResponse {
     private Long comentarioId;
     private String conteudo;
 
+    public CreateComentarioResponse(Long comentarioId, String conteudo) {
+        this.comentarioId = comentarioId;
+        this.conteudo = conteudo;
+    }
+
     public Long getId() {
         return this.comentarioId;
     }
@@ -18,11 +23,6 @@ public class CreateComentarioResponse {
     }
 
     public void setConteudo(String conteudo) {
-        this.conteudo = conteudo;
-    }
-
-    public CreateComentarioResponse(Long comentarioId, String conteudo) {
-        this.comentarioId = comentarioId;
         this.conteudo = conteudo;
     }
 }
