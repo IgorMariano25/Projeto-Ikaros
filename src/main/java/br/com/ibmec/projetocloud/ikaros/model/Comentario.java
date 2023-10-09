@@ -22,13 +22,13 @@ public class Comentario {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+    private Long comentarioId;
 
     @ManyToOne
-    @JoinColumn(name = "IDusuarioQueComentou", referencedColumnName = "id", nullable = false)
+    @JoinColumn(name = "idUsuarioQueComentou", referencedColumnName = "usuaraioId", nullable = false)
     private Usuario comentador;
 
-    @Column(name = "DatadePublicacao", nullable = false)
+    @Column(name = "datadePublicacao", nullable = false)
     private LocalDateTime dataPublicacaoComentario;
 
     @Column(name = "conteudoComentario", length = 100, nullable = false)
@@ -36,15 +36,15 @@ public class Comentario {
 
     @JsonIgnore
     @ManyToOne
-    @JoinColumn(name = "IDPost", referencedColumnName = "id", nullable = false)
+    @JoinColumn(name = "idPost", referencedColumnName = "postagemId", nullable = false)
     private Postagem postagem;
 
-    public Long getId() {
-        return id;
+    public Long getComentarioId() {
+        return this.comentarioId;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setComentarioId(Long comentarioId) {
+        this.comentarioId = comentarioId;
     }
 
     public LocalDateTime getData_publicacao_comentario() {
