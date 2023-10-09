@@ -19,11 +19,11 @@ public class Amigos {
     private Long amizadeId;
 
     @ManyToOne
-    @JoinColumn(name = "idAmigo1", referencedColumnName = "usuaraioId", nullable = false)
+    @JoinColumn(name = "idAmigo1", referencedColumnName = "usuarioId", nullable = false)
     private Usuario relacionamentoAmizade1;
 
     @ManyToOne
-    @JoinColumn(name = "idAmigo2", referencedColumnName = "usuaraioId", nullable = false)
+    @JoinColumn(name = "idAmigo2", referencedColumnName = "usuarioId", nullable = false)
     private Usuario relacionamentoAmizade2;
 
     public Long getAmizadeId() {
