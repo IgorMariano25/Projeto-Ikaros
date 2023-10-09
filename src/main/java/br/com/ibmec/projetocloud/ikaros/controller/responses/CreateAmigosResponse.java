@@ -4,6 +4,10 @@ public class CreateAmigosResponse {
 
     private Long amizadeId;
 
+    public CreateAmigosResponse(Long amizadeId) {
+        this.amizadeId = amizadeId;
+    }
+
     public Long getAmizadeId() {
         return this.amizadeId;
     }
