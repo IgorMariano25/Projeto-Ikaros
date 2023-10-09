@@ -24,7 +24,7 @@ public class Usuario {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+    private Long usuaraioId;
 
     @Column(name = "nome", nullable = false, length = 100)
     private String nome;
@@ -32,7 +32,7 @@ public class Usuario {
     @Column(name = "sobrenome", nullable = false, length = 100)
     private String sobrenome;
 
-    @Column(name = "data_aniversairo", nullable = false)
+    @Column(name = "dataAniversairo", nullable = false)
     private LocalDate data_aniversario;
 
     @Column(name = "email", nullable = false, length = 100)
@@ -59,11 +59,11 @@ public class Usuario {
     }
 
     public Long getId() {
-        return id;
+        return usuaraioId;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setId(Long usuaraioId) {
+        this.usuaraioId = usuaraioId;
     }
 
     public String getNome() {
