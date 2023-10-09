@@ -27,6 +27,10 @@ public class UsuarioService {
         return this._usuarioRepository.findById(id);
     }
 
+    public Long findUsuarioById(Long usuarioId){
+        return this._usuarioRepository.findUsuarioById(usuarioId);
+    }
+
     public void saveOrUpdate(Usuario usuario) {
         this._usuarioRepository.save(usuario);
     }
