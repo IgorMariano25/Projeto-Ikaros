@@ -25,7 +25,7 @@ public class Comentario {
     private Long comentarioId;
 
     @ManyToOne
-    @JoinColumn(name = "idUsuarioQueComentou", referencedColumnName = "usuaraioId", nullable = false)
+    @JoinColumn(name = "idUsuarioQueComentou", referencedColumnName = "usuarioId", nullable = false)
     private Usuario comentador;
 
     @Column(name = "datadePublicacao", nullable = false)
