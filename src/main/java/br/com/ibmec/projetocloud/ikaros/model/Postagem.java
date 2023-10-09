@@ -4,8 +4,6 @@ import java.time.Clock;
 import java.time.LocalDateTime;
 import java.util.List;
 
-import org.hibernate.annotations.ManyToAny;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.CascadeType;
@@ -16,7 +14,6 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.Data;
@@ -47,6 +44,7 @@ public class Postagem {
     @JoinColumn(name = "comentarioId")
     private List<Comentario> comentarios;
 
+    @JsonIgnore
     @Column(name = "usuario_id")
     private Long usuarioId;
 
