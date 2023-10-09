@@ -20,31 +20,31 @@ public class Notificacoes {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+    private Long notificacoesId;
 
-    @Column(name = "tipo_da_notificacao", nullable = false, length = 45)
+    @Column(name = "tipoDaNotificacao", nullable = false, length = 45)
     private String tipo;
 
-    @Column(name = "notificacao_foi_visualizada", nullable = false)
+    @Column(name = "notificacaoFoiVisualizada", nullable = false)
     private Boolean visualizado = false;
 
     @Column(name = "data", nullable = false)
     private LocalDateTime dataHora;
 
     @ManyToOne
-    @JoinColumn(name = "ID_usuarioOrigem", referencedColumnName = "id", nullable = false)
+    @JoinColumn(name = "idUsuarioOrigem", referencedColumnName = "usuaraioId", nullable = false)
     private Usuario usuarioOrigem;
 
     @ManyToOne
-    @JoinColumn(name = "ID_usuarioDestino", referencedColumnName = "id", nullable = false)
+    @JoinColumn(name = "idUsuarioDestino", referencedColumnName = "usuaraioId", nullable = false)
     private Usuario usuarioDestino;
 
     public Long getId() {
-        return id;
+        return notificacoesId;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setId(Long notificacoesId) {
+        this.notificacoesId = notificacoesId;
     }
 
     public String getTipo() {
