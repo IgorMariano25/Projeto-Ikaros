@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
 import br.com.ibmec.projetocloud.ikaros.controller.requests.CreateComentarioRequest;
 import br.com.ibmec.projetocloud.ikaros.controller.responses.CreateComentarioResponse;
 import br.com.ibmec.projetocloud.ikaros.model.Comentario;
@@ -83,6 +82,16 @@ class ComentarioController {
                     comentario.getConteudo());
 
             return new ResponseEntity<>(response, HttpStatus.CREATED);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.EXPECTATION_FAILED);
+        }
+    }
+
+    @PutMapping("/{idPostagem}/comentario")@Operation(summary="Adiciona um comentário a uma postagem",method="POST"){
+
+    public ResponseEntity<CreateComentarioResponse> update()
+        try {
+            return new ResponseEntity<>(null, HttpStatus.CREATED);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.EXPECTATION_FAILED);
         }
