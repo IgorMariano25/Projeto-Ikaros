@@ -18,4 +18,40 @@ public class CreateNotificacoesResponse {
         this.usuarioOrigem = usuarioOrigem;
         this.usuarioDestino = usuarioDestino;
     }
+
+    public Boolean isVisualizado() {
+        return this.visualizado;
+    }
+
+    public Boolean getVisualizado() {
+        return this.visualizado;
+    }
+
+    public void setVisualizado(Boolean visualizado) {
+        this.visualizado = visualizado;
+    }
+
+    public LocalDateTime getDataHora() {
+        return this.dataHora;
+    }
+
+    public void setDataHora(LocalDateTime dataHora) {
+        this.dataHora = dataHora;
+    }
+
+    public Usuario getUsuarioOrigem() {
+        return this.usuarioOrigem;
+    }
+
+    public void setUsuarioOrigem(Usuario usuarioOrigem) {
+        this.usuarioOrigem = usuarioOrigem;
+    }
+
+    public Usuario getUsuarioDestino() {
+        return this.usuarioDestino;
+    }
+
+    public void setUsuarioDestino(Usuario usuarioDestino) {
+        this.usuarioDestino = usuarioDestino;
+    }
 }
