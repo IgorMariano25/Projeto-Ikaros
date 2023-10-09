@@ -15,6 +15,17 @@ public class CreatePostagemResponse {
     private LocalDateTime dataHoraPublicacao;
     private List<Comentario> comentarios;
 
+    public CreatePostagemResponse(Long postagemId, Long usuarioId, String conteudoPost, String imagem, Integer curtidas,
+            LocalDateTime dataHoraPublicacao, List<Comentario> comentarios) {
+        this.postagemId = postagemId;
+        this.usuarioId = usuarioId;
+        this.conteudoPost = conteudoPost;
+        this.imagem = imagem;
+        this.curtidas = curtidas;
+        this.dataHoraPublicacao = dataHoraPublicacao;
+        this.comentarios = comentarios;
+    }
+
     public Long getPostagemId() {
         return this.postagemId;
     }
