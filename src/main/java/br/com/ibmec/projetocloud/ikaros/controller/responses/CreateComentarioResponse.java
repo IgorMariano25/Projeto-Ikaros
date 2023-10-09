@@ -1,9 +1,18 @@
 package br.com.ibmec.projetocloud.ikaros.controller.responses;
 
+import java.time.LocalDateTime;
+
 public class CreateComentarioResponse {
 
     private Long comentarioId;
     private String conteudo;
+    private LocalDateTime dataPublicacaoComentario;
+
+    public CreateComentarioResponse(Long comentarioId, String conteudo, LocalDateTime dataPublicacaoComentario) {
+        this.comentarioId = comentarioId;
+        this.conteudo = conteudo;
+        this.dataPublicacaoComentario = dataPublicacaoComentario;
+    }
 
     public CreateComentarioResponse(Long comentarioId, String conteudo) {
         this.comentarioId = comentarioId;
@@ -25,4 +34,13 @@ public class CreateComentarioResponse {
     public void setConteudo(String conteudo) {
         this.conteudo = conteudo;
     }
+
+    public LocalDateTime getDataPublicacaoComentario() {
+        return this.dataPublicacaoComentario;
+    }
+
+    public void setDataPublicacaoComentario(LocalDateTime dataPublicacaoComentario) {
+        this.dataPublicacaoComentario = dataPublicacaoComentario;
+    }
+
 }
