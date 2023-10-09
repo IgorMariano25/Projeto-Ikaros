@@ -64,7 +64,6 @@ class ComentarioController {
             @PathVariable("idPostagem") Long idPostagem,
             @RequestBody CreateComentarioRequest createComentarioRequest) {
         try {
-            // Obtenha a postagem pela ID
             Optional<Postagem> opPostagem = _postagemService.getById(idPostagem);
             if (opPostagem.isPresent() == false) {
                 return new ResponseEntity<>(HttpStatus.NOT_FOUND);
