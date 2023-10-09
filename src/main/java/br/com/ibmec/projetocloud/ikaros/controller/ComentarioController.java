@@ -80,7 +80,7 @@ class ComentarioController {
 
             _postagemService.save(opPostagem.get());
 
-            CreateComentarioResponse response = new CreateComentarioResponse(comentario.getId(),
+            CreateComentarioResponse response = new CreateComentarioResponse(comentario.getComentarioId(),
                     comentario.getConteudo());
 
             return new ResponseEntity<>(response, HttpStatus.CREATED);
@@ -100,7 +100,7 @@ class ComentarioController {
                 return new ResponseEntity<>(HttpStatus.NOT_FOUND);
             }
 
-            this._comentarioService.delete(comentarioASerExcluido.get().getId());
+            this._comentarioService.delete(comentarioASerExcluido.get().getComentarioId());
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.EXPECTATION_FAILED);
