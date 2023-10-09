@@ -28,23 +28,23 @@ public class Postagem {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long postagemId;
 
     @Column(name = "conteudoPost", nullable = false, length = 100)
     private String conteudoPost;
 
-    @Column(name = "URL_Imagem", nullable = false)
+    @Column(name = "urlImagem", nullable = false)
     private String imagem;
 
     @Column(name = "curtidas", nullable = false)
     private Integer curtidas = 0;
 
-    @Column(name = "Data_da_Publicacao", nullable = false)
+    @Column(name = "dataDaPublicacao", nullable = false)
     private LocalDateTime dataHoraPublicacao;
 
     @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
-    @JoinColumn(name = "comentario_id")
+    @JoinColumn(name = "comentarioId")
     private List<Comentario> comentarios;
 
     @Column(name = "usuario_id")
@@ -59,11 +59,11 @@ public class Postagem {
     }
 
     public Long getId() {
-        return id;
+        return postagemId;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setId(Long postagemId) {
+        this.postagemId = postagemId;
     }
 
     public String getConteudoPost() {
