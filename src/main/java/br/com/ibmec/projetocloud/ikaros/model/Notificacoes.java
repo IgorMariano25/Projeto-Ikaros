@@ -32,11 +32,11 @@ public class Notificacoes {
     private LocalDateTime dataHora;
 
     @ManyToOne
-    @JoinColumn(name = "idUsuarioOrigem", referencedColumnName = "usuaraioId", nullable = false)
+    @JoinColumn(name = "idUsuarioOrigem", referencedColumnName = "usuarioId", nullable = false)
     private Usuario usuarioOrigem;
 
     @ManyToOne
-    @JoinColumn(name = "idUsuarioDestino", referencedColumnName = "usuaraioId", nullable = false)
+    @JoinColumn(name = "idUsuarioDestino", referencedColumnName = "usuarioId", nullable = false)
     private Usuario usuarioDestino;
 
     public Long getId() {
