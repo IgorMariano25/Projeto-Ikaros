@@ -24,7 +24,7 @@ public class Usuario {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long usuaraioId;
+    private Long usuarioId;
 
     @Column(name = "nome", nullable = false, length = 100)
     private String nome;
@@ -59,11 +59,11 @@ public class Usuario {
     }
 
     public Long getId() {
-        return usuaraioId;
+        return usuarioId;
     }
 
-    public void setId(Long usuaraioId) {
-        this.usuaraioId = usuaraioId;
+    public void setId(Long usuarioId) {
+        this.usuarioId = usuarioId;
     }
 
     public String getNome() {
