@@ -33,7 +33,7 @@ public class Usuario {
     private String sobrenome;
 
     @Column(name = "dataAniversairo", nullable = false)
-    private LocalDate data_aniversario;
+    private LocalDate dataAniversario;
 
     @Column(name = "email", nullable = false, length = 100)
     private String email;
