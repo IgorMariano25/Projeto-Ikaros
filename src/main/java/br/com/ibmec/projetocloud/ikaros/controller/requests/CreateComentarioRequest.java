@@ -7,18 +7,18 @@ import br.com.ibmec.projetocloud.ikaros.model.Usuario;
 
 public class CreateComentarioRequest {
 
-    private Long id;
+    private Long comentarioId;
     private Usuario comentador;
     private LocalDateTime dataPublicacaoComentario;
     private String conteudo;
     private Postagem postagem;
 
     public Long getId() {
-        return this.id;
+        return this.comentarioId;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setId(Long comentarioId) {
+        this.comentarioId = comentarioId;
     }
 
     public Usuario getComentador() {
