@@ -2,15 +2,15 @@ package br.com.ibmec.projetocloud.ikaros.controller.responses;
 
 public class CreateComentarioResponse {
 
-    private Long idComentario;
+    private Long comentarioId;
     private String conteudo;
 
     public Long getId() {
-        return this.idComentario;
+        return this.comentarioId;
     }
 
-    public void setId(Long idComentario) {
-        this.idComentario = idComentario;
+    public void setId(Long comentarioId) {
+        this.comentarioId = comentarioId;
     }
 
     public String getConteudo() {
@@ -21,8 +21,8 @@ public class CreateComentarioResponse {
         this.conteudo = conteudo;
     }
 
-    public CreateComentarioResponse(Long idComentario, String conteudo) {
-        this.idComentario = idComentario;
+    public CreateComentarioResponse(Long comentarioId, String conteudo) {
+        this.comentarioId = comentarioId;
         this.conteudo = conteudo;
     }
 }
