@@ -28,16 +28,16 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 public class PostagemController {
 
     @Autowired
-    private PostagemService _postagemService;
+    private PostagemService postagemService;
 
     @Autowired
-    private UsuarioService _usuarioService;
+    private UsuarioService usuarioService;
 
     @GetMapping
     @Operation(summary = "Buscando postagens de um usuário pelo ID do usuário", method = "GET")
     public ResponseEntity<List<Postagem>> getAll(@PathVariable("idUsuario") Long idUsuario) {
         try {
-            return new ResponseEntity<>(this._postagemService.findAllByUsuario(idUsuario), HttpStatus.OK);
+            return new ResponseEntity<>(this.postagemService.findAllByUsuario(idUsuario), HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
@@ -47,7 +47,7 @@ public class PostagemController {
     @Operation(summary = "Buscando todas as postagens de um usuário através do ID da postagem", method = "GET")
     public ResponseEntity<Postagem> findById(@PathVariable("idPostagem") Long id) {
 
-        Optional<Postagem> result = this._postagemService.findById(id);
+        Optional<Postagem> result = this.postagemService.findById(id);
 
         if (result.isPresent() == false) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -60,14 +60,14 @@ public class PostagemController {
     public ResponseEntity<Postagem> create(@PathVariable("idUsuario") Long idUsuario, @RequestBody Postagem postagem) {
         try {
 
-            Optional<Usuario> usuario = _usuarioService.getById(idUsuario);
+            Optional<Usuario> usuario = usuarioService.getById(idUsuario);
 
             if (usuario.isPresent() == false) {
                 return new ResponseEntity<>(HttpStatus.NOT_FOUND);
             }
 
             usuario.get().addPostagem(postagem);
-            this._usuarioService.savePostagem(usuario.get());
+            this.usuarioService.savePostagem(usuario.get());
 
             return new ResponseEntity<>(postagem, HttpStatus.CREATED);
         } catch (Exception e) {
@@ -78,22 +78,22 @@ public class PostagemController {
     @PutMapping("{idPostagem}")
     @Operation(summary = "Atualizando informações de uma postagem pelo ID", method = "PUT")
     public ResponseEntity<Postagem> update(@PathVariable("idPostagem") Long id,
-            @RequestBody Postagem PostagemNovosDados) {
+            @RequestBody Postagem postagemNovosDados) {
 
-        Optional<Postagem> result = this._postagemService.findById(id);
+        Optional<Postagem> result = this.postagemService.findById(id);
 
         if (result.isPresent() == false) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
-        Postagem PostagemASerAtualizado = result.get();
-        PostagemASerAtualizado.setConteudoPost(PostagemNovosDados.getConteudoPost());
-        PostagemASerAtualizado.setImagem(PostagemNovosDados.getImagem());
-        PostagemASerAtualizado.setCurtidas(PostagemASerAtualizado.getCurtidas());
+        Postagem postagemASerAtualizado = result.get();
+        postagemASerAtualizado.setConteudoPost(postagemNovosDados.getConteudoPost());
+        postagemASerAtualizado.setImagem(postagemNovosDados.getImagem());
+        postagemASerAtualizado.setCurtidas(postagemASerAtualizado.getCurtidas());
 
-        this._postagemService.saveOrUpdate(PostagemASerAtualizado);
+        this.postagemService.saveOrUpdate(postagemASerAtualizado);
 
-        return new ResponseEntity<>(PostagemASerAtualizado, HttpStatus.OK);
+        return new ResponseEntity<>(postagemASerAtualizado, HttpStatus.OK);
     }
 
     @DeleteMapping("{idPosatagem}")
@@ -101,13 +101,13 @@ public class PostagemController {
     public ResponseEntity<HttpStatus> delete(@PathVariable("idPosatagem") Long idPosatagem) {
         try {
 
-            Optional<Postagem> postagemASerExcluida = this._postagemService.findById(idPosatagem);
+            Optional<Postagem> postagemASerExcluida = this.postagemService.findById(idPosatagem);
 
             if (postagemASerExcluida.isEmpty()) {
                 return new ResponseEntity<>(HttpStatus.NOT_FOUND);
             }
 
-            _postagemService.delete(idPosatagem);
+            postagemService.delete(idPosatagem);
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.EXPECTATION_FAILED);
