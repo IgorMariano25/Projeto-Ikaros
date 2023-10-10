@@ -50,7 +50,7 @@ public class UsuarioService {
     public Usuario update(long id, Usuario newData) throws Exception {
         Optional<Usuario> opUsuario = this.usuarioRepository.findById(id);
 
-        if (opUsuario.isPresent() == false) {
+        if (opUsuario.isEmpty()) {
             throw new Exception("Não encontrei o usuario a ser atualizado");
         }
 
@@ -66,7 +66,7 @@ public class UsuarioService {
     public void delete(long id) throws Exception {
         Optional<Usuario> opUsuario = this.usuarioRepository.findById(id);
 
-        if (opUsuario.isPresent() == false) {
+        if (opUsuario.isEmpty()) {
             throw new Exception("Não encontrei o usuario a ser deletado");
         }
 
