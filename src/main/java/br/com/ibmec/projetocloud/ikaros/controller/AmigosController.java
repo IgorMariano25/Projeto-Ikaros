@@ -26,13 +26,13 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 public class AmigosController {
 
     @Autowired
-    private AmigosService _amigosService;
+    private AmigosService amigosService;
 
     @GetMapping
     @Operation(summary = "Buscando todos os amigos de um usuário", method = "GET")
     public ResponseEntity<List<Amigos>> getAll() {
         try {
-            return new ResponseEntity<>(this._amigosService.findAll(), HttpStatus.OK);
+            return new ResponseEntity<>(this.amigosService.findAll(), HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
@@ -42,7 +42,7 @@ public class AmigosController {
     @Operation(summary = "Buscando amigos de um usuário pelo id", method = "GET")
     public ResponseEntity<Amigos> getById(@PathVariable("idUsuario") Long idUsuario) {
 
-        Optional<Amigos> result = this._amigosService.findById(idUsuario);
+        Optional<Amigos> result = this.amigosService.findById(idUsuario);
 
         if (result.isPresent()) {
             return new ResponseEntity<>(result.get(), HttpStatus.OK);
@@ -55,7 +55,7 @@ public class AmigosController {
     @Operation(summary = "Adicionando amigos", method = "POST")
     public ResponseEntity<Amigos> create(@RequestBody Amigos item) {
         try {
-            Amigos result = this._amigosService.create(item);
+            Amigos result = this.amigosService.create(item);
             return new ResponseEntity<>(result, HttpStatus.CREATED);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.EXPECTATION_FAILED);
@@ -66,16 +66,16 @@ public class AmigosController {
     @Operation(summary = "Atualizando amigos", method = "PUT")
     public ResponseEntity<Amigos> update(@PathVariable("idAmizade") Long idAmizade, @RequestBody Amigos amigosNovosDados) {
         
-        Optional<Amigos> result = this._amigosService.findById(idAmizade);
+        Optional<Amigos> result = this.amigosService.findById(idAmizade);
 
-        if (result.isPresent() == false ) {
+        if (result.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
         Amigos amigosASerAtualizado = result.get();
         amigosASerAtualizado.setRelacionamentoAmizade1(amigosNovosDados.getRelacionamentoAmizade1());
         amigosASerAtualizado.setRelacionamentoAmizade2(amigosNovosDados.getRelacionamentoAmizade2());
 
-        this._amigosService.saveOrUpdate(amigosASerAtualizado);
+        this.amigosService.saveOrUpdate(amigosASerAtualizado);
 
         return new ResponseEntity<>(amigosASerAtualizado, HttpStatus.OK);
     }
@@ -85,13 +85,13 @@ public class AmigosController {
     public ResponseEntity<HttpStatus> delete(@PathVariable("idAmizade") Long idAmizade) {
         try {
 
-            Optional<Amigos> amizadeASerExcluida = this._amigosService.findById(idAmizade);
+            Optional<Amigos> amizadeASerExcluida = this.amigosService.findById(idAmizade);
 
             if (amizadeASerExcluida.isEmpty()) {
                 return new ResponseEntity<>(HttpStatus.NOT_FOUND);
             }
 
-           _amigosService.delete(idAmizade);
+           amigosService.delete(idAmizade);
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.EXPECTATION_FAILED);
