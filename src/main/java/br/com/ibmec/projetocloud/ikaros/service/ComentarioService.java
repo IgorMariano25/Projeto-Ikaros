@@ -11,33 +11,29 @@ import br.com.ibmec.projetocloud.ikaros.model.Comentario;
 import br.com.ibmec.projetocloud.ikaros.model.Postagem;
 import br.com.ibmec.projetocloud.ikaros.repository.ComentarioRepository;
 import br.com.ibmec.projetocloud.ikaros.service.ComentarioService;
-import br.com.ibmec.projetocloud.ikaros.service.UsuarioService;
 
 @Service
 public class ComentarioService {
     @Autowired
-    private ComentarioRepository _comentarioRepository;
+    private ComentarioRepository comentarioRepository;
 
     @Autowired
-    private PostagemService _postagemService;
-
-    @Autowired
-    private UsuarioService _usuarioServiceService;
+    private PostagemService postagemService;
 
     public List<Comentario> findAll() {
-        return this._comentarioRepository.findAll();
+        return this.comentarioRepository.findAll();
     }
 
     public Optional<Comentario> findById(Long id) {
-        return this._comentarioRepository.findById(id);
+        return this.comentarioRepository.findById(id);
     }
 
     public Comentario create(Comentario comentario) {
-        return this._comentarioRepository.save(comentario);
+        return this.comentarioRepository.save(comentario);
     }
 
     public Comentario save(Long idPostagem, CreateComentarioRequest comentarioRequest) throws Exception {
-        Optional<Postagem> opPostagem = this._postagemService.getById(idPostagem);
+        Optional<Postagem> opPostagem = this.postagemService.getById(idPostagem);
 
         if (!opPostagem.isPresent()) {
             throw new Exception("Postagem não encontrada no banco de dados");
@@ -49,41 +45,41 @@ public class ComentarioService {
         comentario.setConteudo(comentarioRequest.getConteudo());
 
         postagem.addComentario(comentario);
-        this._comentarioRepository.save(comentario);
+        this.comentarioRepository.save(comentario);
 
         return comentario;
     }
 
     public void saveOrUpdate(Comentario comentario) {
-        this._comentarioRepository.save(comentario);
+        this.comentarioRepository.save(comentario);
     }
 
     public Comentario save(Comentario comentario) {
-        return this._comentarioRepository.save(comentario);
+        return this.comentarioRepository.save(comentario);
     }
 
     public Comentario update(long id, Comentario newData) throws Exception {
-        Optional<Comentario> opComentario = this._comentarioRepository.findById(id);
+        Optional<Comentario> opComentario = this.comentarioRepository.findById(id);
 
-        if (opComentario.isPresent() == false) {
+        if (opComentario.isEmpty()) {
             throw new Exception("Não encontrei o comentario a ser atualizado");
         }
 
         Comentario comentario = opComentario.get();
         comentario.setConteudo(newData.getConteudo());
 
-        this._comentarioRepository.save(comentario);
+        this.comentarioRepository.save(comentario);
 
         return comentario;
     }
 
     public void delete(long id) throws Exception {
-        Optional<Comentario> opComentario = this._comentarioRepository.findById(id);
+        Optional<Comentario> opComentario = this.comentarioRepository.findById(id);
 
-        if (opComentario.isPresent() == false) {
+        if (opComentario.isEmpty()) {
             throw new Exception("Não encontrei o comentario a ser deletado");
         }
 
-        this._comentarioRepository.delete(opComentario.get());
+        this.comentarioRepository.delete(opComentario.get());
     }
 }
