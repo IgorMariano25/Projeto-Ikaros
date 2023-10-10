@@ -81,19 +81,19 @@ public class NotificacoesController {
         return new ResponseEntity<>(notificacaoASerAtualizada, HttpStatus.OK);
     }
 
-    @DeleteMapping("{id}")
+    @DeleteMapping("{idNotificacao}")
     @Operation(summary = "Deletando uma notificação", method = "DELETE")
-    public ResponseEntity<HttpStatus> delete(@PathVariable("id") Long id) {
+    public ResponseEntity<HttpStatus> delete(@PathVariable("idNotificacao") Long idNotificacao) {
         try {
 
-            Optional<Notificacoes> notificacaoASerExcluida = this._notificacoesService.getById(id);
+            Optional<Notificacoes> notificacaoASerExcluida = this._notificacoesService.getById(idNotificacao);
 
             // Não achei a pessoa a ser excluida
-            if (notificacaoASerExcluida.isPresent() == false) {
+            if (notificacaoASerExcluida.isEmpty()) {
                 return new ResponseEntity<>(HttpStatus.NOT_FOUND);
             }
 
-           this._notificacoesService.delete(notificacaoASerExcluida.get().getId());
+           _notificacoesService.delete(idNotificacao);
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.EXPECTATION_FAILED);
