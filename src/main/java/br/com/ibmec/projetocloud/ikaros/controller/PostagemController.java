@@ -98,16 +98,16 @@ public class PostagemController {
 
     @DeleteMapping("{idPosatagem}")
     @Operation(summary = "Deletando uma postagem pelo ID", method = "DELETE")
-    public ResponseEntity<HttpStatus> delete(@PathVariable("idPosatagem") Long id) {
+    public ResponseEntity<HttpStatus> delete(@PathVariable("idPosatagem") Long idPosatagem) {
         try {
 
-            Optional<Postagem> postagemASerExcluida = this._postagemService.findById(id);
+            Optional<Postagem> postagemASerExcluida = this._postagemService.findById(idPosatagem);
 
-            if (postagemASerExcluida.isPresent() == false) {
+            if (postagemASerExcluida.isEmpty()) {
                 return new ResponseEntity<>(HttpStatus.NOT_FOUND);
             }
 
-            this._postagemService.delete(postagemASerExcluida.get().getId());
+            _postagemService.delete(idPosatagem);
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.EXPECTATION_FAILED);
