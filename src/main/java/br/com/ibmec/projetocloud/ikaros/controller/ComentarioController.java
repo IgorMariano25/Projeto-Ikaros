@@ -87,11 +87,31 @@ class ComentarioController {
         }
     }
 
-    @PutMapping("/{idPostagem}/comentario")@Operation(summary="Adiciona um comentário a uma postagem",method="POST"){
-
-    public ResponseEntity<CreateComentarioResponse> update()
+    @PutMapping("/{idPostagem}/comentario/{idComentario}")
+    @Operation(summary = "Adiciona um comentário a uma postagem", method = "POST")
+    public ResponseEntity<CreateComentarioResponse> update(
+            @PathVariable("idPostagem") Long idPostagem,
+            @PathVariable("idComentario") Long idComentario,
+            @RequestBody CreateComentarioRequest createComentarioRequest) {
         try {
-            return new ResponseEntity<>(null, HttpStatus.CREATED);
+            Optional<Postagem> opPostagem = _postagemService.getById(idPostagem);
+            if (opPostagem.isPresent() == false) {
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }
+
+            Optional<Comentario> opComentario = _comentarioService.findById(idComentario);
+            if (opComentario.isPresent() == false) {
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }
+
+            Comentario comentario = opComentario.get();
+
+            comentario.setConteudo(createComentarioRequest.getConteudo());
+            comentario.setDataPublicacaoComentario(createComentarioRequest.getDataPublicacaoComentario());
+
+            CreateComentarioResponse response = new CreateComentarioResponse(comentario.getComentarioId(),
+                    comentario.getConteudo(), comentario.getDataPublicacaoComentario());
+            return new ResponseEntity<>(response, HttpStatus.CREATED);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.EXPECTATION_FAILED);
         }
