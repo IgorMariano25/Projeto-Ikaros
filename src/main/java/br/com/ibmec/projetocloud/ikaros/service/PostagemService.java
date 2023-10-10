@@ -41,7 +41,7 @@ public class PostagemService {
     public Postagem update(long id, Postagem newData) throws Exception {
         Optional<Postagem> opPostagem = this.postagemRepository.findById(id);
 
-        if (opPostagem.isPresent() == false) {
+        if (opPostagem.isEmpty()) {
             throw new Exception("Não encontrei a postagem a ser atualizada");
         }
 
@@ -58,7 +58,7 @@ public class PostagemService {
     public void delete(long id) throws Exception {
         Optional<Postagem> opPostagem = this.postagemRepository.findById(id);
 
-        if (opPostagem.isPresent() == false) {
+        if (opPostagem.isEmpty()) {
             throw new Exception("Não encontrei a postagem a ser atualizada");
         }
 
