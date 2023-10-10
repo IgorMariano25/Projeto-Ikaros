@@ -12,34 +12,34 @@ import br.com.ibmec.projetocloud.ikaros.repository.PostagemRepository;
 @Service
 public class PostagemService {
     @Autowired
-    private PostagemRepository _postagemRepository;
+    private PostagemRepository postagemRepository;
 
     public Postagem create(Postagem postagem) {
-        return this._postagemRepository.save(postagem);
+        return this.postagemRepository.save(postagem);
     }
 
     public Optional<Postagem> getById(long id) {
-        return this._postagemRepository.findById(id);
+        return this.postagemRepository.findById(id);
     }
 
     public List<Postagem> findAll() {
-        return this._postagemRepository.findAll();
+        return this.postagemRepository.findAll();
     }
 
     public List<Postagem> findAllByUsuario(Long idUser){
-        return this._postagemRepository.findAllByUsuarioId(idUser);
+        return this.postagemRepository.findAllByUsuarioId(idUser);
     }
 
     public void saveOrUpdate(Postagem postagem) {
-        this._postagemRepository.save(postagem);
+        this.postagemRepository.save(postagem);
     }
 
     public Optional<Postagem> findById(Long id) {
-        return this._postagemRepository.findById(id);
+        return this.postagemRepository.findById(id);
     }
 
     public Postagem update(long id, Postagem newData) throws Exception {
-        Optional<Postagem> opPostagem = this._postagemRepository.findById(id);
+        Optional<Postagem> opPostagem = this.postagemRepository.findById(id);
 
         if (opPostagem.isPresent() == false) {
             throw new Exception("Não encontrei a postagem a ser atualizada");
@@ -50,22 +50,22 @@ public class PostagemService {
         postagem.setImagem(newData.getImagem());
         postagem.setCurtidas(newData.getCurtidas());
 
-        this._postagemRepository.save(postagem);
+        this.postagemRepository.save(postagem);
 
         return postagem;
     }
 
     public void delete(long id) throws Exception {
-        Optional<Postagem> opPostagem = this._postagemRepository.findById(id);
+        Optional<Postagem> opPostagem = this.postagemRepository.findById(id);
 
         if (opPostagem.isPresent() == false) {
             throw new Exception("Não encontrei a postagem a ser atualizada");
         }
 
-        this._postagemRepository.delete(opPostagem.get());
+        this.postagemRepository.delete(opPostagem.get());
     }
 
     public Postagem save(Postagem postagem) {
-        return _postagemRepository.save(postagem);
+        return postagemRepository.save(postagem);
     }
 }
