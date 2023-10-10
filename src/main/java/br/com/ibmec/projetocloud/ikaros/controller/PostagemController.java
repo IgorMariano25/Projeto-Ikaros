@@ -49,7 +49,7 @@ public class PostagemController {
 
         Optional<Postagem> result = this.postagemService.findById(id);
 
-        if (result.isPresent() == false) {
+        if (result.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
         return new ResponseEntity<>(result.get(), HttpStatus.OK);
@@ -62,7 +62,7 @@ public class PostagemController {
 
             Optional<Usuario> usuario = usuarioService.getById(idUsuario);
 
-            if (usuario.isPresent() == false) {
+            if (usuario.isEmpty()) {
                 return new ResponseEntity<>(HttpStatus.NOT_FOUND);
             }
 
@@ -82,7 +82,7 @@ public class PostagemController {
 
         Optional<Postagem> result = this.postagemService.findById(id);
 
-        if (result.isPresent() == false) {
+        if (result.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
