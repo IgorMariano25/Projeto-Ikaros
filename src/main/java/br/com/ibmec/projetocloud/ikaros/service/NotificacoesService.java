@@ -12,26 +12,26 @@ import br.com.ibmec.projetocloud.ikaros.repository.NotificacoesRepository;
 @Service
 public class NotificacoesService {
     @Autowired
-    private NotificacoesRepository _notificacoesRepository;
+    private NotificacoesRepository notificacoesRepository;
 
     public Notificacoes create( Notificacoes notificacoes) {
-        return this._notificacoesRepository.save(notificacoes);
+        return this.notificacoesRepository.save(notificacoes);
     }
 
     public Optional<Notificacoes> getById(long id) {
-        return this._notificacoesRepository.findById(id);
+        return this.notificacoesRepository.findById(id);
     }
     
     public List<Notificacoes> findAll() {
-        return this._notificacoesRepository.findAll();
+        return this.notificacoesRepository.findAll();
     }
 
     public void saveOrUpdate(Notificacoes notificacoes) {
-        this._notificacoesRepository.save(notificacoes);
+        this.notificacoesRepository.save(notificacoes);
     }
 
     public Notificacoes update(long id, Notificacoes newData) throws Exception {
-        Optional<Notificacoes> opNotificacoes = this._notificacoesRepository.findById(id);
+        Optional<Notificacoes> opNotificacoes = this.notificacoesRepository.findById(id);
 
         if (opNotificacoes.isPresent() == false) {
             throw new Exception("Não encontrei a notificacao a ser atualizada");
@@ -43,19 +43,19 @@ public class NotificacoesService {
         notificacoes.setUsuarioDestino(newData.getUsuarioDestino());
         notificacoes.setVisualizado(newData.getVisualizado());
 
-        this._notificacoesRepository.save(notificacoes);
+        this.notificacoesRepository.save(notificacoes);
 
         return notificacoes;
     }
 
     public void delete(long id) throws Exception {
-        Optional<Notificacoes> opNotificacoes = this._notificacoesRepository.findById(id);
+        Optional<Notificacoes> opNotificacoes = this.notificacoesRepository.findById(id);
 
         if (opNotificacoes.isPresent() == false) {
             throw new Exception("Não encontrei a notificacao a ser deletada");
         }
 
-        this._notificacoesRepository.delete(opNotificacoes.get());
+        this.notificacoesRepository.delete(opNotificacoes.get());
     }
 
 }
