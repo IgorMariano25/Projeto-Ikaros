@@ -85,13 +85,13 @@ public class AmigosController {
     public ResponseEntity<HttpStatus> delete(@PathVariable("idAmizade") Long idAmizade) {
         try {
 
-            Optional<Amigos> amigosASerExcluido = this._amigosService.findById(idAmizade);
+            Optional<Amigos> amizadeASerExcluida = this._amigosService.findById(idAmizade);
 
-            if (amigosASerExcluido.isPresent() == false) {
+            if (amizadeASerExcluida.isEmpty()) {
                 return new ResponseEntity<>(HttpStatus.NOT_FOUND);
             }
 
-           this._amigosService.delete(amigosASerExcluido.get().getAmizadeId());
+           _amigosService.delete(idAmizade);
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.EXPECTATION_FAILED);
