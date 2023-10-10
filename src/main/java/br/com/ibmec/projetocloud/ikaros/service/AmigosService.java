@@ -33,7 +33,7 @@ public class AmigosService {
     public void delete(long id) throws Exception {
         Optional<Amigos> opPost = this.amigosRepository.findById(id);
 
-        if (opPost.isPresent() == false) {
+        if (opPost.isEmpty()) {
             throw new Exception("Não encontrei o amigo a ser deletado");
         }
 
