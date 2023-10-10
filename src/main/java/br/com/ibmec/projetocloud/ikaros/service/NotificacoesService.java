@@ -33,7 +33,7 @@ public class NotificacoesService {
     public Notificacoes update(long id, Notificacoes newData) throws Exception {
         Optional<Notificacoes> opNotificacoes = this.notificacoesRepository.findById(id);
 
-        if (opNotificacoes.isPresent() == false) {
+        if (opNotificacoes.isEmpty()) {
             throw new Exception("Não encontrei a notificacao a ser atualizada");
         }
 
@@ -51,7 +51,7 @@ public class NotificacoesService {
     public void delete(long id) throws Exception {
         Optional<Notificacoes> opNotificacoes = this.notificacoesRepository.findById(id);
 
-        if (opNotificacoes.isPresent() == false) {
+        if (opNotificacoes.isEmpty()) {
             throw new Exception("Não encontrei a notificacao a ser deletada");
         }
 
