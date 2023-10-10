@@ -97,18 +97,21 @@ class ComentarioController {
         }
     }
 
-    @DeleteMapping("{id}")
+    @DeleteMapping("{idPostagem}/comentario/{idComentario}")
     @Operation(summary = "Deletando o comentário de uma postagem", method = "DELETE")
 
-    public ResponseEntity<HttpStatus> delete(@PathVariable("id") Long id) {
+    public ResponseEntity<HttpStatus> delete(
+            @PathVariable("idPostagem") Long idPostagem,
+            @PathVariable("idComentario") Long idComentario) {
         try {
 
-            Optional<Comentario> comentarioASerExcluido = this._comentarioService.findById(id);
-            if (comentarioASerExcluido.isPresent() == false) {
+            Optional<Postagem> opPostagem = _postagemService.getById(idPostagem);
+            Optional<Comentario> comentarioASerExcluido = _comentarioService.findById(idComentario);
+            if (opPostagem.isEmpty() || comentarioASerExcluido.isEmpty()) {
                 return new ResponseEntity<>(HttpStatus.NOT_FOUND);
             }
 
-            this._comentarioService.delete(comentarioASerExcluido.get().getComentarioId());
+            _comentarioService.delete(idComentario);
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.EXPECTATION_FAILED);
