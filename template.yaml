@@ -5,8 +5,8 @@ Description: Projeto Cloud IBMEC 2023
 # More info about Globals: https://github.com/awslabs/serverless-application-model/blob/master/docs/globals.rst
 Globals:
   Function:
-    Timeout: 20
-    MemorySize: 128
+    Timeout: 40
+    MemorySize: 1024
     Runtime: java17
 
 Resources:
@@ -20,9 +20,6 @@ Resources:
     Properties:
       CodeUri: .
       Handler: br.com.ibmec.projetocloud.ikaros.StreamLambdaHandler::handleRequest
-      AutoPublishAlias: live
-      SnapStart:
-        ApplyOn: PublishedVersions
       Events:
         ApiEvents:
           Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
