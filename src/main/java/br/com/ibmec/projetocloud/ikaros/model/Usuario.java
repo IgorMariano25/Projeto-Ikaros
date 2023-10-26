@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -23,15 +24,17 @@ import lombok.Data;
 public class Usuario {
 
     @Id
+    @JsonProperty("usuarioId")
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long usuarioId;
-
+    
     @Column(name = "nome", nullable = false, length = 100)
     private String nome;
 
     @Column(name = "sobrenome", nullable = false, length = 100)
     private String sobrenome;
 
+    @JsonProperty("dataAniversairo")
     @Column(name = "dataAniversairo", nullable = false)
     private LocalDate dataAniversario;
 
@@ -58,11 +61,11 @@ public class Usuario {
         this.postagens.add(postagem);
     }
 
-    public Long getId() {
+    public Long getUsuarioId() {
         return usuarioId;
     }
 
-    public void setId(Long usuarioId) {
+    public void setUsuarioId(Long usuarioId) {
         this.usuarioId = usuarioId;
     }
 
@@ -82,16 +85,12 @@ public class Usuario {
         this.sobrenome = sobrenome;
     }
 
-    public LocalDate getData_aniversario() {
+    public LocalDate getDataAniversario() {
         return dataAniversario;
     }
 
-    public void setData_aniversario(int ano, int mes, int dia) {
+    public void setDataniversario(int ano, int mes, int dia) {
         this.dataAniversario = LocalDate.of(ano, mes, dia);
-    }
-
-    public void setData_aniversario(LocalDate dataAniversario) {
-        this.dataAniversario = dataAniversario;
     }
 
     public String getEmail() {

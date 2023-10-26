@@ -1,5 +1,6 @@
 package br.com.ibmec.projetocloud.ikaros.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -22,6 +23,7 @@ import br.com.ibmec.projetocloud.ikaros.service.ComentarioService;
 import br.com.ibmec.projetocloud.ikaros.service.PostagemService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import org.modelmapper.ModelMapper;
 
 @RestController
 @RequestMapping("/postagem")
@@ -35,22 +37,34 @@ class ComentarioController {
 
     @GetMapping
     @Operation(summary = "Buscando comentários de uma postagem", method = "GET")
-    public ResponseEntity<List<Comentario>> getAll() {
+    public ResponseEntity<List<CreateComentarioResponse>> getAll() {
         try {
-            return new ResponseEntity<>(this.comentarioService.findAll(), HttpStatus.OK);
+            List<Comentario> comentarios = comentarioService.findAll();
+            List<CreateComentarioResponse> comentarioResponses = new ArrayList<>();
+
+            ModelMapper modelMapper = new ModelMapper();
+            for (Comentario comentario : comentarios) {
+                CreateComentarioResponse comentarioResponse = modelMapper.map(comentario,
+                        CreateComentarioResponse.class);
+                comentarioResponses.add(comentarioResponse);
+            }
+
+            return new ResponseEntity<>(comentarioResponses, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
     @GetMapping("/{idPostagem}/comentario/{idComentario}")
-    @Operation(summary = "Buscando comentários de uma postagem ID do comentário", method = "GET")
-    public ResponseEntity<Comentario> getById(@PathVariable("idComentario") Long id) {
+    @Operation(summary = "Recuperando comentário de uma postagem por ID do comentário", method = "GET")
+    public ResponseEntity<CreateComentarioResponse> getById(@PathVariable("idComentario") Long idComentario) {
+        Optional<Comentario> resultado = this.comentarioService.findById(idComentario);
 
-        Optional<Comentario> result = this.comentarioService.findById(id);
-
-        if (result.isPresent()) {
-            return new ResponseEntity<>(result.get(), HttpStatus.OK);
+        if (resultado.isPresent()) {
+            Comentario comentario = resultado.get();
+            CreateComentarioResponse response = new CreateComentarioResponse(
+                    comentario.getComentarioId(), comentario.getConteudo(), comentario.getDataPublicacaoComentario());
+            return new ResponseEntity<>(response, HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }

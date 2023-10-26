@@ -45,9 +45,9 @@ public class PostagemController {
 
     @GetMapping("{idPostagem}")
     @Operation(summary = "Buscando todas as postagens de um usuário através do ID da postagem", method = "GET")
-    public ResponseEntity<Postagem> findById(@PathVariable("idPostagem") Long id) {
+    public ResponseEntity<Postagem> findById(@PathVariable("idPostagem") Long idPostagem) {
 
-        Optional<Postagem> result = this.postagemService.findById(id);
+        Optional<Postagem> result = this.postagemService.findById(idPostagem);
 
         if (result.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -77,10 +77,10 @@ public class PostagemController {
 
     @PutMapping("{idPostagem}")
     @Operation(summary = "Atualizando informações de uma postagem pelo ID", method = "PUT")
-    public ResponseEntity<Postagem> update(@PathVariable("idPostagem") Long id,
+    public ResponseEntity<Postagem> update(@PathVariable("idPostagem") Long idPostagem,
             @RequestBody Postagem postagemNovosDados) {
 
-        Optional<Postagem> result = this.postagemService.findById(id);
+        Optional<Postagem> result = this.postagemService.findById(idPostagem);
 
         if (result.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);

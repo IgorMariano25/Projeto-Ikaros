@@ -4,7 +4,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import br.com.ibmec.projetocloud.ikaros.model.Usuario;
 
 public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
-    Long countById(Long Id);
-
-    Long findUsuarioById(Long Id);
+    Long countByUsuarioId(Long usuarioId);
+    Long findByUsuarioId(Long usuarioId);
 }
