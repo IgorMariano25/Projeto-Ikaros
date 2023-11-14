@@ -26,7 +26,7 @@ public class Usuario {
     @Id
     @JsonProperty("usuarioId")
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long usuarioId;
+    private long usuarioId;
     
     @Column(name = "nome", nullable = false, length = 100)
     private String nome;
@@ -61,11 +61,11 @@ public class Usuario {
         this.postagens.add(postagem);
     }
 
-    public Long getUsuarioId() {
+    public long getUsuarioId() {
         return usuarioId;
     }
 
-    public void setUsuarioId(Long usuarioId) {
+    public void setUsuarioId(long usuarioId) {
         this.usuarioId = usuarioId;
     }
 

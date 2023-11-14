@@ -39,10 +39,7 @@ public class UsuarioService {
         this.usuarioRepository.save(usuario);
     }
 
-    public Usuario save(Usuario usuario) throws Exception {
-        if (this.usuarioRepository.findByUsuarioId(usuario.getUsuarioId()) > 0) {
-            throw new Exception("Este ID já existe na base de dados");
-        }
+    public Usuario save(Usuario usuario) {
         this.usuarioRepository.save(usuario);
         return usuario;
     }

@@ -25,7 +25,7 @@ public class Postagem {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long postagemId;
+    private long postagemId;
 
     @Column(name = "conteudoPost", nullable = false, length = 100)
     private String conteudoPost;
@@ -34,7 +34,7 @@ public class Postagem {
     private String imagem;
 
     @Column(name = "curtidas", nullable = false)
-    private Integer curtidas = 0;
+    private int curtidas = 0;
 
     @Column(name = "dataDaPublicacao", nullable = false)
     private LocalDateTime dataHoraPublicacao;
@@ -46,21 +46,21 @@ public class Postagem {
 
     @JsonIgnore
     @Column(name = "usuario_id")
-    private Long usuarioId;
+    private long usuarioId;
 
-    public Long getUsuarioId() {
+    public long getUsuarioId() {
         return this.usuarioId;
     }
 
-    public void setUsuarioId(Long usuarioId) {
+    public void setUsuarioId(long usuarioId) {
         this.usuarioId = usuarioId;
     }
 
-    public Long getId() {
+    public long getId() {
         return postagemId;
     }
 
-    public void setId(Long postagemId) {
+    public void setId(long postagemId) {
         this.postagemId = postagemId;
     }
 
@@ -80,11 +80,11 @@ public class Postagem {
         this.imagem = imagem;
     }
 
-    public Integer getCurtidas() {
+    public int getCurtidas() {
         return curtidas;
     }
 
-    public void setCurtidas(Integer curtidas) {
+    public void setCurtidas(int curtidas) {
         this.curtidas = curtidas;
     }
 
