@@ -16,7 +16,7 @@ public class Amigos {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long amizadeId;
+    private long amizadeId;
 
     @ManyToOne
     @JoinColumn(name = "idAmigo1", referencedColumnName = "usuarioId", nullable = false)
@@ -26,11 +26,11 @@ public class Amigos {
     @JoinColumn(name = "idAmigo2", referencedColumnName = "usuarioId", nullable = false)
     private Usuario relacionamentoAmizade2;
 
-    public Long getAmizadeId() {
+    public long getAmizadeId() {
         return this.amizadeId;
     }
 
-    public void setAmizadeId(Long amizadeId) {
+    public void setAmizadeId(long amizadeId) {
         this.amizadeId = amizadeId;
     }
 

@@ -20,7 +20,7 @@ public class Notificacoes {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long notificacoesId;
+    private long notificacoesId;
 
     @Column(name = "tipoDaNotificacao", nullable = false, length = 45)
     private String tipo;
@@ -39,11 +39,11 @@ public class Notificacoes {
     @JoinColumn(name = "idUsuarioDestino", referencedColumnName = "usuarioId", nullable = false)
     private Usuario usuarioDestino;
 
-    public Long getId() {
+    public long getId() {
         return notificacoesId;
     }
 
-    public void setId(Long notificacoesId) {
+    public void setId(long notificacoesId) {
         this.notificacoesId = notificacoesId;
     }
 

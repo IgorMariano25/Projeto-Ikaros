@@ -30,13 +30,13 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 public class UsuarioController {
 
     @Autowired
-    private UsuarioService _usuarioService;
+    private UsuarioService usuarioService;
 
     @GetMapping
     @Operation(summary = "Buscando todos os usuários", method = "GET")
     public ResponseEntity<List<Usuario>> getAll() {
         try {
-            return new ResponseEntity<>(this._usuarioService.findAll(), HttpStatus.OK);
+            return new ResponseEntity<>(this.usuarioService.findAll(), HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
@@ -46,7 +46,7 @@ public class UsuarioController {
     @Operation(summary = "Buscando um usuário pelo ID", method = "GET")
     public ResponseEntity<Usuario> getById(@PathVariable("usuarioId") Long usuarioId) {
 
-        Optional<Usuario> result = this._usuarioService.getById(usuarioId);
+        Optional<Usuario> result = this.usuarioService.getById(usuarioId);
 
         if (result.isPresent()) {
             return new ResponseEntity<>(result.get(), HttpStatus.OK);
@@ -66,7 +66,7 @@ public class UsuarioController {
             usuario.setEmail(createUsuarioRequest.getEmail());
             usuario.setSenha(createUsuarioRequest.getSenha());
 
-            _usuarioService.save(usuario);
+            usuarioService.save(usuario);
 
             CreateUsuarioResponse response = new CreateUsuarioResponse(usuario.getNome(), usuario.getSobrenome());
             return new ResponseEntity<>(response, HttpStatus.CREATED);
@@ -80,7 +80,7 @@ public class UsuarioController {
     public ResponseEntity<Usuario> update(@PathVariable("usuarioId") Long usuarioId, @RequestBody Usuario usuarioNovosDados) {
 
         try {
-            return new ResponseEntity<>(_usuarioService.update(usuarioId, usuarioNovosDados), HttpStatus.OK);
+            return new ResponseEntity<>(usuarioService.update(usuarioId, usuarioNovosDados), HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.EXPECTATION_FAILED);
         }
@@ -91,14 +91,14 @@ public class UsuarioController {
     public ResponseEntity<HttpStatus> delete(@PathVariable("usuarioId") Long usuarioId) {
         try {
 
-            Optional<Usuario> usuarioASerExcluido = this._usuarioService.getById(usuarioId);
+            Optional<Usuario> usuarioASerExcluido = this.usuarioService.getById(usuarioId);
 
             // Não achei a pessoa a ser excluida
-            if (usuarioASerExcluido.isPresent() == false) {
+            if (usuarioASerExcluido.isEmpty()) {
                 return new ResponseEntity<>(HttpStatus.NOT_FOUND);
             }
 
-            this._usuarioService.delete(usuarioASerExcluido.get().getId());
+            this.usuarioService.delete(usuarioId);
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.EXPECTATION_FAILED);

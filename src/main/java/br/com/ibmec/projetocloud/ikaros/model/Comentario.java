@@ -22,7 +22,7 @@ public class Comentario {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long comentarioId;
+    private long comentarioId;
 
     @ManyToOne
     @JoinColumn(name = "idUsuarioQueComentou", referencedColumnName = "usuarioId", nullable = false)
@@ -39,11 +39,11 @@ public class Comentario {
     @JoinColumn(name = "idPost", referencedColumnName = "postagemId", nullable = false)
     private Postagem postagem;
 
-    public Long getComentarioId() {
+    public long getComentarioId() {
         return this.comentarioId;
     }
 
-    public void setComentarioId(Long comentarioId) {
+    public void setComentarioId(long comentarioId) {
         this.comentarioId = comentarioId;
     }
 

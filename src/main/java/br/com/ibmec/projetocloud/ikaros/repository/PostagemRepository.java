@@ -7,6 +7,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import br.com.ibmec.projetocloud.ikaros.model.Postagem;
 
 public interface PostagemRepository extends JpaRepository<Postagem, Long> {
-    Optional<Postagem> findById(Long Id);
+    Optional<Postagem> findById(Long usuarioId);
     List<Postagem> findAllByUsuarioId(Long usuarioId);
 }

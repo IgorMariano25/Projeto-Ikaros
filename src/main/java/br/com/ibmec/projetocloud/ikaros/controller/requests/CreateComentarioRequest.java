@@ -26,7 +26,7 @@ public class CreateComentarioRequest {
     }
 
     public Long getIdComentador() {
-        return comentador.getId();
+        return comentador.getUsuarioId();
     }
 
     public LocalDateTime getDataPublicacaoComentario() {
