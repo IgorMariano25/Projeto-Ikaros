@@ -13,30 +13,30 @@ import br.com.ibmec.projetocloud.ikaros.repository.AmigosRepository;
 public class AmigosService {
 
     @Autowired
-    private AmigosRepository _amigosRepository;
+    private AmigosRepository amigosRepository;
     public List<Amigos> findAll() {
-        return this._amigosRepository.findAll();
+        return this.amigosRepository.findAll();
     }
 
     public Optional<Amigos> findById(Long id) {
-        return this._amigosRepository.findById(id);
+        return this.amigosRepository.findById(id);
     }
 
     public Amigos create(Amigos amigos) {
-        return this._amigosRepository.save(amigos);
+        return this.amigosRepository.save(amigos);
     }
 
     public void saveOrUpdate(Amigos amigos) {
-        this._amigosRepository.save(amigos);
+        this.amigosRepository.save(amigos);
     }
 
     public void delete(long id) throws Exception {
-        Optional<Amigos> opPost = this._amigosRepository.findById(id);
+        Optional<Amigos> opPost = this.amigosRepository.findById(id);
 
-        if (opPost.isPresent() == false) {
+        if (opPost.isEmpty()) {
             throw new Exception("Não encontrei o amigo a ser deletado");
         }
 
-        this._amigosRepository.delete(opPost.get());
+        this.amigosRepository.delete(opPost.get());
     }
 }

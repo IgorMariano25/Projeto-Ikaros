@@ -28,7 +28,7 @@ public class Comentario {
     @JoinColumn(name = "idUsuarioQueComentou", referencedColumnName = "usuarioId", nullable = false)
     private Usuario comentador;
 
-    @Column(name = "datadePublicacao", nullable = false)
+    @Column(name = "dataDePublicacao", nullable = false)
     private LocalDateTime dataPublicacaoComentario;
 
     @Column(name = "conteudoComentario", length = 100, nullable = false)
@@ -47,15 +47,15 @@ public class Comentario {
         this.comentarioId = comentarioId;
     }
 
-    public LocalDateTime getData_publicacao_comentario() {
+    public LocalDateTime getDataPublicacaoComentario() {
         return dataPublicacaoComentario;
     }
 
-    public void setData_publicacao_comentario(LocalDateTime dataPublicacaoComentario) {
+    public void setDataPublicacaoComentario(LocalDateTime dataPublicacaoComentario) {
         this.dataPublicacaoComentario = dataPublicacaoComentario;
     }
 
-    public LocalDateTime setData_publicacao_comentario() {
+    public LocalDateTime setDataPublicacaoComentario() {
         return now(Clock.systemDefaultZone());
     }
 

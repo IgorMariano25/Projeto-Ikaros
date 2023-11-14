@@ -1,6 +1,5 @@
 package br.com.ibmec.projetocloud.ikaros.controller;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -30,15 +29,15 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 class ComentarioController {
 
     @Autowired
-    private ComentarioService _comentarioService;
+    private ComentarioService comentarioService;
     @Autowired
-    private PostagemService _postagemService;
+    private PostagemService postagemService;
 
     @GetMapping
     @Operation(summary = "Buscando comentários de uma postagem", method = "GET")
     public ResponseEntity<List<Comentario>> getAll() {
         try {
-            return new ResponseEntity<>(this._comentarioService.findAll(), HttpStatus.OK);
+            return new ResponseEntity<>(this.comentarioService.findAll(), HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
@@ -48,7 +47,7 @@ class ComentarioController {
     @Operation(summary = "Buscando comentários de uma postagem ID do comentário", method = "GET")
     public ResponseEntity<Comentario> getById(@PathVariable("idComentario") Long id) {
 
-        Optional<Comentario> result = this._comentarioService.findById(id);
+        Optional<Comentario> result = this.comentarioService.findById(id);
 
         if (result.isPresent()) {
             return new ResponseEntity<>(result.get(), HttpStatus.OK);
@@ -63,8 +62,8 @@ class ComentarioController {
             @PathVariable("idPostagem") Long idPostagem,
             @RequestBody CreateComentarioRequest createComentarioRequest) {
         try {
-            Optional<Postagem> opPostagem = _postagemService.getById(idPostagem);
-            if (opPostagem.isPresent() == false) {
+            Optional<Postagem> opPostagem = postagemService.getById(idPostagem);
+            if (opPostagem.isEmpty()) {
                 return new ResponseEntity<>(HttpStatus.NOT_FOUND);
             }
 
@@ -76,7 +75,7 @@ class ComentarioController {
 
             opPostagem.get().addComentario(comentario);
 
-            _postagemService.save(opPostagem.get());
+            postagemService.save(opPostagem.get());
 
             CreateComentarioResponse response = new CreateComentarioResponse(comentario.getComentarioId(),
                     comentario.getConteudo());
@@ -87,28 +86,51 @@ class ComentarioController {
         }
     }
 
-    @PutMapping("/{idPostagem}/comentario")@Operation(summary="Adiciona um comentário a uma postagem",method="POST"){
-
-    public ResponseEntity<CreateComentarioResponse> update()
+    @PutMapping("/{idPostagem}/comentario/{idComentario}")
+    @Operation(summary = "Adiciona um comentário a uma postagem", method = "POST")
+    public ResponseEntity<CreateComentarioResponse> update(
+            @PathVariable("idPostagem") Long idPostagem,
+            @PathVariable("idComentario") Long idComentario,
+            @RequestBody CreateComentarioRequest createComentarioRequest) {
         try {
-            return new ResponseEntity<>(null, HttpStatus.CREATED);
+            Optional<Postagem> opPostagem = postagemService.getById(idPostagem);
+            if (opPostagem.isEmpty()) {
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }
+
+            Optional<Comentario> opComentario = comentarioService.findById(idComentario);
+            if (opComentario.isEmpty()) {
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }
+
+            Comentario comentario = opComentario.get();
+
+            comentario.setConteudo(createComentarioRequest.getConteudo());
+            comentario.setDataPublicacaoComentario(createComentarioRequest.getDataPublicacaoComentario());
+
+            CreateComentarioResponse response = new CreateComentarioResponse(comentario.getComentarioId(),
+                    comentario.getConteudo(), comentario.getDataPublicacaoComentario());
+            return new ResponseEntity<>(response, HttpStatus.CREATED);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.EXPECTATION_FAILED);
         }
     }
 
-    @DeleteMapping("{id}")
+    @DeleteMapping("{idPostagem}/comentario/{idComentario}")
     @Operation(summary = "Deletando o comentário de uma postagem", method = "DELETE")
 
-    public ResponseEntity<HttpStatus> delete(@PathVariable("id") Long id) {
+    public ResponseEntity<HttpStatus> delete(
+            @PathVariable("idPostagem") Long idPostagem,
+            @PathVariable("idComentario") Long idComentario) {
         try {
 
-            Optional<Comentario> comentarioASerExcluido = this._comentarioService.findById(id);
-            if (comentarioASerExcluido.isPresent() == false) {
+            Optional<Postagem> opPostagem = postagemService.getById(idPostagem);
+            Optional<Comentario> comentarioASerExcluido = comentarioService.findById(idComentario);
+            if (opPostagem.isEmpty() || comentarioASerExcluido.isEmpty()) {
                 return new ResponseEntity<>(HttpStatus.NOT_FOUND);
             }
 
-            this._comentarioService.delete(comentarioASerExcluido.get().getComentarioId());
+            comentarioService.delete(idComentario);
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.EXPECTATION_FAILED);

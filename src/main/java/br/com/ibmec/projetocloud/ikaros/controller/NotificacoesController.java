@@ -22,27 +22,27 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 
 @RestController
 @RequestMapping("/notificacoes")
-@Tag (name = "Notificações", description = "Resquições para a tabela Notificações")
+@Tag(name = "Notificações", description = "Resquições para a tabela Notificações")
 public class NotificacoesController {
 
     @Autowired
-    private NotificacoesService _notificacoesService;
+    private NotificacoesService notificacoesService;
 
     @GetMapping
     @Operation(summary = "Buscando todas as notificações de um usuário", method = "GET")
     public ResponseEntity<List<Notificacoes>> getAll() {
         try {
-            return new ResponseEntity<>(this._notificacoesService.findAll(), HttpStatus.OK);
+            return new ResponseEntity<>(this.notificacoesService.findAll(), HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
-    @GetMapping("{id}")
+    @GetMapping("{idNotificacao}")
     @Operation(summary = "Buscando notificação pelo id", method = "GET")
-    public ResponseEntity<Notificacoes> getById(@PathVariable("id") Long id) {
+    public ResponseEntity<Notificacoes> getById(@PathVariable("idNotificacao") Long idNotificacao) {
 
-        Optional<Notificacoes> result = this._notificacoesService.getById(id);
+        Optional<Notificacoes> result = this.notificacoesService.getById(idNotificacao);
 
         if (result.isPresent()) {
             return new ResponseEntity<>(result.get(), HttpStatus.OK);
@@ -55,45 +55,48 @@ public class NotificacoesController {
     @Operation(summary = "Adicionando uma notificação", method = "POST")
     public ResponseEntity<Notificacoes> create(@RequestBody Notificacoes item) {
         try {
-            Notificacoes result = this._notificacoesService.create(item);
+            Notificacoes result = this.notificacoesService.create(item);
             return new ResponseEntity<>(result, HttpStatus.CREATED);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.EXPECTATION_FAILED);
         }
     }
 
-    @PutMapping("{id}")
+    @PutMapping("{idNotificacao}")
     @Operation(summary = "Atualizando informações de uma notificação", method = "PUT")
-    public ResponseEntity<Notificacoes> update(@PathVariable("id") Long id, @RequestBody Notificacoes notificacoesNovosDados) {
+    public ResponseEntity<Notificacoes> update(
+            @PathVariable("idNotificacao") Long idNotificacao,
+            @RequestBody Notificacoes notificacoesNovosDados) {
 
-        Optional<Notificacoes> result = this._notificacoesService.getById(id);
+        Optional<Notificacoes> result = this.notificacoesService.getById(idNotificacao);
 
-        if (result.isPresent() == false ) {
+        if (result.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
+
         Notificacoes notificacaoASerAtualizada = result.get();
         notificacaoASerAtualizada.setTipo(notificacoesNovosDados.getTipo());
         notificacaoASerAtualizada.setUsuarioDestino(notificacoesNovosDados.getUsuarioDestino());
         notificacaoASerAtualizada.setUsuarioOrigem(notificacoesNovosDados.getUsuarioOrigem());
         notificacaoASerAtualizada.setVisualizado(notificacoesNovosDados.getVisualizado());
 
-        this._notificacoesService.saveOrUpdate(notificacoesNovosDados);
+        this.notificacoesService.saveOrUpdate(notificacoesNovosDados);
         return new ResponseEntity<>(notificacaoASerAtualizada, HttpStatus.OK);
     }
 
-    @DeleteMapping("{id}")
+    @DeleteMapping("{idNotificacao}")
     @Operation(summary = "Deletando uma notificação", method = "DELETE")
-    public ResponseEntity<HttpStatus> delete(@PathVariable("id") Long id) {
+    public ResponseEntity<HttpStatus> delete(@PathVariable("idNotificacao") Long idNotificacao) {
         try {
 
-            Optional<Notificacoes> notificacaoASerExcluida = this._notificacoesService.getById(id);
+            Optional<Notificacoes> notificacaoASerExcluida = this.notificacoesService.getById(idNotificacao);
 
             // Não achei a pessoa a ser excluida
-            if (notificacaoASerExcluida.isPresent() == false) {
+            if (notificacaoASerExcluida.isEmpty()) {
                 return new ResponseEntity<>(HttpStatus.NOT_FOUND);
             }
 
-           this._notificacoesService.delete(notificacaoASerExcluida.get().getId());
+            notificacoesService.delete(idNotificacao);
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.EXPECTATION_FAILED);
